@@ -12,7 +12,7 @@ export default function DossierSection() {
 
   return (
     <section className={styles.section} id="dossier" ref={ref}>
-      <SectionTag en="DOSSIER" zh="档案" />
+      <SectionTag en="DOSSIER" zh="檔案" />
 
       <div className={styles.grid}>
         {/* Classified file card */}
@@ -45,15 +45,15 @@ export default function DossierSection() {
           {[
             {
               en: 'Somewhere between a rain-soaked studio in the UK and the neon-lit night markets of Taipei, a frequency emerged. Not born from a scene. Intercepted from one.',
-              zh: '在英国雨水浸透的录音室与台北霓虹闪烁的夜市之间，某个频率出现了。不是从一个场景中诞生，而是从中截取的。',
+              zh: '在英國雨水浸透的錄音室與台北霓虹閃爍的夜市之間，某個頻率出現了。不是從一個場景中誕生，而是從中截取的。',
             },
             {
               en: "skixO learned to speak through other people\u2019s songs \u2014 dissecting the melodic architecture of Chinese and Taiwanese artists, rewiring it through liquid drum & bass and glitch. Each remix a transmission. Each drop a decoded signal.",
-              zh: 'skixO通过他人的歌曲学会了表达——解构中文和台湾艺术家的旋律架构，通过液态鼓打贝斯和故障音效重新接线。每一首混音都是一次传输。每一次落拍都是一个解码信号。',
+              zh: 'skixO通過他人的歌曲學會了表達——解構中文和台灣藝術家的旋律架構，通過液態鼓打貝斯和故障音效重新接線。每一首混音都是一次傳輸。每一次落拍都是一個解碼訊號。',
             },
             {
               en: 'Now with PRØVE, the signal becomes his own.',
-              zh: '现在随着《PRØVE》的发布，这个信号成为了他自己的。',
+              zh: '現在隨著《PRØVE》的發佈，這個訊號成為了他自己的。',
             },
           ].map((p, i) => (
             <motion.p
@@ -74,7 +74,7 @@ export default function DossierSection() {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.55 }}
           >
-            <div className={styles.quoteZh}>披荆斩棘</div>
+            <div className={styles.quoteZh}>披荊斬棘</div>
             <div className={styles.quoteEn}>
               Fly on these second-hand wings —<br />
               I'm willing to find out what impossible means.<br />
@@ -90,9 +90,9 @@ export default function DossierSection() {
             animate={inView ? { opacity: 1 } : {}}
             transition={{ duration: 0.7, delay: 0.7 }}
           >
-            <span className={styles.welcomeZh}>欢迎来自台湾和中国的听众</span>
+            <span className={styles.welcomeZh}>歡迎來自台灣和中國的聽眾</span>
             <span className={styles.welcomeEn}>
-              {t('Welcome, listeners from Taiwan and China.', '欢迎远道而来的听众。')}
+              {t('Welcome, listeners from Taiwan and China.', '歡迎遠道而來的聽眾。')}
             </span>
           </motion.div>
         </div>

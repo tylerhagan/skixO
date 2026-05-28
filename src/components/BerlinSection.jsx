@@ -66,17 +66,17 @@ export default function BerlinSection() {
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <span className={styles.originZh}>台北，台灣</span>
-            <span className={styles.originEn}>{t('Taipei, Taiwan', '台北，台湾')}</span>
+            <span className={styles.originEn}>{t('Taipei, Taiwan', '台北，台灣')}</span>
           </motion.div>
 
           {[
             {
               en: 'They said his name like a rumour. Berlin the Corner — found somewhere between the fluorescent hum of a Taipei convenience store at 3am and the silence that follows a crowd.',
-              zh: '他们像传说一样说起他的名字。柏林转角——在台北便利店凌晨三点的荧光嗡嗡声与人群散去后的寂静之间被发现。',
+              zh: '他們像傳說一樣說起他的名字。柏林轉角——在台北便利店凌晨三點的熒光嗡嗡聲與人群散去後的寂靜之間被發現。',
             },
             {
               en: 'A rapper who treats words like coordinates. Each line a signal sent from somewhere most people never think to look. When skixO\'s frequency reached him across the static, the transmission became PRØVE.',
-              zh: '一位把文字当作坐标的说唱歌手。每一行都是从大多数人从未想过去寻找的地方发出的信号。当skixO的频率穿越静电触达他时，这次传输便成为了《PRØVE》。',
+              zh: '一位把文字當作坐標的說唱歌手。每一行都是從大多數人從未想過去尋找的地方發出的訊號。當skixO的頻率穿越靜電觸達他時，這次傳輸便成為了《PRØVE》。',
             },
           ].map((p, i) => (
             <motion.p

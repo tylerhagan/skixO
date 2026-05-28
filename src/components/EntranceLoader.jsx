@@ -6,7 +6,7 @@ const lines = [
   { text: 'INITIALISING SIGNAL...',   zh: null,      delay: 0    },
   { text: 'ORIGIN: [REDACTED]',        zh: null,      delay: 0.35 },
   { text: 'FREQUENCY: 174.0 bpm',      zh: null,      delay: 0.65 },
-  { text: 'SIGNAL DETECTED.',          zh: '信号已捕获', delay: 1.0  },
+  { text: 'SIGNAL DETECTED.',          zh: '訊號已捕獲', delay: 1.0  },
 ];
 
 export default function EntranceLoader({ onComplete }) {

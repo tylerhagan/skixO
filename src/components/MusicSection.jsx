@@ -8,7 +8,7 @@ const VIDEOS = [
   // Eastern Remixes
   { id: 'a2sSj_aiDhY', title: 'LIGHTS IN YOUR EYES', artist: 'Gummy B', type: 'eastern' },
   { id: '7lnSVhn_RyY', title: '夜曲 NOCTURNE', artist: '周杰伦 Jay Chou', type: 'eastern' },
-  { id: 'RfXKNRE-59w', title: '模特 MODEL', artist: '李荣浩 Ronghao Li', type: 'eastern' },
+  { id: 'RfXKNRE-59w', title: '模特 MODEL', artist: '李榮浩 Ronghao Li', type: 'eastern' },
   { id: 'kKq-jU_WJ7s', title: 'WHO 誰', artist: '廖俊澧 ft. 岑寧兒', type: 'eastern' },
   { id: 'AU42eLgyLPY', title: '只有唔語才能解除唔語', artist: '柏林角落 Berlin the Corner', type: 'eastern' },
   { id: '5zdidTaZf3M', title: '愛情你比我想的還較偉大', artist: '茄子蛋 EggPlantEgg', type: 'eastern' },
@@ -16,7 +16,7 @@ const VIDEOS = [
   { id: '3bVGE5g3ibM', title: '我若是有來生我想欲變成你', artist: '茄子蛋 EggPlantEgg ft. YVV', type: 'eastern' },
   { id: 'zvRfal00Wmg', title: '日常 EVERYDAY LIFE', artist: '茄子蛋 EggPlantEgg', type: 'eastern' },
   // Other Remixes
-  { id: 'XyQpKZ9WxKc', title: 'MILA 米拉', artist: 'Xu Bin 徐滨', type: 'remix' },
+  { id: 'XyQpKZ9WxKc', title: 'MILA 米拉', artist: 'Xu Bin 徐濱', type: 'remix' },
   { id: 'BLhdjHB2Zbo', title: 'THE WINNER IS (2012)', artist: 'DeVotchKa', type: 'remix' },
   { id: '2ZLQmdZGyIk', title: 'THE WINNER IS', artist: 'DeVotchKa', type: 'remix' },
   // Originals
@@ -29,9 +29,9 @@ const VIDEOS = [
 
 const FILTERS = [
   { key: 'all',      en: 'ALL',              zh: '全部' },
-  { key: 'original', en: 'ORIGINALS',        zh: '原创' },
+  { key: 'original', en: 'ORIGINALS',        zh: '原創' },
   { key: 'remix',    en: 'REMIXES',          zh: '混音' },
-  { key: 'eastern',  en: 'EASTERN REMIXES',  zh: '东方混音' },
+  { key: 'eastern',  en: 'EASTERN REMIXES',  zh: '東方混音' },
 ];
 
 const TYPE_LABEL = {
@@ -90,7 +90,7 @@ export default function MusicSection() {
 
   return (
     <section className={styles.section} id="catalogue" ref={ref}>
-      <SectionTag en="CATALOGUE" zh="音乐目录" />
+      <SectionTag en="CATALOGUE" zh="音樂目錄" />
 
       {/* Filter bar */}
       <motion.div
@@ -121,7 +121,7 @@ export default function MusicSection() {
             transition={{ duration: 0.25 }}
           >
             <span className={styles.playlistDot}>◆</span>
-            {t('FULL PLAYLIST ON YOUTUBE', '完整播放列表')}
+            {t('FULL PLAYLIST ON YOUTUBE', '完整播放清單')}
             <a
               href={EASTERN_PLAYLIST}
               target="_blank"

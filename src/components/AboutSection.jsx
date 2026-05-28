@@ -13,7 +13,7 @@ const BIO = [
 const STATS = [
   { label: 'ORIGIN',   labelZh: '出身',  value: 'LONDON, UK'  },
   { label: 'BASE',     labelZh: '基地',  value: 'BERLIN, DE'  },
-  { label: 'GENRE',    labelZh: '风格',  value: 'LIQUID DnB'  },
+  { label: 'GENRE',    labelZh: '風格',  value: 'LIQUID DnB'  },
   { label: 'RELEASES', labelZh: '作品',  value: '17 TRACKS'   },
 ];
 
@@ -33,7 +33,7 @@ export default function AboutSection() {
 
       {/* Content */}
       <div className={styles.content}>
-        <SectionTag en="SUBJECT PROFILE" zh="档案主题" />
+        <SectionTag en="SUBJECT PROFILE" zh="檔案主題" />
 
         <motion.div
           className={styles.classifiedRow}
@@ -42,7 +42,7 @@ export default function AboutSection() {
           transition={{ duration: 0.6, delay: 0.1 }}
         >
           <span className={styles.classifiedDot}>◆</span>
-          {t('skixO // ACTIVE', 'skixO // 活跃中')}
+          {t('skixO // ACTIVE', 'skixO // 活躍中')}
         </motion.div>
 
         <div className={styles.bioCol}>

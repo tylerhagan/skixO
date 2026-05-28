@@ -114,7 +114,7 @@ export default function Nav() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
               >
-                {lang === 'en' ? '切换到中文' : 'Switch to English'}
+                {lang === 'en' ? '切換到中文' : 'Switch to English'}
               </motion.button>
             </div>
           </motion.div>

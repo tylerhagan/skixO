@@ -85,11 +85,11 @@ export const navLinks = [
 ];
 
 export const footerQuotes = [
-  { zh: '披荆斩棘', en: 'Cut through thorns.' },
-  { zh: '乘风破浪', en: 'Ride the wind. Break the waves.' },
-  { zh: '信号已捕获', en: 'Signal captured.' },
-  { zh: '来源：未知', en: 'Origin: unknown.' },
-  { zh: '无所畏惧', en: 'Fear nothing.' },
+  { zh: '披荊斬棘', en: 'Cut through thorns.' },
+  { zh: '乘風破浪', en: 'Ride the wind. Break the waves.' },
+  { zh: '訊號已捕獲', en: 'Signal captured.' },
+  { zh: '來源：未知', en: 'Origin: unknown.' },
+  { zh: '無所畏懼', en: 'Fear nothing.' },
 ];
 
 export const dossierFile = [

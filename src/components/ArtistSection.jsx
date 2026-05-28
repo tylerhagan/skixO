@@ -16,7 +16,7 @@ export default function ArtistSection() {
 
   return (
     <section className={styles.section} ref={ref}>
-      <SectionTag en="THE ARTIST" zh="艺术家" />
+      <SectionTag en="THE ARTIST" zh="藝術家" />
 
       <div className={styles.grid}>
         {/* Left — artist identity */}
@@ -46,7 +46,7 @@ export default function ArtistSection() {
             initial="hidden"
             animate={inView ? 'show' : 'hidden'}
           >
-            {t('Liquid Drum & Bass · Glitch Architecture', '液态鼓打贝斯 · 故障建筑')}
+            {t('Liquid Drum & Bass · Glitch Architecture', '液態鼓打貝斯 · 故障建築')}
           </motion.p>
         </div>
 

@@ -61,9 +61,9 @@ export default function ProveHero() {
         {/* Tag */}
         <motion.div className={styles.tag} variants={fadeIn}>
           <span className={styles.blink}>▓</span>
-          {t('INCOMING TRANSMISSION', '传入信号')}
+          {t('INCOMING TRANSMISSION', '傳入訊號')}
           <span className={styles.tagZh}>
-            {t('', '新单曲')}
+            {t('', '新單曲')}
           </span>
         </motion.div>
 
@@ -75,12 +75,12 @@ export default function ProveHero() {
         {/* OUT NOW badge */}
         <motion.div className={styles.badge} variants={fadeUp}>
           <span className={styles.badgeDot} />
-          {t('OUT NOW — 30 MAY 2026', '立即发布 — 2026年5月30日')}
+          {t('OUT NOW — 30 MAY 2026', '立即發佈 — 2026年5月30日')}
         </motion.div>
 
         {/* Tagline */}
         <motion.p className={styles.tagline} variants={fadeUp}>
-          {t('East meets underground. A statement.', '东方遇上地下。一个宣言。')}
+          {t('East meets underground. A statement.', '東方遇上地下。一個宣言。')}
         </motion.p>
 
         {/* CTAs */}
@@ -92,7 +92,7 @@ export default function ProveHero() {
             className={styles.ctaPrimary}
           >
             <span className={styles.ctaPulse} />
-            {t('WATCH NOW', '立即观看')}
+            {t('WATCH NOW', '立即觀看')}
           </a>
           <a
             href="https://soundcloud.com/skixo/prove-s/s-8JZlaPhXwq9"
@@ -100,7 +100,7 @@ export default function ProveHero() {
             rel="noopener noreferrer"
             className={styles.ctaSecondary}
           >
-            {t('STREAM', '收听')}
+            {t('STREAM', '收聽')}
           </a>
           <a
             href="https://open.spotify.com/artist/0bV3hLbjIx6fpRszSI0q5t"
@@ -139,7 +139,7 @@ export default function ProveHero() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.8 }}
       >
-        {t('SCROLL ↓', '滚动 ↓')}
+        {t('SCROLL ↓', '滾動 ↓')}
       </motion.div>
     </section>
   );

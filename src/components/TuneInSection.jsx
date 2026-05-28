@@ -13,7 +13,7 @@ export default function TuneInSection() {
 
   return (
     <section className={styles.section} id="tune-in" ref={ref}>
-      <SectionTag en="TUNE IN" zh="收听" />
+      <SectionTag en="TUNE IN" zh="收聽" />
 
       <motion.p
         className={styles.intro}
@@ -21,7 +21,7 @@ export default function TuneInSection() {
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, delay: 0.1 }}
       >
-        {t('Pick your frequency.', '选择你的频率。')}
+        {t('Pick your frequency.', '選擇你的頻率。')}
       </motion.p>
 
       <div className={styles.grid}>
@@ -55,7 +55,7 @@ export default function TuneInSection() {
         animate={inView ? { opacity: 1 } : {}}
         transition={{ delay: 0.7 }}
       >
-        <span className={styles.welcomeZh}>欢迎来自台湾和中国的听众</span>
+        <span className={styles.welcomeZh}>歡迎來自台灣和中國的聽眾</span>
       </motion.p>
     </section>
   );

@@ -48,7 +48,7 @@ export default function BerlinCard() {
         transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <span className={styles.featLabelDot}>◆</span>
-        {t('FEATURING', '特别收录')}
+        {t('FEATURING', '特別收錄')}
         <span className={styles.featLabelRule} />
       </motion.div>
 
@@ -153,12 +153,12 @@ export default function BerlinCard() {
                   Berlin the Corner
                 </motion.div>
                 <motion.div className={styles.origin} variants={itemVariants}>
-                  {t('Taipei, Taiwan', '台北，台湾')}
+                  {t('Taipei, Taiwan', '台北，台灣')}
                 </motion.div>
                 <motion.p className={styles.bio} variants={itemVariants}>
                   {t(
                     'A voice found in the static between cities. Rapper. Writer. Signal.',
-                    '在城市之间的静默中找到的声音。说唱歌手。作家。信号。'
+                    '在城市之間的靜默中找到的聲音。說唱歌手。作家。訊號。'
                   )}
                 </motion.p>
                 <motion.div className={styles.links} variants={itemVariants}>

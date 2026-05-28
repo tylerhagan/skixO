@@ -12,7 +12,7 @@ export default function SignalSection() {
 
   return (
     <section className={styles.section} id="signal" ref={ref}>
-      <SectionTag en="THE SIGNAL" zh="信号" />
+      <SectionTag en="THE SIGNAL" zh="訊號" />
 
       <motion.p
         className={styles.intro}
@@ -22,7 +22,7 @@ export default function SignalSection() {
       >
         {t(
           'He arrived through the cracks in someone else\'s music.\u00a0Then he stopped asking permission.',
-          '他从他人音乐的裂缝中出现。然后他不再征求许可。'
+          '他從他人音樂的裂縫中出現。然後他不再征求許可。'
         )}
       </motion.p>
 
@@ -44,7 +44,7 @@ export default function SignalSection() {
           rel="noopener noreferrer"
           className={styles.catalogueBtn}
         >
-          {t('VIEW FULL CATALOGUE ↗', '查看完整目录 ↗')}
+          {t('VIEW FULL CATALOGUE ↗', '查看完整目錄 ↗')}
         </a>
       </motion.div>
     </section>
@@ -119,7 +119,7 @@ function TrackCard({ track, index, inView }) {
       <span className={styles.cardDate}>{track.date}</span>
 
       <span className={styles.cardListen}>
-        {t('LISTEN', '收听')} ↗
+        {t('LISTEN', '收聽')} ↗
       </span>
 
       {/* Hover underline */}
