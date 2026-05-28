@@ -86,7 +86,7 @@ export default function ProveHero() {
         {/* CTAs */}
         <motion.div className={styles.ctaRow} variants={fadeUp}>
           <a
-            href="https://www.youtube.com/watch?v=JNL0H2klxNc"
+            href="https://www.youtube.com/watch?v=q2PAD9txKlE"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.ctaPrimary}

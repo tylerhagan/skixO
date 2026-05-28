@@ -60,7 +60,7 @@ export default function ArtistSection() {
           <div className={styles.playerLabel}>▶ VISUAL CHANNEL</div>
           <div className={styles.ytWrap}>
             <iframe
-              src="https://www.youtube.com/embed/JNL0H2klxNc?rel=0&color=white&modestbranding=1"
+              src="https://www.youtube.com/embed/q2PAD9txKlE?rel=0&color=white&modestbranding=1"
               title="skixO - PRØVE feat. Berlin the Corner"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
