@@ -5,7 +5,7 @@ import { useLang } from '../hooks/useLang';
 import { useScrollSpy } from '../hooks/useScrollSpy';
 import styles from './Nav.module.css';
 
-const sectionIds = ['prove', 'signal', 'dossier', 'tune-in'];
+const sectionIds = ['prove', 'artist', 'signal', 'dossier', 'catalogue', 'tune-in'];
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);

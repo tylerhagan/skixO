@@ -76,10 +76,12 @@ export const channels = [
 ];
 
 export const navLinks = [
-  { label: 'PRØVE', href: '#prove' },
-  { label: 'SIGNAL', href: '#signal' },
-  { label: 'DOSSIER', href: '#dossier' },
-  { label: 'TUNE IN', href: '#tune-in' },
+  { label: 'PRØVE',     href: '#prove'     },
+  { label: 'ARTIST',    href: '#artist'    },
+  { label: 'SIGNAL',    href: '#signal'    },
+  { label: 'DOSSIER',   href: '#dossier'   },
+  { label: 'CATALOGUE', href: '#catalogue' },
+  { label: 'TUNE IN',   href: '#tune-in'   },
 ];
 
 export const footerQuotes = [

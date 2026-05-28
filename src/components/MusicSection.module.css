@@ -1,0 +1,223 @@
+.section {
+  padding: var(--section-py) var(--section-px);
+  background: var(--black-2);
+  position: relative;
+}
+
+/* ── Filters ────────────────────────────────── */
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  margin-bottom: 32px;
+}
+
+.filterBtn {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  color: var(--grey);
+  border: 1px solid var(--grey-dim);
+  padding: 8px 18px;
+  text-transform: uppercase;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  cursor: pointer;
+  background: transparent;
+}
+
+.filterBtn:hover {
+  color: var(--white);
+  border-color: var(--grey-mid);
+}
+
+.filterActive {
+  color: var(--white);
+  border-color: var(--red);
+  background: rgba(204, 0, 0, 0.08);
+}
+
+/* ── Eastern playlist bar ───────────────────── */
+.playlistBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  color: var(--grey-dim);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  padding: 10px 16px;
+  border: 1px solid var(--grey-dim);
+  border-left: 2px solid var(--red);
+  background: rgba(204, 0, 0, 0.04);
+}
+
+.playlistDot {
+  color: var(--red);
+  font-size: 0.5em;
+}
+
+.playlistLink {
+  margin-left: auto;
+  color: var(--red);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  transition: opacity 0.2s;
+}
+
+.playlistLink:hover {
+  opacity: 0.7;
+}
+
+/* ── Grid ───────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+}
+
+/* ── Card ───────────────────────────────────── */
+.card {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  text-decoration: none;
+  background: var(--black-3);
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover .thumbImg {
+  transform: scale(1.04);
+  filter: grayscale(0) contrast(1.05);
+}
+
+.card:hover .thumbOverlay {
+  background: rgba(204, 0, 0, 0.15);
+}
+
+.card:hover .playIcon {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* ── Thumbnail ──────────────────────────────── */
+.thumb {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+}
+
+.thumbImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(0.25) contrast(1.05);
+  transition: transform 0.5s ease, filter 0.4s ease;
+}
+
+.thumbOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 5, 5, 0.25);
+  transition: background 0.3s;
+  z-index: 1;
+}
+
+.thumbScanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.07) 2px,
+    rgba(0, 0, 0, 0.07) 4px
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+.playIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.85);
+  font-size: 1.4rem;
+  color: var(--white);
+  opacity: 0;
+  transition: opacity 0.25s, transform 0.25s;
+  z-index: 3;
+  text-shadow: 0 0 20px rgba(204, 0, 0, 0.8);
+}
+
+/* ── Meta ───────────────────────────────────── */
+.meta {
+  padding: 12px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.typeTag {
+  font-family: var(--font-mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  align-self: flex-start;
+  margin-bottom: 2px;
+}
+
+.type_original {
+  color: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.type_remix {
+  color: var(--grey);
+  border: 1px solid var(--grey-dim);
+}
+
+.type_eastern {
+  color: var(--red);
+  border: 1px solid rgba(204, 0, 0, 0.4);
+  background: rgba(204, 0, 0, 0.06);
+}
+
+.title {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--white);
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.artist {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  color: var(--grey-dim);
+  text-transform: uppercase;
+}
+
+/* ── Responsive ─────────────────────────────── */
+@media (max-width: 1100px) {
+  .grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 720px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 420px) {
+  .grid { grid-template-columns: 1fr; }
+  .filters { gap: 6px; }
+  .filterBtn { padding: 7px 12px; font-size: 0.58rem; }
+}
