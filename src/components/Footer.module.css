@@ -1,0 +1,100 @@
+.footer {
+  background: var(--black-2);
+  border-top: 1px solid rgba(204, 0, 0, 0.12);
+  padding: 64px var(--section-px) 40px;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  text-align: center;
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  letter-spacing: 0.2em;
+  color: var(--white);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.logo:hover { opacity: 0.6; }
+.logoI { color: var(--red); }
+
+.quoteWrap {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quote {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.quoteZh {
+  font-family: var(--font-zh);
+  font-size: 1.1rem;
+  color: var(--grey);
+  letter-spacing: 0.15em;
+}
+
+.quoteEn {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: var(--grey-dim);
+  text-transform: uppercase;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.link {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  color: var(--grey-dim);
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.link:hover { color: var(--red); }
+
+.dot {
+  font-size: 0.4rem;
+  color: var(--grey-dim);
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  width: 100%;
+}
+
+.copy {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  color: var(--grey-dim);
+}
+
+.coords {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.25em;
+  color: rgba(204, 0, 0, 0.25);
+}

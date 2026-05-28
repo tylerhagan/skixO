@@ -1,0 +1,16 @@
+.bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--red);
+  transform-origin: left;
+  z-index: 2000;
+  pointer-events: none;
+  box-shadow: 0 0 8px var(--red-glow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar { transition: none; }
+}

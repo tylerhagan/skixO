@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"e:\\\\MUSIC 2023\\\\2024\\\\SOMNUS\\\\SKIXOTAER\\\\skixO\" -Recurse -Force)",
+      "Bash(Select-Object FullName, PSIsContainer)",
+      "Bash(Format-Table -AutoSize)"
+    ]
+  }
+}

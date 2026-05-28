@@ -1,0 +1,164 @@
+.section {
+  padding: var(--section-py) var(--section-px);
+  background: var(--black);
+}
+
+.intro {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  font-weight: 300;
+  color: var(--grey);
+  line-height: 1.7;
+  max-width: 560px;
+  border-left: 2px solid var(--red-dim);
+  padding-left: 24px;
+  margin: 52px 0 56px;
+  letter-spacing: 0.02em;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  margin-bottom: 48px;
+}
+
+/* Track card */
+.card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 22px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  text-decoration: none;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background 0.25s;
+}
+
+.card:hover { background: rgba(204,0,0,0.03); }
+
+.cardNum {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  color: var(--red-dim);
+  width: 26px;
+  flex-shrink: 0;
+}
+
+.cardInfo { flex: 1; min-width: 0; }
+
+.cardTitle {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--white);
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+  transition: color 0.2s;
+}
+
+.card:hover .cardTitle { color: var(--red-bright); }
+
+.cardZh {
+  font-family: var(--font-zh);
+  font-weight: 300;
+  color: var(--grey);
+  font-size: 0.9em;
+  letter-spacing: 0.05em;
+}
+
+.cardSub {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  color: var(--grey);
+  text-transform: uppercase;
+}
+
+.cardDate {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  color: var(--grey-dim);
+  flex-shrink: 0;
+}
+
+.cardListen {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  color: var(--grey);
+  border: 1px solid var(--grey-dim);
+  padding: 7px 14px;
+  flex-shrink: 0;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.card:hover .cardListen {
+  color: var(--red);
+  border-color: var(--red-dim);
+}
+
+/* Animated red underline on hover */
+.cardLine {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--red);
+  transform-origin: left;
+}
+
+/* Waveform */
+.waveform {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 32px;
+  width: 80px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.waveBar {
+  display: block;
+  width: 2px;
+  height: 100%;
+  background: var(--red);
+  border-radius: 1px;
+  transform-origin: center;
+  flex-shrink: 0;
+}
+
+/* Catalogue link */
+.catalogueRow { }
+
+.catalogueBtn {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  color: var(--grey);
+  border-bottom: 1px solid var(--grey-dim);
+  padding-bottom: 3px;
+  text-transform: uppercase;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.catalogueBtn:hover {
+  color: var(--red);
+  border-color: var(--red-dim);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .cardDate   { display: none; }
+  .cardListen { display: none; }
+}

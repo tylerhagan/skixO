@@ -1,0 +1,74 @@
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 var(--section-px);
+  height: 48px;
+  background: var(--black);
+  border-top: 1px solid rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  overflow: hidden;
+}
+
+.line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--grey-dim));
+  transform-origin: left;
+}
+
+.line:last-child {
+  background: linear-gradient(90deg, var(--grey-dim), transparent);
+}
+
+.barcode {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.bar {
+  display: block;
+  height: 100%;
+  background: var(--grey-dim);
+  flex-shrink: 0;
+}
+
+.barTall {
+  height: 130%;
+  background: var(--red-dim);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.metaLabel {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  color: var(--red-dim);
+  text-transform: uppercase;
+}
+
+.metaDot {
+  font-size: 0.4rem;
+  color: var(--grey-dim);
+}
+
+.metaCoord {
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.2em;
+  color: var(--grey-dim);
+}
+
+@media (max-width: 600px) {
+  .metaCoord { display: none; }
+  .barcode   { display: none; }
+}

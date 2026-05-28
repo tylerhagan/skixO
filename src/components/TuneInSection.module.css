@@ -1,0 +1,133 @@
+.section {
+  padding: var(--section-py) var(--section-px);
+  background: var(--black);
+}
+
+.intro {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  letter-spacing: 0.08em;
+  color: var(--grey);
+  margin: 52px 0 56px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--grey-dim);
+}
+
+/* Card */
+.card {
+  position: relative;
+  background: var(--black);
+  padding: 36px 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-decoration: none;
+  overflow: hidden;
+  transition: background 0.25s;
+}
+
+.card:hover { background: var(--black-3); }
+
+/* Red top border animates on hover */
+.cardBorder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--grey-dim);
+  transform-origin: left;
+  transition: background 0.3s;
+}
+
+.card:hover .cardBorder { background: var(--red); }
+
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.cardIcon {
+  width: 28px;
+  height: 28px;
+  color: var(--grey-dim);
+  transition: color 0.25s;
+  flex-shrink: 0;
+}
+
+.cardIcon svg { width: 100%; height: 100%; }
+.card:hover .cardIcon { color: var(--red); }
+
+.cardFreq {
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.28em;
+  color: var(--grey-dim);
+}
+
+.cardLabel {
+  font-family: var(--font-display);
+  font-size: clamp(0.9rem, 1.3vw, 1.15rem);
+  letter-spacing: 0.08em;
+  color: var(--white);
+  line-height: 1.2;
+}
+
+.cardPlatform {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  color: var(--grey);
+  text-transform: uppercase;
+}
+
+.cardArrow {
+  position: absolute;
+  bottom: 20px;
+  right: 22px;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--grey-dim);
+  transition: color 0.25s, transform 0.25s;
+}
+
+.card:hover .cardArrow {
+  color: var(--red);
+  transform: translate(3px, -3px);
+}
+
+/* Welcome note */
+.welcomeNote {
+  margin-top: 56px;
+  text-align: center;
+}
+
+.welcomeZh {
+  font-family: var(--font-zh);
+  font-size: 1rem;
+  color: var(--grey-dim);
+  letter-spacing: 0.12em;
+  transition: color 0.3s;
+}
+
+.welcomeZh:hover { color: var(--grey); }
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 700px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 440px) {
+  .grid { grid-template-columns: 1fr 1fr; }
+  .card { padding: 24px 18px; }
+}

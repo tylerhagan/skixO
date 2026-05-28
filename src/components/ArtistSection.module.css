@@ -1,0 +1,125 @@
+.section {
+  padding: var(--section-py) var(--section-px);
+  background: var(--black-2);
+  position: relative;
+  overflow: hidden;
+}
+
+.section::before {
+  content: 'skixO';
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  font-family: var(--font-display);
+  font-size: 20vw;
+  color: rgba(204,0,0,0.025);
+  pointer-events: none;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 80px;
+  align-items: start;
+  margin-top: 56px;
+}
+
+/* Left */
+.left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.avatarWrap {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin-bottom: 8px;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  filter: contrast(1.05);
+}
+
+.avatarRing {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1px solid rgba(204,0,0,0.3);
+  animation: ringPulse 3s ease infinite;
+}
+
+@keyframes ringPulse {
+  0%, 100% { transform: scale(1);    opacity: 0.6; }
+  50%       { transform: scale(1.04); opacity: 1;   }
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  letter-spacing: 0.1em;
+  color: var(--white);
+}
+
+.subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: var(--grey);
+  text-transform: uppercase;
+  line-height: 1.7;
+}
+
+/* Right */
+.right { width: 100%; }
+
+.playerLabel {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  color: var(--red);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.ytWrap {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border: 1px solid var(--grey-dim);
+}
+
+.ytWrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.scWrap {
+  border: 1px solid var(--grey-dim);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .left {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .avatarWrap { width: 100px; height: 100px; margin-bottom: 0; }
+}
