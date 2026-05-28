@@ -95,7 +95,7 @@ export default function ProveHero() {
             {t('WATCH NOW', '立即觀看')}
           </a>
           <a
-            href="https://soundcloud.com/skixo/prove-s/s-8JZlaPhXwq9"
+            href="https://soundcloud.com/skixo/prove-s"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.ctaSecondary}
