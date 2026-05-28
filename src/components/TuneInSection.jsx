@@ -55,7 +55,7 @@ export default function TuneInSection() {
         animate={inView ? { opacity: 1 } : {}}
         transition={{ delay: 0.7 }}
       >
-        <span className={styles.welcomeZh}>歡迎來自台灣和中國的聽眾</span>
+        <span className={styles.welcomeZh}>訊號傳向東方</span>
       </motion.p>
     </section>
   );

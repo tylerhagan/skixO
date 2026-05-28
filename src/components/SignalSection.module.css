@@ -106,6 +106,21 @@
   border-color: var(--red-dim);
 }
 
+.cardListenActive {
+  color: var(--red) !important;
+  border-color: var(--red) !important;
+  animation: listenBlink 0.7s step-end infinite;
+}
+
+@keyframes listenBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+.cardPlaying {
+  background: rgba(204, 0, 0, 0.04);
+}
+
 /* Animated red underline on hover */
 .cardLine {
   position: absolute;

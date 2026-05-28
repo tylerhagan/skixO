@@ -90,9 +90,9 @@ export default function DossierSection() {
             animate={inView ? { opacity: 1 } : {}}
             transition={{ duration: 0.7, delay: 0.7 }}
           >
-            <span className={styles.welcomeZh}>歡迎來自台灣和中國的聽眾</span>
+            <span className={styles.welcomeZh}>訊號傳向東方</span>
             <span className={styles.welcomeEn}>
-              {t('Welcome, listeners from Taiwan and China.', '歡迎遠道而來的聽眾。')}
+              {t('A signal reaching east.', '訊號傳向東方')}
             </span>
           </motion.div>
         </div>

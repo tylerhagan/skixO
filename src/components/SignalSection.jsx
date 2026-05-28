@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { tracks } from '../data/siteData';
 import { useLang } from '../hooks/useLang';
+import { usePlayer } from '../contexts/PlayerContext';
 import SectionTag from './SectionTag';
 import styles from './SignalSection.module.css';
 
@@ -65,20 +66,23 @@ function waveBarHeights(seed, count = 24) {
 
 function TrackCard({ track, index, inView }) {
   const { t } = useLang();
+  const { track: playing, setTrack } = usePlayer();
   const [hovered, setHovered] = useState(false);
   const heights = waveBarHeights(track.id + track.title);
+  const isPlaying = playing?.id === track.id;
 
   return (
-    <motion.a
-      href={track.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={styles.card}
+    <motion.div
+      role="button"
+      tabIndex={0}
+      className={`${styles.card} ${isPlaying ? styles.cardPlaying : ''}`}
       initial={{ opacity: 0, y: 24 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.55, delay: 0.2 + index * 0.08 }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
+      onClick={() => setTrack(isPlaying ? null : track)}
+      onKeyDown={e => e.key === 'Enter' && setTrack(isPlaying ? null : track)}
     >
       <span className={styles.cardNum}>{track.id}</span>
 
@@ -118,17 +122,17 @@ function TrackCard({ track, index, inView }) {
 
       <span className={styles.cardDate}>{track.date}</span>
 
-      <span className={styles.cardListen}>
-        {t('LISTEN', '收聽')} ↗
+      <span className={`${styles.cardListen} ${isPlaying ? styles.cardListenActive : ''}`}>
+        {isPlaying ? '▓ PLAYING' : `${t('LISTEN', '收聽')} ↗`}
       </span>
 
       {/* Hover underline */}
       <motion.span
         className={styles.cardLine}
         initial={{ scaleX: 0 }}
-        animate={{ scaleX: hovered ? 1 : 0 }}
+        animate={{ scaleX: hovered || isPlaying ? 1 : 0 }}
         transition={{ duration: 0.3 }}
       />
-    </motion.a>
+    </motion.div>
   );
 }

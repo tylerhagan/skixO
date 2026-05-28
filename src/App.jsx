@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LangProvider } from './hooks/useLang';
+import { PlayerProvider } from './contexts/PlayerContext';
 import Nav from './components/Nav';
 import Footer from './components/Footer';
+import MiniPlayer from './components/MiniPlayer';
 import CustomCursor from './components/CustomCursor';
 import EntranceLoader from './components/EntranceLoader';
 import ScrollProgress from './components/ScrollProgress';
@@ -26,6 +28,7 @@ function Layout() {
             {/* <Route path="/release/:slug" element={<Release />} /> */}
           </Routes>
           <Footer />
+          <MiniPlayer />
         </>
       )}
     </>
@@ -36,7 +39,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <LangProvider>
-        <Layout />
+        <PlayerProvider>
+          <Layout />
+        </PlayerProvider>
       </LangProvider>
     </BrowserRouter>
   );
