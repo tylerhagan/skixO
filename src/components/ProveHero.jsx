@@ -36,7 +36,16 @@ export default function ProveHero() {
     <section ref={sectionRef} className={styles.section} id="prove">
       {/* Parallax background — PRØVE square art */}
       <motion.div className={styles.bg} style={{ y: bgY }}>
-        <img src="/prove-square.png" alt="" className={styles.bgImg} />
+        <video
+          className={styles.bgVideo}
+          autoPlay
+          muted
+          loop
+          playsInline
+        >
+          <source src="/web-bg.webm" type="video/webm" />
+          <source src="/web-bg.mp4" type="video/mp4" />
+        </video>
         <div className={styles.bgOverlay} />
         <div className={styles.bgScanlines} />
       </motion.div>

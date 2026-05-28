@@ -250,6 +250,34 @@
   justify-content: center;
 }
 
+.cardWrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.featLabel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.45em;
+  color: var(--red);
+  text-transform: uppercase;
+  padding-bottom: 12px;
+}
+
+.featLabelDot {
+  font-size: 0.55em;
+  flex-shrink: 0;
+}
+
+.featLabelRule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--red-dim), transparent);
+}
+
 .name {
   font-family: var(--font-display);
   font-size: 2rem;

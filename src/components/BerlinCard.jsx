@@ -39,8 +39,20 @@ export default function BerlinCard() {
   const isLocked = phase === 'locked';
 
   return (
+    <div ref={ref} className={styles.cardWrap}>
+      {/* Featuring label — outside and above the card */}
+      <motion.div
+        className={styles.featLabel}
+        initial={{ opacity: 0, y: 6 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+      >
+        <span className={styles.featLabelDot}>◆</span>
+        {t('FEATURING', '特别收录')}
+        <span className={styles.featLabelRule} />
+      </motion.div>
+
     <motion.div
-      ref={ref}
       className={styles.card}
       initial={{ opacity: 0, y: 20 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -51,7 +63,7 @@ export default function BerlinCard() {
         {isLocked ? (
           <>
             <span className={styles.labelDot}>◆</span>
-            {t('FEATURING', '特别收录')}
+            SIGNAL LOCKED
           </>
         ) : (
           <>
@@ -161,5 +173,6 @@ export default function BerlinCard() {
         </div>
       </div>
     </motion.div>
+    </div>
   );
 }
