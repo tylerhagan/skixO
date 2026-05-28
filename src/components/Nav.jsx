@@ -40,7 +40,7 @@ export default function Nav() {
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           aria-label="Back to top"
         >
-          sk<span className={styles.logoI}>i</span>x<span className={styles.logoO}>O</span>
+          <img src="/logo-min.png" alt="skixO" className={styles.logoImg} />
         </button>
 
         <ul className={styles.links}>
