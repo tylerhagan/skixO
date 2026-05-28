@@ -241,6 +241,20 @@
   .cardSlot { display: none; }
 }
 
+@media (max-width: 768px) {
+  .section {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 60px;
+  }
+  .cardSlot {
+    display: block;
+    position: static;
+    width: 100%;
+    transform: none;
+  }
+}
+
 @media (max-width: 640px) {
   .coords { display: none; }
   .title  { font-size: clamp(5rem, 22vw, 8rem); }
