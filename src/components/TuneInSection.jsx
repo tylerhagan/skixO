@@ -3,6 +3,7 @@ import { motion, useInView } from 'framer-motion';
 import { channels } from '../data/siteData';
 import { useLang } from '../hooks/useLang';
 import SectionTag from './SectionTag';
+import FrequencyDial from './FrequencyDial';
 import { PlatformIcons as icons } from './PlatformIcons';
 import styles from './TuneInSection.module.css';
 
@@ -23,6 +24,14 @@ export default function TuneInSection() {
       >
         {t('Pick your frequency.', '選擇你的頻率。')}
       </motion.p>
+
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, delay: 0.15 }}
+      >
+        <FrequencyDial />
+      </motion.div>
 
       <div className={styles.grid}>
         {channels.map((ch, i) => (

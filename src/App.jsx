@@ -7,6 +7,7 @@ import Nav from './components/Nav';
 import Footer from './components/Footer';
 import MiniPlayer from './components/MiniPlayer';
 import CustomCursor from './components/CustomCursor';
+import LiquidField from './components/LiquidField';
 import EntranceLoader from './components/EntranceLoader';
 import ScrollProgress from './components/ScrollProgress';
 import Home from './pages/Home';
@@ -42,6 +43,7 @@ function Layout() {
       <EntranceLoader onComplete={() => setLoaded(true)} />
       {loaded && (
         <>
+          <LiquidField />
           <ScrollProgress />
           <CustomCursor />
           <Nav />

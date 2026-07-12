@@ -1,0 +1,10 @@
+.canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  /* Upscaling the low-res buffer — browser bilinear does the soft blur */
+  image-rendering: auto;
+}

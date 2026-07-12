@@ -1,0 +1,123 @@
+.dial {
+  max-width: 760px;
+  margin: 0 auto 72px;
+  user-select: none;
+}
+
+/* Readout */
+.readout {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 20px;
+  font-family: var(--font-mono);
+}
+
+.freq {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  color: var(--white);
+  letter-spacing: 0.08em;
+}
+
+.freqDrifting {
+  animation: freqFlicker 0.35s steps(2) infinite;
+}
+
+@keyframes freqFlicker {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.72; }
+}
+
+.unit {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--grey-dim);
+}
+
+.status {
+  margin-left: auto;
+  font-size: 0.62rem;
+  letter-spacing: 0.24em;
+  color: var(--grey-dim);
+  text-transform: uppercase;
+}
+
+.statusLocked {
+  color: var(--red-bright);
+  animation: lockPulse 1.6s ease infinite;
+}
+
+@keyframes lockPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.55; }
+}
+
+/* Band */
+.band {
+  position: relative;
+  height: 64px;
+  border: 1px solid var(--grey-dim);
+  border-left: none;
+  border-right: none;
+  cursor: ew-resize;
+  touch-action: none;
+}
+
+.band:focus-visible {
+  outline: 1px solid var(--red);
+  outline-offset: 4px;
+}
+
+.tick {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 12px;
+  background: var(--grey-dim);
+}
+
+.tickMajor {
+  height: 20px;
+  background: var(--grey-mid);
+}
+
+.tickLabel {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.12em;
+  color: var(--grey-dim);
+}
+
+.stationDot {
+  position: absolute;
+  bottom: 8px;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 8px var(--red-glow);
+}
+
+.needle {
+  position: absolute;
+  top: -6px;
+  bottom: -6px;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--red-bright);
+  box-shadow: 0 0 12px rgba(255, 32, 32, 0.7);
+}
+
+.hint {
+  margin-top: 26px;
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.26em;
+  color: var(--grey-dim);
+  text-align: center;
+}

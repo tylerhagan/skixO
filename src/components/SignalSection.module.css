@@ -1,6 +1,7 @@
 .section {
   padding: var(--section-py) var(--section-px);
-  background: var(--black);
+  /* Transparent — the LiquidField drifts behind this section */
+  background: transparent;
 }
 
 .selectedNote {
