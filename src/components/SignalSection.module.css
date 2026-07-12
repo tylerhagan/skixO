@@ -3,6 +3,15 @@
   background: var(--black);
 }
 
+.selectedNote {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.28em;
+  color: var(--grey-mid);
+  text-transform: uppercase;
+  margin-top: 18px;
+}
+
 .intro {
   font-family: var(--font-body);
   font-size: clamp(1rem, 2vw, 1.35rem);

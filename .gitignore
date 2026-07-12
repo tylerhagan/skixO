@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Audio pipeline — full-length DAW bounces for waveform analysis (never deployed)
+audio-src/
+# Generated dev placeholder (recreated by `npm run audio:placeholder` / prebuild)
+public/audio/placeholder-signal.wav
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

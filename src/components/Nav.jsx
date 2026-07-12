@@ -3,9 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { navLinks } from '../data/siteData';
 import { useLang } from '../hooks/useLang';
 import { useScrollSpy } from '../hooks/useScrollSpy';
+import { scrollToId, scrollToTop } from '../lib/scroll';
 import styles from './Nav.module.css';
 
-const sectionIds = ['prove', 'artist', 'signal', 'dossier', 'catalogue', 'tune-in'];
+const sectionIds = ['home', 'artist', 'signal', 'dossier', 'catalogue', 'tune-in'];
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -28,8 +29,7 @@ export default function Nav() {
 
   const handleNavClick = (href) => {
     setMenuOpen(false);
-    const id = href.replace('#', '');
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    scrollToId(href.replace('#', ''));
   };
 
   return (
@@ -37,7 +37,7 @@ export default function Nav() {
       <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
         <button
           className={styles.logo}
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={scrollToTop}
           aria-label="Back to top"
         >
           <img src="/logo-min.png" alt="skixO" className={styles.logoImg} />

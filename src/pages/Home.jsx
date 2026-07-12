@@ -1,4 +1,5 @@
-import ProveHero from '../components/ProveHero';
+import Hero from '../components/Hero';
+import Ticker from '../components/Ticker';
 import AboutSection from '../components/AboutSection';
 import ArtistSection from '../components/ArtistSection';
 import SignalSection from '../components/SignalSection';
@@ -10,7 +11,8 @@ import SectionDivider from '../components/SectionDivider';
 export default function Home() {
   return (
     <main>
-      <ProveHero />
+      <Hero />
+      <Ticker />
       <SectionDivider label="SKX-001" coord="51.5°N // 121.4°E" />
       <AboutSection />
       <SectionDivider label="SKX-002" coord="LONDON · BERLIN · TAIPEI" />

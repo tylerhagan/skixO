@@ -63,13 +63,6 @@
   gap: 10px;
 }
 
-.tagZh {
-  font-family: var(--font-zh);
-  font-size: 0.7em;
-  color: var(--grey);
-  margin-left: 8px;
-}
-
 .blink {
   animation: blink 1.2s step-end infinite;
 }
@@ -95,8 +88,8 @@
 
 .titleO { color: var(--red); }
 
-/* OUT NOW badge */
-.badge {
+/* Genre line */
+.genre {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -109,15 +102,6 @@
   padding: 6px 14px;
   text-transform: uppercase;
   margin-bottom: 20px;
-}
-
-.badgeDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--red);
-  flex-shrink: 0;
-  animation: pulse 1.5s ease infinite;
 }
 
 /* Tagline */
@@ -150,14 +134,13 @@
   background: var(--red);
   padding: 14px 28px;
   text-transform: uppercase;
-  transition: background 0.2s, transform 0.15s;
+  transition: background 0.2s;
   position: relative;
   overflow: hidden;
 }
 
 .ctaPrimary:hover {
   background: var(--red-bright);
-  transform: translateY(-1px);
 }
 
 .ctaPulse {
@@ -174,6 +157,14 @@
   50%       { transform: scale(1.5); opacity: 0.5; }
 }
 
+/* While the signal plays, the dot breathes with the actual music */
+.ctaPulseLive {
+  animation: none;
+  transform: scale(calc(1 + var(--amp, 0) * 1.4));
+  opacity: calc(0.55 + var(--amp, 0) * 0.45);
+  transition: transform 0.08s linear, opacity 0.08s linear;
+}
+
 .ctaSecondary {
   display: inline-flex;
   align-items: center;
@@ -184,22 +175,21 @@
   border: 1px solid var(--grey-dim);
   padding: 13px 22px;
   text-transform: uppercase;
-  transition: color 0.2s, border-color 0.2s, transform 0.15s;
+  transition: color 0.2s, border-color 0.2s;
 }
 
 .ctaSecondary:hover {
   color: var(--white);
   border-color: var(--grey-mid);
-  transform: translateY(-1px);
 }
 
-/* Berlin callout card slot */
+/* Featured release card slot */
 .cardSlot {
   position: absolute;
   right: var(--section-px);
   top: 50%;
   transform: translateY(-50%);
-  width: clamp(480px, 40vw, 580px);
+  width: clamp(420px, 34vw, 520px);
   z-index: 2;
 }
 

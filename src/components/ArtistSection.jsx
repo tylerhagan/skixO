@@ -1,7 +1,9 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { featuredRelease } from '../data/siteData';
 import { useLang } from '../hooks/useLang';
 import SectionTag from './SectionTag';
+import LazyFrame from './LazyFrame';
 import styles from './ArtistSection.module.css';
 
 const fadeUp = (delay = 0) => ({
@@ -57,28 +59,20 @@ export default function ArtistSection() {
           initial="hidden"
           animate={inView ? 'show' : 'hidden'}
         >
-          <div className={styles.playerLabel}>▶ VISUAL CHANNEL</div>
-          <div className={styles.ytWrap}>
-            <iframe
-              src="https://www.youtube.com/embed/q2PAD9txKlE?rel=0&color=white&modestbranding=1"
-              title="skixO - PRØVE feat. Berlin the Corner"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
+          <div className={styles.playerLabel}>▶ VISUAL CHANNEL — {featuredRelease.title}</div>
+          <LazyFrame
+            src={`https://www.youtube.com/embed/${featuredRelease.youtubeId}?rel=0&color=white&modestbranding=1&autoplay=1`}
+            title={`skixO - ${featuredRelease.title} feat. ${featuredRelease.feat}`}
+            thumb={`https://img.youtube.com/vi/${featuredRelease.youtubeId}/hqdefault.jpg`}
+          />
 
           <div className={styles.playerLabel} style={{ marginTop: '24px' }}>◈ PRIMARY FEED</div>
-          <div className={styles.scWrap}>
-            <iframe
-              width="100%"
-              height="166"
-              scrolling="no"
-              frameBorder="no"
-              allow="autoplay"
-              src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2325710012&color=%23060609&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-            />
-          </div>
+          <LazyFrame
+            src={featuredRelease.soundcloudEmbed}
+            title={`skixO - ${featuredRelease.title} on SoundCloud`}
+            thumb={featuredRelease.artwork}
+            height={166}
+          />
         </motion.div>
       </div>
     </section>

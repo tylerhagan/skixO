@@ -52,8 +52,8 @@ export default function DossierSection() {
               zh: 'skixO通過他人的歌曲學會了表達——解構中文和台灣藝術家的旋律架構，通過液態鼓打貝斯和故障音效重新接線。每一首混音都是一次傳輸。每一次落拍都是一個解碼訊號。',
             },
             {
-              en: 'Now with PRØVE, the signal becomes his own.',
-              zh: '現在隨著《PRØVE》的發佈，這個訊號成為了他自己的。',
+              en: 'With PRØVE, the signal became his own. More transmissions are already in motion.',
+              zh: '隨著《PRØVE》，這個訊號成為了他自己的。更多傳輸已在進行中。',
             },
           ].map((p, i) => (
             <motion.p

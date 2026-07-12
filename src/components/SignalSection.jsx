@@ -1,9 +1,11 @@
 import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { tracks } from '../data/siteData';
+import peaks from '../data/peaks.json';
 import { useLang } from '../hooks/useLang';
 import { usePlayer } from '../contexts/PlayerContext';
 import SectionTag from './SectionTag';
+import Magnetic from './Magnetic';
 import styles from './SignalSection.module.css';
 
 export default function SignalSection() {
@@ -14,6 +16,15 @@ export default function SignalSection() {
   return (
     <section className={styles.section} id="signal" ref={ref}>
       <SectionTag en="THE SIGNAL" zh="訊號" />
+
+      <motion.div
+        className={styles.selectedNote}
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ delay: 0.1 }}
+      >
+        {t('SELECTED TRANSMISSIONS — 04 / 17', '精選傳輸 — 04 / 17')}
+      </motion.div>
 
       <motion.p
         className={styles.intro}
@@ -39,20 +50,23 @@ export default function SignalSection() {
         animate={inView ? { opacity: 1 } : {}}
         transition={{ delay: 0.6 }}
       >
-        <a
-          href="https://soundcloud.com/skixo"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.catalogueBtn}
-        >
-          {t('VIEW FULL CATALOGUE ↗', '查看完整目錄 ↗')}
-        </a>
+        <Magnetic>
+          <a
+            href="https://soundcloud.com/skixo"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.catalogueBtn}
+          >
+            {t('VIEW FULL CATALOGUE ↗', '查看完整目錄 ↗')}
+          </a>
+        </Magnetic>
       </motion.div>
     </section>
   );
 }
 
-// Deterministic bar heights from track id seed
+// Deterministic bar heights from track id seed — fallback for tracks
+// without real peak data in src/data/peaks.json
 function waveBarHeights(seed, count = 24) {
   let h = 0;
   for (let i = 0; i < seed.length; i++) {
@@ -64,11 +78,26 @@ function waveBarHeights(seed, count = 24) {
   });
 }
 
+// Real waveform shape from precomputed peaks (see scripts/build-peaks.mjs),
+// downsampled to the card's bar count by taking the max of each group.
+function peakBarHeights(slug, count = 24) {
+  const data = peaks[slug];
+  if (!data?.length) return null;
+  const per = data.length / count;
+  return Array.from({ length: count }, (_, i) => {
+    let max = 0;
+    for (let j = Math.floor(i * per); j < Math.floor((i + 1) * per); j++) {
+      if (data[j] > max) max = data[j];
+    }
+    return 20 + max * 80; // same 20–100% range as the fallback
+  });
+}
+
 function TrackCard({ track, index, inView }) {
   const { t } = useLang();
   const { track: playing, setTrack } = usePlayer();
   const [hovered, setHovered] = useState(false);
-  const heights = waveBarHeights(track.id + track.title);
+  const heights = peakBarHeights(track.slug) ?? waveBarHeights(track.id + track.title);
   const isPlaying = playing?.id === track.id;
 
   return (
@@ -96,20 +125,20 @@ function TrackCard({ track, index, inView }) {
         <div className={styles.cardSub}>{track.subtitle}</div>
       </div>
 
-      {/* Waveform — visible on hover */}
+      {/* Waveform — animates on hover and while the track plays */}
       <div className={styles.waveform} aria-hidden="true">
         {heights.map((h, i) => (
           <motion.span
             key={i}
             className={styles.waveBar}
-            animate={hovered ? {
+            animate={hovered || isPlaying ? {
               scaleY: [1, (0.3 + (h / 100) * 0.7) * (0.6 + Math.sin(i * 0.8) * 0.4), 1],
               opacity: 1,
             } : {
               scaleY: h / 100 * 0.35,
               opacity: 0.25,
             }}
-            transition={hovered ? {
+            transition={hovered || isPlaying ? {
               duration: 0.5 + (i % 4) * 0.1,
               repeat: Infinity,
               repeatType: 'mirror',

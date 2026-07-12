@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { initSmoothScroll } from './lib/scroll';
 import { LangProvider } from './hooks/useLang';
 import { PlayerProvider } from './contexts/PlayerContext';
 import Nav from './components/Nav';
@@ -13,6 +14,11 @@ import './styles/globals.css';
 
 function Layout() {
   const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!loaded) return;
+    return initSmoothScroll();
+  }, [loaded]);
 
   return (
     <>
