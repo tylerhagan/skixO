@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { navLinks } from '../data/siteData';
 import { useLang } from '../hooks/useLang';
@@ -13,6 +14,9 @@ export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { lang, toggle } = useLang();
   const active = useScrollSpy(sectionIds);
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const onHome = pathname === '/';
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -27,9 +31,12 @@ export default function Nav() {
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
+  // From a subpage, route home first and let ScrollManager finish the scroll
   const handleNavClick = (href) => {
     setMenuOpen(false);
-    scrollToId(href.replace('#', ''));
+    const id = href.replace('#', '');
+    if (onHome) scrollToId(id);
+    else navigate('/', { state: { scrollTo: id } });
   };
 
   return (
@@ -37,7 +44,7 @@ export default function Nav() {
       <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
         <button
           className={styles.logo}
-          onClick={scrollToTop}
+          onClick={() => (onHome ? scrollToTop() : navigate('/'))}
           aria-label="Back to top"
         >
           <img src="/logo-min.png" alt="skixO" className={styles.logoImg} />

@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { featuredRelease } from '../data/siteData';
 import { useLang } from '../hooks/useLang';
@@ -153,6 +154,9 @@ export default function FeaturedCard() {
                     {featuredRelease.date}
                   </motion.div>
                   <motion.div className={styles.links} variants={itemVariants}>
+                    <Link to={`/release/${featuredRelease.slug}`} className={styles.linkBtn}>
+                      {t('OPEN FILE ↗', '開啟檔案 ↗')}
+                    </Link>
                     <a
                       href={`https://www.youtube.com/watch?v=${featuredRelease.youtubeId}`}
                       target="_blank"

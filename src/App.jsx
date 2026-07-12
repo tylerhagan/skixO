@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { initSmoothScroll } from './lib/scroll';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { initSmoothScroll, jumpToTop, scrollToId } from './lib/scroll';
 import { LangProvider } from './hooks/useLang';
 import { PlayerProvider } from './contexts/PlayerContext';
 import Nav from './components/Nav';
@@ -10,7 +10,22 @@ import CustomCursor from './components/CustomCursor';
 import EntranceLoader from './components/EntranceLoader';
 import ScrollProgress from './components/ScrollProgress';
 import Home from './pages/Home';
+import Release from './pages/Release';
 import './styles/globals.css';
+
+// On route change: honor a requested section scroll (nav click from a
+// subpage), otherwise jump to top.
+function ScrollManager() {
+  const { pathname, state } = useLocation();
+  useEffect(() => {
+    if (state?.scrollTo) {
+      requestAnimationFrame(() => scrollToId(state.scrollTo));
+    } else {
+      jumpToTop();
+    }
+  }, [pathname, state]);
+  return null;
+}
 
 function Layout() {
   const [loaded, setLoaded] = useState(false);
@@ -28,10 +43,10 @@ function Layout() {
           <ScrollProgress />
           <CustomCursor />
           <Nav />
+          <ScrollManager />
           <Routes>
             <Route path="/" element={<Home />} />
-            {/* Future pages — uncomment to add: */}
-            {/* <Route path="/release/:slug" element={<Release />} /> */}
+            <Route path="/release/:slug" element={<Release />} />
           </Routes>
           <Footer />
           <MiniPlayer />

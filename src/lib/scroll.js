@@ -36,6 +36,12 @@ export function scrollToId(id) {
   }
 }
 
+// Instant jump for route changes — no smooth animation
+export function jumpToTop() {
+  if (lenis) lenis.scrollTo(0, { immediate: true });
+  else window.scrollTo(0, 0);
+}
+
 export function scrollToTop() {
   if (lenis) {
     lenis.scrollTo(0);

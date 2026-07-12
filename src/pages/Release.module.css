@@ -1,0 +1,290 @@
+.page {
+  min-height: 100vh;
+  padding: calc(var(--nav-height) + 48px) var(--section-px) var(--section-py);
+  background: var(--black);
+}
+
+/* File header bar */
+.fileBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--grey-dim);
+  padding-bottom: 16px;
+  margin-bottom: 56px;
+}
+
+.back {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  color: var(--grey);
+  transition: color 0.2s;
+}
+.back:hover { color: var(--red-bright); }
+
+.fileId {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  color: var(--red);
+}
+
+/* Layout */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr clamp(320px, 36vw, 480px);
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 9vw, 8rem);
+  line-height: 0.9;
+  color: var(--white);
+  text-shadow: 2px 0 0 rgba(204,0,0,0.4), -2px 0 0 rgba(0,200,255,0.12);
+}
+
+.feat {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  color: var(--red);
+  margin: 16px 0 8px;
+  text-transform: uppercase;
+}
+
+.tagline {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--grey);
+  margin-bottom: 32px;
+}
+
+/* CTAs — mirrors hero button language */
+.ctaRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+
+.ctaPrimary {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  color: var(--white);
+  background: var(--red);
+  padding: 13px 26px;
+  text-transform: uppercase;
+  transition: background 0.2s;
+}
+.ctaPrimary:hover { background: var(--red-bright); }
+
+.ctaSecondary {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  color: var(--grey);
+  border: 1px solid var(--grey-dim);
+  padding: 12px 20px;
+  text-transform: uppercase;
+  transition: color 0.2s, border-color 0.2s;
+}
+.ctaSecondary:hover { color: var(--white); border-color: var(--grey-mid); }
+
+/* Waveform strip */
+.waveStrip {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 56px;
+  margin-bottom: 36px;
+}
+
+.waveBar {
+  flex: 1;
+  background: var(--red-dim);
+  min-height: 2px;
+}
+
+/* Meta table — classified-file style */
+.meta {
+  width: 100%;
+  max-width: 420px;
+  border-collapse: collapse;
+  border: 1px solid var(--grey-dim);
+  border-top: 2px solid var(--red);
+  margin-bottom: 44px;
+}
+
+.metaKey {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  color: var(--grey-dim);
+  padding: 11px 18px;
+  width: 130px;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.metaVal {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: var(--white);
+  padding: 11px 18px 11px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+/* Story + credits */
+.para {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+  font-weight: 300;
+  line-height: 1.85;
+  color: var(--grey);
+  margin-bottom: 24px;
+  max-width: 560px;
+}
+
+.credits { margin-top: 20px; }
+
+.creditsLabel {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.28em;
+  color: var(--red);
+  margin-bottom: 16px;
+}
+
+.creditRow {
+  display: flex;
+  gap: 24px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  max-width: 420px;
+}
+
+.creditRole {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  color: var(--grey-dim);
+  width: 130px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.creditName {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color: var(--white);
+}
+
+/* Media column */
+.media {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: sticky;
+  top: calc(var(--nav-height) + 32px);
+}
+
+.artWrap {
+  position: relative;
+  border: 1px solid var(--grey-dim);
+}
+
+.art { width: 100%; }
+
+.artScanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px);
+  pointer-events: none;
+}
+
+/* Lyrics */
+.lyrics { margin-top: 72px; }
+
+.lyricsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 720px;
+}
+
+.lyricLine {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--white);
+}
+
+.lyricAlt { color: var(--grey-mid); }
+
+/* Lost signal (unknown slug) */
+.lost {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  text-align: center;
+  padding: var(--section-px);
+}
+
+.lostCode {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+  color: var(--red);
+  animation: lostBlink 1.1s step-end infinite;
+}
+
+@keyframes lostBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+.lostTitle {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 6rem);
+  color: var(--white);
+}
+
+.lostText {
+  font-family: var(--font-body);
+  font-weight: 300;
+  color: var(--grey);
+}
+
+.backBtn {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.2em;
+  color: var(--white);
+  border: 1px solid var(--red-dim);
+  background: rgba(204,0,0,0.08);
+  padding: 12px 24px;
+  margin-top: 12px;
+  transition: background 0.2s;
+}
+.backBtn:hover { background: rgba(204,0,0,0.2); }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+  .media { position: static; order: -1; max-width: 480px; }
+  .lyricLine { grid-template-columns: 1fr; gap: 4px; }
+}
