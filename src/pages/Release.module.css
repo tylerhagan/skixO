@@ -232,6 +232,15 @@
 
 .lyricAlt { color: var(--grey-mid); }
 
+.lyricSingle {
+  font-family: var(--font-zh), var(--font-body);
+  font-weight: 300;
+  line-height: 1.9;
+  color: var(--white);
+}
+
+.lyricBreak { height: 20px; }
+
 /* Lost signal (unknown slug) */
 .lost {
   min-height: 100vh;

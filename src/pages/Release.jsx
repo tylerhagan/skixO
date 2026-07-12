@@ -171,12 +171,18 @@ export default function Release() {
         <div className={styles.lyrics}>
           <div className={styles.creditsLabel}>{t('LYRICS', '歌詞')}</div>
           <div className={styles.lyricsGrid}>
-            {release.lyrics.map((line, i) => (
-              <div key={i} className={styles.lyricLine}>
-                <span className={lang === 'zh' ? styles.lyricAlt : ''}>{line.en}</span>
-                <span className={lang === 'zh' ? '' : styles.lyricAlt}>{line.zh}</span>
-              </div>
-            ))}
+            {release.lyrics.map((line, i) =>
+              line.br ? (
+                <div key={i} className={styles.lyricBreak} />
+              ) : line.en ? (
+                <div key={i} className={styles.lyricLine}>
+                  <span className={lang === 'zh' ? styles.lyricAlt : ''}>{line.en}</span>
+                  <span className={lang === 'zh' ? '' : styles.lyricAlt}>{line.zh}</span>
+                </div>
+              ) : (
+                <div key={i} className={styles.lyricSingle}>{line.zh}</div>
+              )
+            )}
           </div>
         </div>
       )}
