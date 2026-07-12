@@ -7,6 +7,7 @@ import { useLang } from '../hooks/useLang';
 import { usePlayer } from '../contexts/PlayerContext';
 import LazyFrame from '../components/LazyFrame';
 import Magnetic from '../components/Magnetic';
+import SignalLost from './SignalLost';
 import styles from './Release.module.css';
 
 const fadeUp = {
@@ -21,27 +22,12 @@ export default function Release() {
   const release = getRelease(slug);
 
   useEffect(() => {
-    document.title = release
-      ? `${release.title} — skixO`
-      : 'SIGNAL LOST — skixO';
+    if (release) document.title = `${release.title} — skixO`;
     return () => { document.title = 'skixO'; };
   }, [release]);
 
   // Unknown slug — a lost transmission
-  if (!release) {
-    return (
-      <main className={styles.lost}>
-        <div className={styles.lostCode}>▓▓ 404</div>
-        <h1 className={styles.lostTitle}>{t('SIGNAL LOST', '訊號遺失')}</h1>
-        <p className={styles.lostText}>
-          {t('No transmission found on this frequency.', '此頻率上找不到任何傳輸。')}
-        </p>
-        <Link to="/" className={styles.backBtn}>
-          {t('← RETURN TO BASE', '← 返回基地')}
-        </Link>
-      </main>
-    );
-  }
+  if (!release) return <SignalLost />;
 
   const isThis = track?.id === `release-${release.slug}`;
   const isPlaying = isThis && playing;

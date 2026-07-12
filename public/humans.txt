@@ -1,0 +1,11 @@
+/* TEAM */
+Signal origin: skixO
+Everything else: also skixO
+Location: 51.5°N × 121.4°E (no such place)
+
+/* SITE */
+Stack: React, Vite, Framer Motion, Web Audio API
+Frequency: 174.0 bpm
+The waveforms are real. Hold the redactions. Try /console.
+
+訊號傳向東方

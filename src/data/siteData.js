@@ -138,13 +138,16 @@ export const footerQuotes = [
   { zh: '無所畏懼', en: 'Fear nothing.' },
 ];
 
+// Redacted rows with a `secret` can be decrypted by press-and-hold.
 export const dossierFile = [
   { key: 'SUBJECT',    value: 'skixO',                          redact: false },
-  { key: 'ORIGIN',     value: '████████ // United Kingdom',     redact: true  },
+  { key: 'ORIGIN',     value: '████████ // United Kingdom',     redact: true,
+    secret: '51.5°N × 121.4°E — NO SUCH PLACE 不存在的座標' },
   { key: 'GENRE',      value: 'Liquid DnB · Glitch Architecture', redact: false },
   { key: 'FREQ',       value: '170–180 bpm',                    redact: false },
   { key: 'STATUS',     value: '● ACTIVE',                       redact: false, active: true },
   { key: 'ASSOCIATES', value: 'Berlin the Corner [TW]',         redact: false },
   { key: 'LANGUAGES',  value: 'English · 中文',                  redact: false },
-  { key: 'CLEARANCE',  value: '████',                           redact: true  },
+  { key: 'CLEARANCE',  value: '████',                           redact: true,
+    secret: 'LEVEL Ø — SELF-GRANTED 自授' },
 ];

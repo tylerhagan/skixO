@@ -1,9 +1,73 @@
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { dossierFile } from '../data/siteData';
 import { useLang } from '../hooks/useLang';
 import SectionTag from './SectionTag';
 import styles from './DossierSection.module.css';
+
+const GLYPHS = '█▓▒░◆◇/\\|<>_—0123456789Xskixo訊號';
+const HOLD_MS = 900;
+
+// A redacted value that decrypts on press-and-hold (or Enter-hold).
+function RedactedValue({ value, secret, holdLabel }) {
+  const reduced = useReducedMotion();
+  const [state, setState] = useState('sealed'); // sealed | holding | revealed
+  const [output, setOutput] = useState('');
+  const holdTimer = useRef(null);
+  const scramble = useRef(null);
+
+  useEffect(() => () => {
+    clearTimeout(holdTimer.current);
+    clearInterval(scramble.current);
+  }, []);
+
+  const reveal = () => {
+    setState('revealed');
+    if (reduced) { setOutput(secret); return; }
+    const chars = [...secret];
+    let n = 0;
+    scramble.current = setInterval(() => {
+      n += 2;
+      setOutput(
+        chars.map((c, i) =>
+          i < n || c === ' ' ? c : GLYPHS[Math.floor(Math.random() * GLYPHS.length)]
+        ).join('')
+      );
+      if (n >= chars.length) clearInterval(scramble.current);
+    }, 30);
+  };
+
+  const begin = () => {
+    if (state === 'revealed') return;
+    setState('holding');
+    holdTimer.current = setTimeout(reveal, HOLD_MS);
+  };
+
+  const cancel = () => {
+    clearTimeout(holdTimer.current);
+    setState(s => (s === 'holding' ? 'sealed' : s));
+  };
+
+  if (state === 'revealed') {
+    return <span className={styles.decrypted}>{output}</span>;
+  }
+
+  return (
+    <button
+      className={`${styles.redactBtn} ${state === 'holding' ? styles.redactHolding : ''}`}
+      onPointerDown={begin}
+      onPointerUp={cancel}
+      onPointerLeave={cancel}
+      onKeyDown={e => { if ((e.key === 'Enter' || e.key === ' ') && !e.repeat) { e.preventDefault(); begin(); } }}
+      onKeyUp={cancel}
+      aria-label={holdLabel}
+      title={holdLabel}
+    >
+      <span className={styles.redact}>{value}</span>
+      <span className={styles.redactProgress} aria-hidden="true" />
+    </button>
+  );
+}
 
 export default function DossierSection() {
   const { t } = useLang();
@@ -28,11 +92,19 @@ export default function DossierSection() {
           </div>
           <table className={styles.fileTable}>
             <tbody>
-              {dossierFile.map(({ key, value, redact, active }) => (
+              {dossierFile.map(({ key, value, redact, active, secret }) => (
                 <tr key={key} className={styles.fileRow}>
                   <td className={styles.fileKey}>{key}</td>
-                  <td className={`${styles.fileVal} ${redact ? styles.redact : ''} ${active ? styles.active : ''}`}>
-                    {value}
+                  <td className={`${styles.fileVal} ${redact && !secret ? styles.redact : ''} ${active ? styles.active : ''}`}>
+                    {redact && secret ? (
+                      <RedactedValue
+                        value={value}
+                        secret={secret}
+                        holdLabel={t('HOLD TO DECRYPT', '長按解密')}
+                      />
+                    ) : (
+                      value
+                    )}
                   </td>
                 </tr>
               ))}

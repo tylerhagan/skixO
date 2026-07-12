@@ -1,0 +1,39 @@
+.page {
+  min-height: 100vh;
+  padding: calc(var(--nav-height) + 40px) var(--section-px) 120px;
+  background: var(--black);
+  cursor: text;
+}
+
+.terminal {
+  max-width: 760px;
+  margin: 0 auto;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.9;
+  letter-spacing: 0.06em;
+}
+
+.line { color: var(--grey); white-space: pre-wrap; }
+
+.own { color: var(--red-bright); white-space: pre-wrap; }
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.prompt { color: var(--red); }
+
+.input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--white);
+  font: inherit;
+  letter-spacing: inherit;
+  caret-color: var(--red-bright);
+}
