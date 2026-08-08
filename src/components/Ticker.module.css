@@ -51,6 +51,18 @@
   animation: scroll 40s linear infinite;
 }
 
+/* Each half fills at least the viewport. space-around spreads a short
+   list evenly; once the content outgrows 100% the half simply grows and
+   the items fall back to their natural spacing. Either way the two
+   halves stay identical, so the -50% loop has no seam. */
+.half {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  min-width: 100%;
+  flex-shrink: 0;
+}
+
 .ticker:hover .reel {
   animation-play-state: paused;
 }

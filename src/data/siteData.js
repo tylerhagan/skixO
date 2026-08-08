@@ -32,12 +32,13 @@ export const featuredRelease = {
     'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2325710012&color=%23060609&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true',
 };
 
-// Facts, not slogans. The marquee used to carry three variations on
-// "SIGNAL ACTIVE", which is the site explaining its own premise.
 export const tickerItems = [
   'PRØVE FEAT. BERLIN THE CORNER',
   'LIQUID DRUM & BASS // 174.0 BPM',
-  '17 RELEASES',
+  'LONDON → BERLIN → TAIPEI',
+  '17 RELEASES AND COUNTING',
+  '訊號傳向東方 — A SIGNAL REACHING EAST',
+  'SIGNAL ACTIVE',
 ];
 
 export const tracks = [
