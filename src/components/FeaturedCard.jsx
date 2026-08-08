@@ -52,7 +52,7 @@ export default function FeaturedCard() {
         transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <span className={styles.featLabelDot}>◆</span>
-        {t('LATEST TRANSMISSION', '最新傳輸')}
+        {t('LATEST', '最新')}
         <span className={styles.featLabelRule} />
       </motion.div>
 
@@ -67,12 +67,12 @@ export default function FeaturedCard() {
           {isLocked ? (
             <>
               <span className={styles.labelDot}>◆</span>
-              SIGNAL LOCKED
+              LOCKED
             </>
           ) : (
             <>
               <span className={styles.labelBlink}>▓</span>
-              ACQUIRING SIGNAL
+              ACQUIRING
               <span className={styles.labelEllipsis}>...</span>
             </>
           )}
@@ -153,26 +153,11 @@ export default function FeaturedCard() {
                   <motion.div className={styles.date} variants={itemVariants}>
                     {featuredRelease.date}
                   </motion.div>
+                  {/* One way in — the release page carries watch/stream/credits */}
                   <motion.div className={styles.links} variants={itemVariants}>
                     <Link to={`/release/${featuredRelease.slug}`} className={styles.linkBtn}>
                       {t('OPEN FILE ↗', '開啟檔案 ↗')}
                     </Link>
-                    <a
-                      href={`https://www.youtube.com/watch?v=${featuredRelease.youtubeId}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.linkBtn}
-                    >
-                      {t('WATCH ↗', '觀看 ↗')}
-                    </a>
-                    <a
-                      href={featuredRelease.soundcloudUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.linkBtn}
-                    >
-                      {t('STREAM ↗', '收聽 ↗')}
-                    </a>
                   </motion.div>
                 </motion.div>
               )}

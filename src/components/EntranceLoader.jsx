@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './EntranceLoader.module.css';
 
+// Three lines in ~1.4s. The old four-line, 2.8s sequence gated the site
+// behind a load screen twice as long as the page took to render — and
+// announced the redaction the dossier is supposed to keep.
 const lines = [
   { text: 'INITIALISING SIGNAL...',   zh: null,      delay: 0    },
-  { text: 'ORIGIN: [REDACTED]',        zh: null,      delay: 0.35 },
-  { text: 'FREQUENCY: 174.0 bpm',      zh: null,      delay: 0.65 },
-  { text: 'SIGNAL DETECTED.',          zh: '訊號已捕獲', delay: 1.0  },
+  { text: 'FREQUENCY: 174.0 bpm',      zh: null,      delay: 0.18 },
+  { text: 'SIGNAL DETECTED.',          zh: '訊號已捕獲', delay: 0.4  },
 ];
 
 export default function EntranceLoader({ onComplete }) {
@@ -24,8 +26,8 @@ export default function EntranceLoader({ onComplete }) {
 
     const timer = setTimeout(() => {
       setVisible(false);
-      setTimeout(onComplete, 700);
-    }, 2800);
+      setTimeout(onComplete, 500);
+    }, 1400);
 
     return () => clearTimeout(timer);
   }, [onComplete]);
@@ -65,7 +67,7 @@ export default function EntranceLoader({ onComplete }) {
                   className={`${styles.line} ${i === lines.length - 1 ? styles.lineFinal : ''}`}
                   initial={{ opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: line.delay + 0.3, duration: 0.4 }}
+                  transition={{ delay: line.delay + 0.12, duration: 0.28 }}
                 >
                   <span className={styles.linePrompt}>▸</span>
                   <span className={styles.lineText}>{line.text}</span>
@@ -82,17 +84,12 @@ export default function EntranceLoader({ onComplete }) {
                 className={styles.progressFill}
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
-                transition={{ delay: 0.2, duration: 2.2, ease: 'easeInOut' }}
+                transition={{ delay: 0.1, duration: 1.1, ease: 'easeInOut' }}
               />
             </div>
           </div>
 
-          {/* Coords */}
-          <div className={styles.coords}>
-            <span>51.5°N</span>
-            <span className={styles.coordsDot}>◆</span>
-            <span>121.4°E</span>
-          </div>
+          {/* The coordinate is shown once, in the hero, unexplained. */}
         </motion.div>
       )}
     </AnimatePresence>

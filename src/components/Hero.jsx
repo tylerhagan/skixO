@@ -81,7 +81,7 @@ export default function Hero() {
         {/* Tag */}
         <motion.div className={styles.tag} variants={fadeIn}>
           <span className={styles.blink}>▓</span>
-          {t('SIGNAL ACTIVE // BERLIN', '訊號活躍中 // 柏林')}
+          {t('ACTIVE', '活躍中')}
         </motion.div>
 
         {/* Title */}
@@ -97,12 +97,12 @@ export default function Hero() {
         {/* Tagline */}
         <motion.p className={styles.tagline} variants={fadeUp}>
           {t(
-            'A frequency transmitted between East and West.',
-            '在東方與西方之間傳輸的頻率。'
+            'A frequency between East and West.',
+            '在東方與西方之間的頻率。'
           )}
         </motion.p>
 
-        {/* CTAs */}
+        {/* CTA — one door. The platform links live in TUNE IN and the footer. */}
         <motion.div className={styles.ctaRow} variants={fadeUp}>
           <Magnetic>
             {featuredRelease.audioSrc ? (
@@ -112,7 +112,7 @@ export default function Hero() {
               >
                 <span className={`${styles.ctaPulse} ${featuredPlaying ? styles.ctaPulseLive : ''}`} />
                 {featuredPlaying
-                  ? t('SIGNAL LIVE — PAUSE', '訊號直播中 — 暫停')
+                  ? t('PAUSE', '暫停')
                   : t('PLAY THE SIGNAL', '播放訊號')}
               </button>
             ) : (
@@ -126,26 +126,6 @@ export default function Hero() {
                 {t('LISTEN', '收聽')}
               </a>
             )}
-          </Magnetic>
-          <Magnetic>
-            <a
-              href="https://www.youtube.com/@skixo13"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.ctaSecondary}
-            >
-              YouTube
-            </a>
-          </Magnetic>
-          <Magnetic>
-            <a
-              href="https://open.spotify.com/artist/0bV3hLbjIx6fpRszSI0q5t"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.ctaSecondary}
-            >
-              Spotify
-            </a>
           </Magnetic>
         </motion.div>
       </motion.div>

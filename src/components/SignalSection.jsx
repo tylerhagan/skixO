@@ -5,7 +5,6 @@ import peaks from '../data/peaks.json';
 import { useLang } from '../hooks/useLang';
 import { usePlayer } from '../contexts/PlayerContext';
 import SectionTag from './SectionTag';
-import Magnetic from './Magnetic';
 import styles from './SignalSection.module.css';
 
 export default function SignalSection() {
@@ -15,7 +14,7 @@ export default function SignalSection() {
 
   return (
     <section className={styles.section} id="signal" ref={ref}>
-      <SectionTag en="THE SIGNAL" zh="訊號" />
+      <SectionTag en="SELECTED" zh="精選" />
 
       <motion.div
         className={styles.selectedNote}
@@ -23,7 +22,7 @@ export default function SignalSection() {
         animate={inView ? { opacity: 1 } : {}}
         transition={{ delay: 0.1 }}
       >
-        {t('SELECTED TRANSMISSIONS — 04 / 17', '精選傳輸 — 04 / 17')}
+        04 / 17
       </motion.div>
 
       <motion.p
@@ -38,29 +37,12 @@ export default function SignalSection() {
         )}
       </motion.p>
 
+      {/* No catalogue link — the CATALOGUE section follows immediately below. */}
       <div className={styles.list}>
         {tracks.map((track, i) => (
           <TrackCard key={track.id} track={track} index={i} inView={inView} />
         ))}
       </div>
-
-      <motion.div
-        className={styles.catalogueRow}
-        initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 1 } : {}}
-        transition={{ delay: 0.6 }}
-      >
-        <Magnetic>
-          <a
-            href="https://soundcloud.com/skixo"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.catalogueBtn}
-          >
-            {t('VIEW FULL CATALOGUE ↗', '查看完整目錄 ↗')}
-          </a>
-        </Magnetic>
-      </motion.div>
     </section>
   );
 }

@@ -59,19 +59,13 @@ export default function ArtistSection() {
           initial="hidden"
           animate={inView ? 'show' : 'hidden'}
         >
-          <div className={styles.playerLabel}>▶ VISUAL CHANNEL — {featuredRelease.title}</div>
+          {/* One embed. The SoundCloud player it used to sit above is
+              reachable from TUNE IN and the release page. */}
+          <div className={styles.playerLabel}>▶ {featuredRelease.title}</div>
           <LazyFrame
             src={`https://www.youtube.com/embed/${featuredRelease.youtubeId}?rel=0&color=white&modestbranding=1&autoplay=1`}
             title={`skixO - ${featuredRelease.title} feat. ${featuredRelease.feat}`}
             thumb={`https://img.youtube.com/vi/${featuredRelease.youtubeId}/hqdefault.jpg`}
-          />
-
-          <div className={styles.playerLabel} style={{ marginTop: '24px' }}>◈ PRIMARY FEED</div>
-          <LazyFrame
-            src={featuredRelease.soundcloudEmbed}
-            title={`skixO - ${featuredRelease.title} on SoundCloud`}
-            thumb={featuredRelease.artwork}
-            height={166}
           />
         </motion.div>
       </div>

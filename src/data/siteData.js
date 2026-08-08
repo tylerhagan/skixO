@@ -32,13 +32,12 @@ export const featuredRelease = {
     'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2325710012&color=%23060609&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true',
 };
 
+// Facts, not slogans. The marquee used to carry three variations on
+// "SIGNAL ACTIVE", which is the site explaining its own premise.
 export const tickerItems = [
-  'LATEST TRANSMISSION — PRØVE FEAT. BERLIN THE CORNER',
+  'PRØVE FEAT. BERLIN THE CORNER',
   'LIQUID DRUM & BASS // 174.0 BPM',
-  'LONDON → BERLIN → TAIPEI',
-  '17 RELEASES AND COUNTING',
-  '訊號傳向東方 — A SIGNAL REACHING EAST',
-  'SIGNAL ACTIVE',
+  '17 RELEASES',
 ];
 
 export const tracks = [
@@ -124,7 +123,7 @@ export const channels = [
 
 export const navLinks = [
   { label: 'ARTIST',    href: '#artist'    },
-  { label: 'SIGNAL',    href: '#signal'    },
+  { label: 'SELECTED',  href: '#signal'    },
   { label: 'DOSSIER',   href: '#dossier'   },
   { label: 'CATALOGUE', href: '#catalogue' },
   { label: 'TUNE IN',   href: '#tune-in'   },
@@ -133,15 +132,13 @@ export const navLinks = [
 export const footerQuotes = [
   { zh: '披荊斬棘', en: 'Cut through thorns.' },
   { zh: '乘風破浪', en: 'Ride the wind. Break the waves.' },
-  { zh: '訊號已捕獲', en: 'Signal captured.' },
   { zh: '來源：未知', en: 'Origin: unknown.' },
-  { zh: '無所畏懼', en: 'Fear nothing.' },
 ];
 
 // Redacted rows with a `secret` can be decrypted by press-and-hold.
 export const dossierFile = [
   { key: 'SUBJECT',    value: 'skixO',                          redact: false },
-  { key: 'ORIGIN',     value: '████████ // United Kingdom',     redact: true,
+  { key: 'ORIGIN',     value: '████████████',                   redact: true,
     secret: '51.5°N × 121.4°E — NO SUCH PLACE 不存在的座標' },
   { key: 'GENRE',      value: 'Liquid DnB · Glitch Architecture', redact: false },
   { key: 'FREQ',       value: '170–180 bpm',                    redact: false },

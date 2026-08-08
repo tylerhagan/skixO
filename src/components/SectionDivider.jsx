@@ -18,7 +18,7 @@ function barsFromSeed(seed, count = 28) {
   return bars;
 }
 
-export default function SectionDivider({ label = 'SKX', coord = '51.5°N // 121.4°E' }) {
+export default function SectionDivider({ label = 'SKX', coord }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-40px' });
   const bars = barsFromSeed(label);
@@ -57,8 +57,12 @@ export default function SectionDivider({ label = 'SKX', coord = '51.5°N // 121.
         transition={{ delay: 0.25, duration: 0.5 }}
       >
         <span className={styles.metaLabel}>{label}</span>
-        <span className={styles.metaDot}>◆</span>
-        <span className={styles.metaCoord}>{coord}</span>
+        {coord && (
+          <>
+            <span className={styles.metaDot}>◆</span>
+            <span className={styles.metaCoord}>{coord}</span>
+          </>
+        )}
       </motion.div>
 
       {/* Right line */}

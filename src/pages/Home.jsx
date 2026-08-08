@@ -8,22 +8,21 @@ import MusicSection from '../components/MusicSection';
 import TuneInSection from '../components/TuneInSection';
 import SectionDivider from '../components/SectionDivider';
 
+// Three seams, not six — the ticker marks the first one, so no divider
+// sits directly beneath it. Marking every section made the structure
+// announce itself.
 export default function Home() {
   return (
     <main>
       <Hero />
       <Ticker />
-      <SectionDivider label="SKX-001" coord="51.5°N // 121.4°E" />
       <AboutSection />
-      <SectionDivider label="SKX-002" coord="LONDON · BERLIN · TAIPEI" />
       <ArtistSection />
-      <SectionDivider label="SKX-003" coord="FREQ: 174.0 bpm" />
       <SignalSection />
-      <SectionDivider label="SKX-004" coord="ORIGIN: [REDACTED]" />
+      <SectionDivider label="SKX-001" />
       <DossierSection />
-      <SectionDivider label="SKX-005" coord="CATALOGUE // 17 RELEASES" />
+      <SectionDivider label="SKX-002" />
       <MusicSection />
-      <SectionDivider label="SKX-006" coord="TRANSMISSION ACTIVE" />
       <TuneInSection />
     </main>
   );

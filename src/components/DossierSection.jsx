@@ -116,16 +116,16 @@ export default function DossierSection() {
         <div className={styles.narrative}>
           {[
             {
-              en: 'Somewhere between a rain-soaked studio in the UK and the neon-lit night markets of Taipei, a frequency emerged. Not born from a scene. Intercepted from one.',
-              zh: '在英國雨水浸透的錄音室與台北霓虹閃爍的夜市之間，某個頻率出現了。不是從一個場景中誕生，而是從中截取的。',
+              en: 'Somewhere between a rain-soaked studio and the neon-lit night markets of Taipei, a frequency emerged. Not born from a scene. Intercepted from one.',
+              zh: '在雨水浸透的錄音室與台北霓虹閃爍的夜市之間，某個頻率出現了。不是從一個場景中誕生，而是從中截取的。',
             },
             {
-              en: "skixO learned to speak through other people\u2019s songs \u2014 dissecting the melodic architecture of Chinese and Taiwanese artists, rewiring it through liquid drum & bass and glitch. Each remix a transmission. Each drop a decoded signal.",
-              zh: 'skixO通過他人的歌曲學會了表達——解構中文和台灣藝術家的旋律架構，通過液態鼓打貝斯和故障音效重新接線。每一首混音都是一次傳輸。每一次落拍都是一個解碼訊號。',
+              en: "skixO learned to speak through other people\u2019s songs \u2014 dissecting the melodic architecture of Chinese and Taiwanese artists, rewiring it through liquid drum & bass and glitch.",
+              zh: 'skixO通過他人的歌曲學會了表達——解構中文和台灣藝術家的旋律架構，通過液態鼓打貝斯和故障音效重新接線。',
             },
             {
-              en: 'With PRØVE, the signal became his own. More transmissions are already in motion.',
-              zh: '隨著《PRØVE》，這個訊號成為了他自己的。更多傳輸已在進行中。',
+              en: 'With PRØVE, it became his own.',
+              zh: '隨著《PRØVE》，它成為了他自己的。',
             },
           ].map((p, i) => (
             <motion.p

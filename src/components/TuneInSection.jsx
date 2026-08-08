@@ -57,15 +57,7 @@ export default function TuneInSection() {
           </motion.a>
         ))}
       </div>
-
-      <motion.p
-        className={styles.welcomeNote}
-        initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 1 } : {}}
-        transition={{ delay: 0.7 }}
-      >
-        <span className={styles.welcomeZh}>訊號傳向東方</span>
-      </motion.p>
+      {/* 訊號傳向東方 is said once, in the dossier. Repeating it here spent it. */}
     </section>
   );
 }

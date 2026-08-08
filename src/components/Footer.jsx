@@ -11,7 +11,7 @@ export default function Footer() {
   useEffect(() => {
     const timer = setInterval(() => {
       setIdx(i => (i + 1) % footerQuotes.length);
-    }, 4000);
+    }, 9000);
     return () => clearInterval(timer);
   }, []);
 
@@ -56,7 +56,6 @@ export default function Footer() {
 
         <div className={styles.bottom}>
           <span className={styles.copy}>© 2026 skixO. All rights reserved.</span>
-          <span className={styles.coords}>51.5°N ◆ 121.4°E ◆ TRANSMISSION ACTIVE</span>
         </div>
       </div>
     </footer>

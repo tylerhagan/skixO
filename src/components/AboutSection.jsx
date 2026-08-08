@@ -4,10 +4,11 @@ import { useLang } from '../hooks/useLang';
 import SectionTag from './SectionTag';
 import styles from './AboutSection.module.css';
 
+// One paragraph, deliberately. The influence list and the origin story used
+// to live here; the stats row below carries the facts, and the dossier
+// carries the myth. Saying it three times cancelled all three out.
 const BIO = [
-  'London-born. Berlin-based. Twenty-five years of production, an eighteen-year silence, and three years back at the desk. skixO came of age in the era of UK drum and bass — the smooth, melodic, emotionally-charged strand that filtered through pirate radio and late-night sets in the late nineties. The music never left. It waited.',
-  'Liquid DnB is the primary frequency — hooky, restless, built for movement. Running underneath it is a reggae inheritance from his parents: UB40 and Toots & The Maytals live in the bounce of his basslines as much as Aphex Twin and Squarepusher live in the architecture of his breaks. But it is The Postal Service that shapes how a track is built — the careful layering, the small melodic details, the flourishes that make something feel considered rather than constructed. Chase & Status, The Prodigy, Radiohead fill out the range. The sound of someone who grew up listening to everything, and who remembers all of it.',
-  'The Eastern Remixes started with something more personal than craft. A partner from Taiwan. Travel across Asia. Friendships built in Taipei and beyond. Most of skixO\'s closest people today are Taiwanese or Chinese, and their music has become part of his. The remixes were never a project — they were just what happened next.',
+  'Twenty-five years of production, an eighteen-year silence, and three years back at the desk. The music never left. It waited. What came back was liquid — hooky, restless, built for movement. The Eastern remixes started with something more personal than craft: a partner from Taiwan, travel across Asia, friendships built in Taipei. They were never a project. They were just what happened next.',
 ];
 
 const STATS = [
