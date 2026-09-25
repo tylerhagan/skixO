@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { featuredRelease, tracks, dossierFile } from '../data/siteData';
 import { useLang } from '../hooks/useLang';
 import { usePlayer } from '../contexts/PlayerContext';
+import GlitchMask from '../components/GlitchMask';
 import styles from './Console.module.css';
 
 // The back channel. Unlisted — found via the browser console hint,
@@ -139,6 +140,10 @@ export default function Console() {
 
   return (
     <main className={styles.page} onClick={() => inputRef.current?.focus()}>
+      {/* Station ident — the back channel's own broken signal, corner-mounted
+          the way a broadcast overlay marks its feed. */}
+      <GlitchMask size={44} className={styles.ident} />
+
       <div className={styles.terminal}>
         {lines.map((l, i) => (
           <div key={i} className={l.own ? styles.own : styles.line}>{l.text}</div>

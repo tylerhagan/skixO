@@ -1,8 +1,16 @@
 .page {
+  position: relative;
   min-height: 100vh;
   padding: calc(var(--nav-height) + 40px) var(--section-px) 120px;
   background: var(--black);
   cursor: text;
+}
+
+.ident {
+  position: absolute;
+  top: calc(var(--nav-height) + 12px);
+  right: var(--section-px);
+  opacity: 0.85;
 }
 
 .terminal {

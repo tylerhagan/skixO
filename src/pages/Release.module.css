@@ -263,17 +263,18 @@
 }
 
 .lostCode {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-family: var(--font-mono);
   font-size: 0.8rem;
   letter-spacing: 0.3em;
   color: var(--bone);
-  animation: lostBlink 1.1s step-end infinite;
+  /* The live glitch mask now carries "something's wrong here" — a second,
+     unrelated blink on top of it read as two animations fighting. */
 }
 
-@keyframes lostBlink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.3; }
-}
+.lostGlitch { margin-top: -2px; }
 
 .lostTitle {
   font-family: var(--font-display);

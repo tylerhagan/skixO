@@ -1,0 +1,44 @@
+.wrap {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.layer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  /* feDisplacementMap needs room to sample outside the glyph's own box
+     without clipping at the edges during a burst. */
+  overflow: visible;
+}
+
+.glyph {
+  position: absolute;
+  inset: 0;
+  mask-image: url('/skixO-glyph.svg');
+  -webkit-mask-image: url('/skixO-glyph.svg');
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-position: center;
+  transition: transform 0.06s linear, opacity 0.06s linear;
+}
+
+.glyphBase { background: var(--bone); }
+
+.glyphBone {
+  background: var(--bone);
+  mix-blend-mode: screen;
+}
+
+.glyphSignal {
+  background: var(--signal);
+  mix-blend-mode: screen;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glyph { transition: none; }
+}
