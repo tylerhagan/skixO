@@ -14,6 +14,18 @@ dist-ssr
 
 # Audio pipeline — full-length DAW bounces for waveform analysis (never deployed)
 audio-src/
+
+# Image pipeline — master PNGs for the mascot frames and banners. Same
+# trade as audio-src: the heavy originals stay local, the derived .webp
+# (and og.png) are committed and deployed. `npm run images` regenerates
+# them. BACK THESE UP — they are masters, not build output.
+#
+# These must never live under public/ — Vite copies public/ verbatim into
+# dist/ on every build regardless of this file, so anything gitignored but
+# still sitting in public/ ships to production anyway, just untracked.
+image-src/
+# Original delivery folder — same masters, kept as the drop inbox.
+newassets/
 # Generated dev placeholder (recreated by `npm run audio:placeholder` / prebuild)
 public/audio/placeholder-signal.wav
 

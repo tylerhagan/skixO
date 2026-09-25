@@ -51,23 +51,37 @@ export default function Hero() {
 
   return (
     <section ref={sectionRef} className={styles.section} id="home">
-      {/* Parallax video background */}
+      {/* Parallax background — the mascot, not footage.
+          Desktop: a pre-composed frame (scripts/build-images.mjs), mirrored
+          and placed with the figure's right edge stopping well short of
+          where the featured-release glass panel floats — baked once rather
+          than fought for at runtime, since the source art's aspect is too
+          close to a typical viewport's for object-position to create any
+          real crop slack. Swaps to the headphones-on frame the instant
+          playback starts — a hard cut, no crossfade, same as every other
+          mascot swap on the site.
+          Mobile: the lean pair, which has no listening frame of its own
+          (headphones stay slung round the neck); it swaps pose instead,
+          head down at rest and up once something's playing. */}
       <motion.div className={styles.bg} style={{ y: bgY }}>
-        <video
-          className={styles.bgVideo}
-          autoPlay
-          muted
-          loop
-          playsInline
-        >
-          <source src="/web-bg.webm" type="video/webm" />
-          <source src="/web-bg.mp4" type="video/mp4" />
-        </video>
+        <img
+          className={`${styles.bgImg} ${styles.bgImgDesktop}`}
+          src={featuredPlaying ? '/hero-desktop-listening.webp' : '/hero-desktop-idle.webp'}
+          alt=""
+          aria-hidden="true"
+        />
+        <img
+          className={`${styles.bgImg} ${styles.bgImgMobile}`}
+          src={featuredPlaying ? '/mascot/lean-up.webp' : '/mascot/lean-down.webp'}
+          alt=""
+          aria-hidden="true"
+        />
         <div className={styles.bgOverlay} />
         <div className={styles.bgScanlines} />
       </motion.div>
 
-      {/* The receiver — audio-reactive oscilloscope */}
+      {/* The receiver — audio-reactive oscilloscope, glowing across the
+          character via screen-blend rather than competing with it */}
       <HeroVisual />
 
       {/* Content */}
@@ -143,9 +157,9 @@ export default function Hero() {
         transition={{ delay: 1.4 }}
       >
         <span>51.5°N // 121.4°E</span>
-        <span className={styles.coordsDivider}>◆</span>
+        <span className={styles.coordsDivider}>✦</span>
         <span>FREQ: 174.0 bpm</span>
-        <span className={styles.coordsDivider}>◆</span>
+        <span className={styles.coordsDivider}>✦</span>
         <span>skixO</span>
       </motion.div>
 

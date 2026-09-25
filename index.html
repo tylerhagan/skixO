@@ -2,8 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/avatar-circle.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Icons — the mask glyph. favicon.svg follows the OS colour scheme
+         (ink on light, bone on dark); the .ico is a fixed ink tile for
+         browsers without SVG favicon support. -->
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#0D0F12" />
 
     <!-- Primary meta -->
     <title>skixO — Liquid Drum & Bass</title>
@@ -14,13 +22,15 @@
     <meta property="og:url"         content="https://skixo.com/" />
     <meta property="og:title"       content="skixO — Liquid Drum & Bass" />
     <meta property="og:description" content="A frequency transmitted between East and West. Liquid DnB · Glitch Architecture." />
-    <meta property="og:image"       content="https://skixo.com/hero-banner.png" />
+    <meta property="og:image"        content="https://skixo.com/og.png" />
+    <meta property="og:image:width"  content="1200" />
+    <meta property="og:image:height" content="630" />
 
     <!-- Twitter / X card -->
     <meta name="twitter:card"        content="summary_large_image" />
     <meta name="twitter:title"       content="skixO — Liquid Drum & Bass" />
     <meta name="twitter:description" content="A frequency transmitted between East and West. Liquid DnB · Glitch Architecture." />
-    <meta name="twitter:image"       content="https://skixo.com/hero-banner.png" />
+    <meta name="twitter:image"       content="https://skixo.com/og.png" />
 
     <!-- Structured data — helps search engines treat skixO as a music artist entity -->
     <script type="application/ld+json">
@@ -30,7 +40,7 @@
       "name": "skixO",
       "genre": ["Liquid Drum & Bass", "Drum and Bass"],
       "url": "https://skixo.com/",
-      "image": "https://skixo.com/avatar-circle.png",
+      "image": "https://skixo.com/icon-512.png",
       "foundingLocation": { "@type": "Place", "name": "London, United Kingdom" },
       "location": { "@type": "Place", "name": "Berlin, Germany" },
       "sameAs": [
@@ -45,7 +55,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Noto+Sans+TC:wght@300;400&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+TC:wght@300;400;600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
     <div id="root"></div>

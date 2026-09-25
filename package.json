@@ -7,7 +7,8 @@
     "dev": "vite",
     "audio:placeholder": "node scripts/make-placeholder-audio.mjs",
     "audio:peaks": "node scripts/build-peaks.mjs",
-    "prebuild": "node scripts/make-placeholder-audio.mjs && node scripts/build-peaks.mjs",
+    "images": "node scripts/build-images.mjs",
+    "prebuild": "node scripts/make-placeholder-audio.mjs && node scripts/build-peaks.mjs && node scripts/build-images.mjs",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -28,6 +29,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
+    "sharp": "^0.35.4",
     "vite": "^8.0.12"
   }
 }

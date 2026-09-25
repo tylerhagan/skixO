@@ -25,9 +25,10 @@ export default function AboutSection() {
 
   return (
     <section className={styles.section} id="artist" ref={ref}>
-      {/* Background */}
+      {/* Background — the desk, not a banner. "Three years back at the
+          desk" in the bio below is this frame, not a figure of speech. */}
       <div className={styles.bg}>
-        <img src="/redbanner.png" alt="" className={styles.bgImg} />
+        <img src="/mascot/studio.webp" alt="" className={styles.bgImg} />
         <div className={styles.bgOverlay} />
         <div className={styles.bgScanlines} />
       </div>
@@ -42,7 +43,7 @@ export default function AboutSection() {
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <span className={styles.classifiedDot}>◆</span>
+          <span className={styles.classifiedDot}>✦</span>
           {t('skixO // ACTIVE', 'skixO // 活躍中')}
         </motion.div>
 

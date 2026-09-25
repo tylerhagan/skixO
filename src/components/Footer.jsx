@@ -7,6 +7,10 @@ import styles from './Footer.module.css';
 export default function Footer() {
   const { lang } = useLang();
   const [idx, setIdx] = useState(0);
+  // A reward for reaching the bottom of the page — resting on the footer's
+  // own top edge as if it were a desk. Waves back on hover; a hard swap,
+  // same as every other mascot frame change on the site.
+  const [waving, setWaving] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -19,6 +23,19 @@ export default function Footer() {
 
   return (
     <footer className={styles.footer}>
+      <div
+        className={styles.mascotWrap}
+        onMouseEnter={() => setWaving(true)}
+        onMouseLeave={() => setWaving(false)}
+      >
+        <img
+          src={waving ? '/mascot/peek-wave.webp' : '/mascot/peek-still.webp'}
+          alt=""
+          aria-hidden="true"
+          className={styles.mascot}
+        />
+      </div>
+
       <div className={styles.inner}>
         <button
           className={styles.logo}
@@ -46,11 +63,11 @@ export default function Footer() {
 
         <div className={styles.links}>
           <a href="https://soundcloud.com/skixo" target="_blank" rel="noopener noreferrer" className={styles.link}>SoundCloud</a>
-          <span className={styles.dot}>◆</span>
+          <span className={styles.dot}>✦</span>
           <a href="https://www.youtube.com/@skixo13" target="_blank" rel="noopener noreferrer" className={styles.link}>YouTube</a>
-          <span className={styles.dot}>◆</span>
+          <span className={styles.dot}>✦</span>
           <a href="https://open.spotify.com/artist/0bV3hLbjIx6fpRszSI0q5t" target="_blank" rel="noopener noreferrer" className={styles.link}>Spotify</a>
-          <span className={styles.dot}>◆</span>
+          <span className={styles.dot}>✦</span>
           <a href="https://www.instagram.com/skixo/" target="_blank" rel="noopener noreferrer" className={styles.link}>Instagram</a>
         </div>
 
