@@ -120,45 +120,83 @@ const HERO_FIGURE_HEIGHT = 0.86; // figure height, as a fraction of canvas heigh
 const HERO_BOTTOM_MARGIN = 0.06; // seated pose reads grounded, not centred
 
 const HERO_FRAMES = [
-  { src: 'image-src/mascot/seated-idle.png',       out: 'public/hero-desktop-idle.webp' },
-  { src: 'image-src/mascot/seated-listening.png',  out: 'public/hero-desktop-listening.webp' },
+  { key: 'idle',           src: 'image-src/mascot/seated-idle.png',      out: 'public/hero-desktop-idle.webp' },
+  { key: 'listening',      src: 'image-src/mascot/seated-listening.png', out: 'public/hero-desktop-listening.webp' },
   // Half-time nod, alternated with the frame above while a track plays
-  // (Hero.jsx). Same placement math as its neighbours so the swap reads
-  // as a head movement, not a jump cut.
-  { src: 'image-src/mascot/listening-nod.png',     out: 'public/hero-desktop-listening-nod.webp' },
+  // (Hero.jsx). shareCropWith reuses 'listening's exact trim rectangle
+  // instead of finding its own: independently trimming each frame left
+  // them ~5px apart in both height and vertical offset (the nod pose's
+  // headphones reach slightly less far up than the base pose's), which
+  // scaled and re-anchored the whole figure a few pixels differently per
+  // frame -- the body visibly shifted on every swap, not just the head.
+  // idle never rhythmically alternates with anything, so it's unaffected
+  // and keeps its own independent trim.
+  { key: 'listening-nod',  src: 'image-src/mascot/listening-nod.png',    out: 'public/hero-desktop-listening-nod.webp', shareCropWith: 'listening' },
 ];
 
-for (const { src, out } of HERO_FRAMES) {
+const heroCropBoxes = {}; // key -> { left, top, width, height } in flopped-source space
+// Frames another frame depends on for its crop box must still have that
+// box computed even when their own output is already up to date — only
+// the (skippable) final webp write can be short-circuited for them.
+const heroDependedOn = new Set(HERO_FRAMES.filter(f => f.shareCropWith).map(f => f.shareCropWith));
+
+for (const { key, src, out, shareCropWith } of HERO_FRAMES) {
   const srcPath = path.join(ROOT, src);
   const outPath = path.join(ROOT, out);
   if (!existsSync(srcPath)) continue; // no masters checked out — committed .webp stands
 
+  let upToDate = false;
   if (!force && existsSync(outPath)) {
     const [s, o] = await Promise.all([stat(srcPath), stat(outPath)]);
-    if (o.mtimeMs >= s.mtimeMs) {
-      console.log(`  · ${path.basename(out)} — up to date, skipping`);
-      continue;
-    }
+    upToDate = o.mtimeMs >= s.mtimeMs;
   }
 
-  // Trim the surrounding margin to get the figure's true silhouette box,
-  // then mirror it. No explicit background: the art's "black" is actually
-  // ~#0D0E10, near enough ink that specifying #000000 here made nothing
-  // trim at all — auto-sampling the corner pixel gets the real value.
-  //
-  // .metadata() on a pending pipeline reports the *source* image's
-  // dimensions, not the result after trim/flop — only toBuffer() with
-  // resolveWithObject actually runs the pipeline and reports the true
-  // output size. Using .metadata() here silently trimmed nothing.
-  const { data: trimmedBuf, info: trimmedInfo } = await sharp(srcPath)
-    .flop()
-    .trim({ threshold: 24 })
-    .toBuffer({ resolveWithObject: true });
-  const { width: tw, height: th } = trimmedInfo;
+  if (upToDate && !(key && heroDependedOn.has(key))) {
+    console.log(`  · ${path.basename(out)} — up to date, skipping`);
+    continue;
+  }
 
+  let cropBuf, cropBox;
+
+  if (shareCropWith && heroCropBoxes[shareCropWith]) {
+    // Reuse the reference frame's exact rectangle rather than trimming
+    // this one independently -- guarantees identical scale and canvas
+    // placement, so only the pixels that actually differ (the head) move.
+    cropBox = heroCropBoxes[shareCropWith];
+    cropBuf = await sharp(srcPath).flop().extract(cropBox).toBuffer();
+  } else {
+    // Trim the surrounding margin to get the figure's true silhouette box,
+    // then mirror it. No explicit background: the art's "black" is actually
+    // ~#0D0E10, near enough ink that specifying #000000 here made nothing
+    // trim at all — auto-sampling the corner pixel gets the real value.
+    //
+    // .metadata() on a pending pipeline reports the *source* image's
+    // dimensions, not the result after trim/flop — only toBuffer() with
+    // resolveWithObject actually runs the pipeline and reports the true
+    // output size. Using .metadata() here silently trimmed nothing.
+    const { data, info } = await sharp(srcPath)
+      .flop()
+      .trim({ threshold: 24 })
+      .toBuffer({ resolveWithObject: true });
+    // trimOffsetLeft/Top come back negative (pixels removed from that
+    // edge) — negate them to get an extract()-able rectangle. Verified
+    // against sharp's own auto-trim output byte-for-byte before relying
+    // on this rather than trusting the sign from memory.
+    cropBox = { left: -info.trimOffsetLeft, top: -info.trimOffsetTop, width: info.width, height: info.height };
+    cropBuf = data;
+  }
+
+  if (key) heroCropBoxes[key] = cropBox;
+
+  if (upToDate) {
+    console.log(`  · ${path.basename(out)} — up to date, skipping (crop box computed for a dependent)`);
+    continue;
+  }
+
+  const { width: tw, height: th } = cropBox;
   const figureH = Math.round(HERO_CANVAS.height * HERO_FIGURE_HEIGHT);
   const figureW = Math.round(tw * (figureH / th));
-  const figureBuf = await sharp(trimmedBuf).resize(figureW, figureH).toBuffer();
+  const figureBuf = await sharp(cropBuf).resize(figureW, figureH).toBuffer();
 
   const targetRightX = Math.round(HERO_CANVAS.width * HERO_FIGURE_RIGHT);
   const left = Math.max(0, targetRightX - figureW);
