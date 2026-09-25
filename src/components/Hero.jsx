@@ -41,10 +41,10 @@ export default function Hero() {
   const featuredActive = track?.id === 'featured';
   const featuredPlaying = featuredActive && playing;
 
-  // The half-time head-nod. 174 BPM (the site's own stated tempo, see the
-  // coords bar below) at half-time is one hit every 60/174*2 ≈ 690ms —
-  // alternating frames every half of that gives one full
-  // listening → nod → listening cycle per hit. A hard swap, not a
+  // The head-nod. Started tempo-locked to 174 BPM half-time (690ms/cycle,
+  // see the coords bar below) but that read too fast in practice — 430ms
+  // per half (25% slower than the tempo-locked 345ms) gives a ~860ms
+  // cycle, the one that actually looked right. A hard swap, not a
   // crossfade, same as every other mascot frame change on the site.
   //
   // `nodding` only ever means "which half of the alternation is the
@@ -58,7 +58,7 @@ export default function Hero() {
     // The nod frame has never been requested before this point — without
     // this it would pop in visibly on the first nod of every playback.
     new Image().src = '/hero-desktop-listening-nod.webp';
-    const id = setInterval(() => setNodding(n => !n), 345);
+    const id = setInterval(() => setNodding(n => !n), 430);
     return () => clearInterval(id);
   }, [featuredPlaying, reducedMotion]);
 

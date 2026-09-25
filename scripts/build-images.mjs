@@ -110,12 +110,24 @@ if (existsSync(OG_SRC)) {
 // ≥1400px instead of clearing it.
 //
 // Composed once here instead: trim each frame to its actual silhouette,
-// mirror it, and place it on a wider ink canvas with the figure's right
-// edge stopping well short of where the card sits. CSS object-fit: cover
+// mirror it, and place it on a wider ink canvas. CSS object-fit: cover
 // then only ever does minor, harmless cropping around an already-correct
-// composition — the clearance is baked in, not fought for at runtime.
+// composition — the framing is baked in, not fought for at runtime.
+//
+// The figure sits between two constraints that don't leave much room:
+// the hero copy on the left (max-width 640px + padding, so clear of
+// roughly the first 30% of frame) and the featured-release card on the
+// right (~68%-95% at ≥1400px). At the figure's natural size there's no
+// fraction that clears both entirely, so this favours clean separation
+// from the copy -- overlapping text reads as broken, overlapping a
+// blurred glass panel reads as a deliberate "peeking through the HUD"
+// layer. The pose's own face sits in roughly the left 35-40% of the
+// figure's own bounding box (chin-on-fist, legs trailing right), so
+// even with the figure's right edge well into the card's footprint the
+// face itself stays clear of it — verified against the actual composite
+// with the real card/copy zones overlaid, not just this arithmetic.
 const HERO_CANVAS = { width: 2400, height: 1350 };     // 16:9 authoring frame
-const HERO_FIGURE_RIGHT = 0.62;  // figure's right edge, as a fraction of canvas width
+const HERO_FIGURE_RIGHT = 0.84;  // figure's right edge, as a fraction of canvas width
 const HERO_FIGURE_HEIGHT = 0.86; // figure height, as a fraction of canvas height
 const HERO_BOTTOM_MARGIN = 0.06; // seated pose reads grounded, not centred
 
