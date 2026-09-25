@@ -146,7 +146,8 @@
   pointer-events: none;
 }
 
-/* Sweeping scan bar */
+/* Sweeping scan bar. Bone, not signal: this runs on every page load
+   whether or not anything is playing, so the accent can't be its colour. */
 .scanBar {
   position: absolute;
   left: 0; right: 0;
@@ -154,12 +155,12 @@
   height: 100%;
   background: linear-gradient(
     to bottom,
-    var(--signal) 0px,
-    rgba(var(--signal-rgb), 0.5) 2px,
-    rgba(var(--signal-rgb), 0.08) 10px,
+    var(--bone) 0px,
+    rgba(var(--bone-rgb), 0.5) 2px,
+    rgba(var(--bone-rgb), 0.08) 10px,
     transparent 24px
   );
-  filter: drop-shadow(0 0 5px rgba(var(--signal-rgb), 0.8));
+  filter: drop-shadow(0 0 5px rgba(var(--bone-rgb), 0.6));
   animation: scanDown 1.8s linear forwards;
   z-index: 4;
 }
@@ -174,8 +175,8 @@
   bottom: 0; left: 0;
   height: 1px;
   width: 100%;
-  background: var(--signal);
-  box-shadow: 0 0 6px var(--signal);
+  background: var(--bone);
+  box-shadow: 0 0 6px rgba(var(--bone-rgb), 0.6);
   transform: scaleX(0);
   transform-origin: left;
   animation: fillProgress 1.8s linear forwards;
@@ -190,7 +191,7 @@
 .lockFlash {
   position: absolute;
   inset: 0;
-  background: rgba(var(--signal-rgb), 0.3);
+  background: rgba(var(--bone-rgb), 0.22);
   animation: flash 0.4s ease-out forwards;
   z-index: 5;
 }

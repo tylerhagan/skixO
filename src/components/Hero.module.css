@@ -105,13 +105,12 @@
   letter-spacing: -0.02em;
   color: var(--white);
   margin-bottom: 20px;
-  /* Subtle glitch shadow */
-  text-shadow:
-    2px 0 0 rgba(var(--bone-rgb), 0.4),
-    -2px 0 0 rgba(var(--signal-rgb), 0.12);
+  /* No channel-split shadow and no signal-orange O. Both were the old
+     identity's glitch treatment surviving on the one headline every
+     visitor sees: a permanent static accent (signal means "playing",
+     nothing else) and the same bone/orange RGB split retired from the
+     nav wordmark — glitch lives only in GlitchMask now. */
 }
-
-.titleO { color: var(--signal); }
 
 /* Genre line */
 .genre {

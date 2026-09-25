@@ -152,7 +152,9 @@
   opacity: 0;
   transition: opacity 0.25s, transform 0.25s;
   z-index: 3;
-  text-shadow: 0 0 20px rgba(var(--signal-rgb), 0.8);
+  /* Ink halo for legibility over bright thumbnails. Was a signal glow —
+     on hover, over a video link that plays nothing on this site. */
+  text-shadow: 0 0 16px rgba(var(--ink-rgb), 0.9);
 }
 
 /* ── Meta ───────────────────────────────────── */

@@ -1,4 +1,5 @@
 import { tickerItems } from '../data/siteData';
+import { usePlayer } from '../contexts/PlayerContext';
 import styles from './Ticker.module.css';
 
 // Scrolling "now broadcasting" strip. The reel is two identical halves
@@ -8,6 +9,9 @@ import styles from './Ticker.module.css';
 // left and leaving a dead zone. The copy is decorative, so it's one
 // list for screen readers.
 export default function Ticker() {
+  // The badge dot only takes the accent while something is actually
+  // playing — it used to pulse signal-orange permanently on every visit.
+  const { live } = usePlayer();
   const half = (
     <div className={styles.half}>
       {tickerItems.map((item, i) => (
@@ -22,7 +26,7 @@ export default function Ticker() {
   return (
     <div className={styles.ticker} aria-label={tickerItems.join(' — ')}>
       <div className={styles.badge}>
-        <span className={styles.badgeDot} />
+        <span className={`${styles.badgeDot} ${live ? styles.badgeDotLive : ''}`} />
         LIVE
       </div>
       <div className={styles.viewport} aria-hidden="true">

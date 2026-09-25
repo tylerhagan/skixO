@@ -129,7 +129,7 @@ export default function Hero() {
 
         {/* Title */}
         <motion.h1 className={styles.title} variants={fadeUp}>
-          skix<span className={styles.titleO}>O</span>
+          skixO
         </motion.h1>
 
         {/* Genre line */}

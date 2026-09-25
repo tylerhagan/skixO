@@ -19,7 +19,7 @@ const STATIONS = [
 
 export default function FrequencyDial() {
   const { t } = useLang();
-  const { setTrack } = usePlayer();
+  const { setTrack, live } = usePlayer();
   const navigate = useNavigate();
   const trackRef = useRef(null);
   const lastActivated = useRef(null);
@@ -139,7 +139,7 @@ export default function FrequencyDial() {
             style={{ left: `${((s.freq - MIN) / (MAX - MIN)) * 100}%` }}
           />
         ))}
-        <span className={styles.needle} style={{ left: `${pct}%` }} />
+        <span className={`${styles.needle} ${live ? styles.needleLive : ''}`} style={{ left: `${pct}%` }} />
       </div>
 
       <div className={styles.hint}>

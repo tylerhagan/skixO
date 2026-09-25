@@ -131,7 +131,7 @@
   background: rgba(var(--bone-rgb), 0.04);
 }
 
-/* Animated red underline on hover */
+/* Animated underline on hover */
 .cardLine {
   position: absolute;
   bottom: 0;
@@ -157,30 +157,16 @@
   display: block;
   width: 2px;
   height: 100%;
-  background: var(--signal);
+  /* Bone at rest and on hover; the accent only while this track plays.
+     Was signal on every card, all the time — four orange waveforms in
+     a list where nothing was playing. */
+  background: var(--bone);
   border-radius: 1px;
   transform-origin: center;
   flex-shrink: 0;
 }
 
-/* Catalogue link */
-.catalogueRow { }
-
-.catalogueBtn {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.2em;
-  color: var(--grey);
-  border-bottom: 1px solid var(--grey-dim);
-  padding-bottom: 3px;
-  text-transform: uppercase;
-  transition: color 0.2s, border-color 0.2s;
-}
-
-.catalogueBtn:hover {
-  color: var(--bone);
-  border-color: var(--stone);
-}
+.waveformLive .waveBar { background: var(--signal); }
 
 /* Responsive */
 @media (max-width: 640px) {

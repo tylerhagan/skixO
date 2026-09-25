@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect, useRef } from 'react';
+import { useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePlayer } from '../contexts/PlayerContext';
 import { useLang } from '../hooks/useLang';
@@ -46,22 +46,16 @@ function LiveBars({ active }) {
 }
 
 export default function MiniPlayer() {
-  const { track, setTrack, playing, toggle } = usePlayer();
+  // Embed-mode stop state lives in PlayerContext (reset there by setTrack)
+  // so the rest of the site can tell a stopped embed from a playing one.
+  const { track, setTrack, playing, toggle, embedStopped: stopped, setEmbedStopped: setStopped } = usePlayer();
   const { t } = useLang();
-  const [stopped, setStopped] = useState(false); // embed mode only
-  const [lastTrack, setLastTrack] = useState(null);
   const isLocal = !!track?.audioSrc;
-
-  // Reset stopped state whenever a new track is loaded
-  if (track !== lastTrack) {
-    setLastTrack(track);
-    if (stopped) setStopped(false);
-  }
 
   const iframeSrc = useMemo(() => {
     if (!track || isLocal) return null;
     const encoded = encodeURIComponent(track.url);
-    return `https://w.soundcloud.com/player/?url=${encoded}&color=%23cc0000&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false`;
+    return `https://w.soundcloud.com/player/?url=${encoded}&color=%23E8612C&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false`;
   }, [track, isLocal]);
 
   const displayTitle = track
@@ -88,7 +82,7 @@ export default function MiniPlayer() {
       <AnimatePresence>
         {track && (
           <motion.div
-            className={styles.player}
+            className={`${styles.player} ${paused ? styles.playerPaused : ''}`}
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
