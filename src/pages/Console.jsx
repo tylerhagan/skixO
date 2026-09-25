@@ -10,7 +10,7 @@ import styles from './Console.module.css';
 // curiosity, or word of mouth. Commands are deliberately lo-fi.
 const BANNER = [
   'skixO back channel // v0.3',
-  '訊號攔截站 — unauthorized access tolerated',
+  '後方頻道 — unauthorized access tolerated',
   "type 'help' to begin",
 ];
 
@@ -53,11 +53,11 @@ export default function Console() {
           'tune <freq> — search the spectrum',
           'lang        — 切換語言 / switch language',
           'clear       — wipe the terminal',
-          'exit        — return to base',
+          'exit        — return to the signal',
         );
         break;
       case 'whoami':
-        print('guest // clearance: none // location: triangulating…');
+        print('guest // access: none // location: no such place');
         break;
       case 'signal':
         print(
@@ -124,7 +124,7 @@ export default function Console() {
         setLines([]);
         break;
       case 'exit':
-        print('returning to base…');
+        print('returning to the signal…');
         setTimeout(() => navigate('/'), 400);
         break;
       default:

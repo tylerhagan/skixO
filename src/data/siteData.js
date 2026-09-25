@@ -151,6 +151,6 @@ export const dossierFile = [
   { key: 'STATUS',     value: '● ACTIVE',                       redact: false, active: true },
   { key: 'ASSOCIATES', value: 'Berlin the Corner [TW]',         redact: false },
   { key: 'LANGUAGES',  value: 'English · 中文',                  redact: false },
-  { key: 'CLEARANCE',  value: '████',                           redact: true,
+  { key: 'ACCESS',     value: '████',                           redact: true,
     secret: 'LEVEL Ø — SELF-GRANTED 自授' },
 ];

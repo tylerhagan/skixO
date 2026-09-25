@@ -26,7 +26,7 @@ export default function SignalLost() {
         {t('No transmission found on this frequency.', '此頻率上找不到任何傳輸。')}
       </p>
       <Link to="/" className={styles.backBtn}>
-        {t('← RETURN TO BASE', '← 返回基地')}
+        {t('← RETURN TO SIGNAL', '← 返回訊號')}
       </Link>
     </main>
   );

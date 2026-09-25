@@ -120,8 +120,8 @@ export default function DossierSection() {
         <div className={styles.narrative}>
           {[
             {
-              en: 'Somewhere between a rain-soaked studio and the neon-lit night markets of Taipei, a frequency emerged. Not born from a scene. Intercepted from one.',
-              zh: '在雨水浸透的錄音室與台北霓虹閃爍的夜市之間，某個頻率出現了。不是從一個場景中誕生，而是從中截取的。',
+              en: 'Somewhere between a rain-soaked studio and the neon-lit night markets of Taipei, a frequency emerged. Not born from a scene. Tuned in from one.',
+              zh: '在雨水浸透的錄音室與台北霓虹閃爍的夜市之間，某個頻率出現了。不是從一個場景中誕生，而是從中調頻而來的。',
             },
             {
               en: "skixO learned to speak through other people\u2019s songs \u2014 dissecting the melodic architecture of Chinese and Taiwanese artists, rewiring it through liquid drum & bass and glitch.",
