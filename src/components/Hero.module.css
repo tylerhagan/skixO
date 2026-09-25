@@ -36,11 +36,25 @@
   display: none;
 }
 
-/* Mobile: the lean pair, upright, face held high in frame since the
-   text content stacks above the card below it. */
+/* Mobile: the lean pair, upright, head at the top of the frame.
+   object-position alone can't place it: a phone-width box is far taller
+   than the 2:3 art, so cover-fit scales to the box's height and there's
+   no vertical slack to position -- any y value renders identically. What
+   actually cropped the face was the box itself: .bg overscans 15% of the
+   section above its top edge, and the art's head sits in its top ~20%,
+   so the face was either above the section or under the fixed nav.
+   Start the image at the section's top edge plus the nav instead
+   (0.15/1.3 of .bg's height is the section top); the parallax only ever
+   moves .bg downward, and never faster than the page scrolls, so the
+   viewport's top edge never catches up with the image's. */
 .bgImgMobile {
   display: block;
-  object-position: 50% 15%;
+  --img-top: calc(100% * 0.15 / 1.3 + var(--nav-height));
+  top: var(--img-top);
+  /* explicit, not top+bottom: an absolutely positioned <img> with
+     height:auto takes its intrinsic height and ignores bottom */
+  height: calc(100% - var(--img-top));
+  object-position: 50% 0%;
 }
 
 @media (min-width: 769px) {
