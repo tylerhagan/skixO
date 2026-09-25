@@ -1,7 +1,6 @@
 import Hero from '../components/Hero';
 import Ticker from '../components/Ticker';
 import AboutSection from '../components/AboutSection';
-import ArtistSection from '../components/ArtistSection';
 import SignalSection from '../components/SignalSection';
 import DossierSection from '../components/DossierSection';
 import MusicSection from '../components/MusicSection';
@@ -17,7 +16,6 @@ export default function Home() {
       <Hero />
       <Ticker />
       <AboutSection />
-      <ArtistSection />
       <SignalSection />
       <SectionDivider label="SKX-001" />
       <DossierSection />
