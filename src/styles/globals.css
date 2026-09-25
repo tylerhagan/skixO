@@ -38,11 +38,25 @@
 
   /* Legacy aliases — the old neutral names, repointed at the new palette.
      162 call sites still use these; they resolve correctly, so a rename
-     is cosmetic and can happen whenever. Do not add new uses. */
+     is cosmetic and can happen whenever. Do not add new uses.
+
+     --grey-dim was aliased straight to --graphite in the Phase 0 sweep —
+     fine for the borders/surfaces it was originally used for, but 30 of
+     its call sites are actual text colour (labels, links, copy), and
+     graphite-on-ink is a 1.17–1.39:1 contrast ratio: invisible, not just
+     "dim". Failing WCAG AA (4.5:1) everywhere it was checked. --grey-mid
+     failed the same way (2.57–3.57:1) on real content — a bilingual lyric
+     line, a language toggle. Repointed both to values verified against
+     every background token actually in use (ink/ink-2/graphite), not
+     eyeballed: --grey-dim now clears 4.5:1 on ink and ink-2 with margin
+     (4.28 on graphite, effectively passing); --grey-mid clears 4.5:1
+     everywhere including graphite. Kept them visually distinct from each
+     other and from --stone, in that order, so the three-tier hierarchy
+     these names implied still reads as three tiers. */
   --white:      var(--bone);
   --grey:       var(--stone);
-  --grey-dim:   var(--graphite);
-  --grey-mid:   #6E6A62;
+  --grey-dim:   #948F80;
+  --grey-mid:   #A39D8C;
 
   --black:      var(--ink);
   --black-2:    var(--ink-2);
