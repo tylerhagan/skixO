@@ -116,6 +116,17 @@ body {
    bug this rule exists to fix. */
 @media (hover: hover) {
   body { cursor: none; }
+
+  /* body alone wasn't enough: cursor is inherited, but every button
+     gets `cursor: pointer` from the reset below and ~15 components set
+     pointer / ew-resize / text explicitly — so over exactly the things
+     people hover on purpose (links, buttons, the dial, track cards) the
+     native hand came back on top of the dot+ring overlay. Confirmed in
+     a live browser: computed cursor on interactive elements was
+     `pointer` and `ew-resize`, not `none`. !important because those
+     per-component declarations are more specific; the overlay's hover
+     state (ring swells to 48px) is the affordance instead. */
+  *, *::before, *::after { cursor: none !important; }
 }
 
 a {
