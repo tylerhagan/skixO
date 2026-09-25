@@ -111,19 +111,25 @@
   50%       { opacity: 0; }
 }
 
-/* Title */
+/* Title — the wordmark itself, not type. Bebas Neue has no lowercase,
+   so the old text headline silently rendered as "SKIXO": the place the
+   name is biggest was the one place it was spelled wrong. The <h1> stays
+   (it's the page's main heading); the image carries the name as alt
+   text, same as the nav and footer lockups. Sized by height — the SVG's
+   3.156:1 viewBox sets the width — to the footprint the old 6–14rem text
+   block took (rendered at 1440/768/390 to compare).
+   No channel-split shadow and no signal-orange O: both were the old
+   identity's glitch treatment. Signal means "playing", nothing else, and
+   glitch lives only in GlitchMask. */
 .title {
-  font-family: var(--font-display);
-  font-size: clamp(6rem, 16vw, 14rem);
-  line-height: 0.88;
-  letter-spacing: -0.02em;
-  color: var(--white);
+  display: block;
   margin-bottom: 20px;
-  /* No channel-split shadow and no signal-orange O. Both were the old
-     identity's glitch treatment surviving on the one headline every
-     visitor sees: a permanent static accent (signal means "playing",
-     nothing else) and the same bone/orange RGB split retired from the
-     nav wordmark — glitch lives only in GlitchMask now. */
+}
+
+.titleImg {
+  display: block;
+  height: clamp(4.2rem, 12vw, 9rem);
+  width: auto;
 }
 
 /* Genre line */
@@ -269,5 +275,7 @@
 
 @media (max-width: 640px) {
   .coords { display: none; }
-  .title  { font-size: clamp(5rem, 22vw, 8rem); }
+  /* Tops out at ~77px, just under the desktop clamp at 641px, so the
+     breakpoint never makes the wordmark jump bigger as the screen narrows. */
+  .titleImg { height: clamp(3.6rem, 19vw, 4.8rem); }
 }

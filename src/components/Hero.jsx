@@ -143,7 +143,7 @@ export default function Hero() {
 
         {/* Title */}
         <motion.h1 className={styles.title} variants={fadeUp}>
-          skixO
+          <img src="/wordmark-cut-bone.svg" alt="skixO" className={styles.titleImg} />
         </motion.h1>
 
         {/* Genre line */}
