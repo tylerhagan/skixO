@@ -96,8 +96,26 @@ body {
   color: var(--white);
   font-family: var(--font-body);
   overflow-x: hidden;
-  cursor: crosshair;
+  cursor: default;
   -webkit-font-smoothing: antialiased;
+}
+
+/* CustomCursor.jsx renders a dot+ring in place of the native pointer, but
+   only on devices that actually have one — it bails out early on touch
+   via window.matchMedia('(hover: none)'). The native cursor was never
+   actually hidden to match: it stayed the literal crosshair/targeting-
+   reticle glyph underneath the custom overlay the whole time, on every
+   page. That's the single most surveillance-coded thing left on the
+   site, and it followed every visitor's mouse.
+   Hidden here with the exact inverse of that same check — (hover: hover),
+   nothing more — so this can never disagree with CustomCursor about
+   whether a device gets an overlay. Deliberately not tightened with
+   `and (pointer: fine)`: doing that would hide the native cursor on any
+   hover-capable-but-coarse-pointer device (rare, but real) where
+   CustomCursor still renders — bringing back the exact double-cursor
+   bug this rule exists to fix. */
+@media (hover: hover) {
+  body { cursor: none; }
 }
 
 a {

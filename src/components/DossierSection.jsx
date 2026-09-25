@@ -87,7 +87,11 @@ export default function DossierSection() {
           transition={{ duration: 0.7, delay: 0.1 }}
         >
           <div className={styles.fileHeader}>
-            <span className={styles.fileLabel}>CLASSIFIED</span>
+            {/* Was "CLASSIFIED" — government-agency framing left over from
+                the old surveillance identity, never touched by the mask
+                reframe. The mask is the redaction now, worn by choice,
+                not a stamp applied by some outside authority. */}
+            <span className={styles.fileLabel}>{t('REDACTED', '已隱藏')}</span>
             <span className={styles.fileId}>FILE // SKX-001</span>
           </div>
           <table className={styles.fileTable}>
