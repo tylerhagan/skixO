@@ -193,12 +193,10 @@
   background: rgba(var(--ink-rgb), 0.55);
   border-radius: 50%;
   flex-shrink: 0;
-  animation: pulse 1.5s ease infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50%       { transform: scale(1.5); opacity: 0.5; }
+  /* Still until something plays. It used to pulse at rest too, which
+     spent the "moving = live" cue before anything was live — and made
+     the moment playback starts (the dot turning signal and moving with
+     the music) a change of colour rather than a change of state. */
 }
 
 /* While the signal plays, the dot breathes with the actual music — and

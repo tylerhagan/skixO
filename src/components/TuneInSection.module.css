@@ -9,7 +9,10 @@
   font-size: clamp(1.8rem, 3.5vw, 2.8rem);
   letter-spacing: 0.08em;
   color: var(--grey);
-  margin: 52px 0 56px;
+  /* Tight under the section heading: now that TUNE IN is itself set
+     large, this reads as its subtitle — at the old 52px it floated
+     loose as a second, competing headline. */
+  margin: 20px 0 56px;
 }
 
 .grid {

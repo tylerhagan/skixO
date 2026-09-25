@@ -1,10 +1,17 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-weight: 400; /* it's an <h2>; Bebas has one weight, don't let the UA fake bold */
+}
+
+/* Eyebrow row — unchanged from when it was the whole title. */
 .tag {
   display: flex;
   align-items: center;
   gap: 10px;
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  font-weight: 400; /* it's an <h2>; keep the tag's weight, not the UA bold */
   letter-spacing: 0.28em;
   color: var(--bone);
   text-transform: uppercase;
@@ -19,13 +26,18 @@
   max-width: 240px;
 }
 
-.blink {
-  animation: blink 1.2s step-end infinite;
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
-}
+/* Static. It used to blink, on every section — six markers blinking as
+   you scroll past them, all saying "live" about headings. Blinking is
+   kept for the hero's ACTIVE tag and for whatever is actually playing. */
+.dot { flex-shrink: 0; }
 
 .label { color: var(--bone); }
+
+.heading {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5.5vw, 4.2rem);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: var(--bone);
+  text-transform: uppercase;
+}
