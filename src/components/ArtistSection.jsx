@@ -29,7 +29,7 @@ export default function ArtistSection() {
             initial="hidden"
             animate={inView ? 'show' : 'hidden'}
           >
-            <img src="/avatar-circle.png" alt="skixO" className={styles.avatar} />
+            <img src="/portrait.webp" alt="skixO" className={styles.avatar} />
             <div className={styles.avatarRing} />
           </motion.div>
 

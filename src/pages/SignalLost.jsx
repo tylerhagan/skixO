@@ -17,7 +17,7 @@ export default function SignalLost() {
   return (
     <main className={styles.lost}>
       {/* Waiting, not searching — the same rest pose from the footer. */}
-      <img src="/mascot/peek-still.webp" alt="" aria-hidden="true" className={styles.lostMascot} />
+      <img src="/mascot/cutout-peek-still.webp" alt="" aria-hidden="true" className={styles.lostMascot} />
       <div className={styles.lostCode}>
         <GlitchMask size={26} className={styles.lostGlitch} /> 404
       </div>

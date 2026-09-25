@@ -29,7 +29,7 @@ export default function Footer() {
         onMouseLeave={() => setWaving(false)}
       >
         <img
-          src={waving ? '/mascot/peek-wave.webp' : '/mascot/peek-still.webp'}
+          src={waving ? '/mascot/cutout-peek-wave.webp' : '/mascot/cutout-peek-still.webp'}
           alt=""
           aria-hidden="true"
           className={styles.mascot}
