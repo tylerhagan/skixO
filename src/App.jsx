@@ -66,7 +66,7 @@ export default function App() {
   // A hint for the ones who open the hood
   useEffect(() => {
     console.log(
-      '%c▓ SIGNAL INTERCEPTED %c\nyou found the back channel. it goes deeper: /console',
+      '%c▓ SIGNAL FOUND %c\nyou found the back channel. it goes deeper: /console',
       // Signal rather than bone: devtools may be on a light theme, where
       // bone would be invisible. The accent reads on both.
       'color:#E8612C;font-family:monospace;letter-spacing:0.2em',
