@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { featuredRelease } from '../data/siteData';
 import { useLang } from '../hooks/useLang';
+import { usePlayer } from '../contexts/PlayerContext';
 import styles from './FeaturedCard.module.css';
 
 const infoVariants = {
@@ -15,19 +16,70 @@ const itemVariants = {
   show: { opacity: 1, x: 0, transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] } },
 };
 
+// Tuning in, not acquiring a target. The card finds the release the way
+// the rest of the site finds a signal: a dial needle hunting across the
+// same 170–180 band as the Tune In dial, overshooting, and settling on
+// 174.0 — the frequency Hero's coords bar shows and the console's
+// `tune 174.0` locks to ("174.0 — LOCKED").
+const BAND_MIN = 170;
+const BAND_MAX = 180;
+const TARGET = 174.0;
+const SEARCH_MS = 1800;
+const LOCK_MS = 2200;
+
+// The needle's hunt, as (time, band position) stops: sweep high, swing
+// back past the station, land on it exactly as the search phase ends.
+const HUNT = [
+  [0.00, 0.04],
+  [0.50, 0.86],
+  [0.78, 0.28],
+  [1.00, (TARGET - BAND_MIN) / (BAND_MAX - BAND_MIN)],
+];
+
+const ease = x => x < 0.5 ? 2 * x * x : 1 - (-2 * x + 2) ** 2 / 2;
+
+function huntAt(t) {
+  if (t >= 1) return HUNT[HUNT.length - 1][1];
+  let i = 0;
+  while (t > HUNT[i + 1][0]) i++;
+  const [t0, p0] = HUNT[i];
+  const [t1, p1] = HUNT[i + 1];
+  return p0 + (p1 - p0) * ease((t - t0) / (t1 - t0));
+}
+
+const LOCKED_POS = HUNT[HUNT.length - 1][1];
+
 export default function FeaturedCard() {
   const { t } = useLang();
+  const { track, live } = usePlayer();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-40px' });
   const [phase, setPhase] = useState('idle');
+  const [pos, setPos] = useState(HUNT[0][1]);
   const timers = useRef([]);
+  const raf = useRef(0);
+
+  // Signal colour only while this release is actually on air — finding
+  // the station isn't the same as it playing.
+  const onAir = live && track?.id === 'featured';
 
   const runSequence = () => {
     timers.current.forEach(clearTimeout);
+    cancelAnimationFrame(raf.current);
     setPhase('searching');
+    setPos(HUNT[0][1]);
+
+    const start = performance.now();
+    const step = now => {
+      const k = Math.min((now - start) / SEARCH_MS, 1);
+      setPos(huntAt(k));
+      if (k < 1) raf.current = requestAnimationFrame(step);
+    };
+    raf.current = requestAnimationFrame(step);
+
     timers.current = [
-      setTimeout(() => setPhase('locking'), 1800),
-      setTimeout(() => setPhase('locked'),  2200),
+      setTimeout(() => setPhase('locking'), SEARCH_MS),
+      setTimeout(() => setPhase('locked'),  LOCK_MS),
     ];
   };
 
@@ -37,10 +89,14 @@ export default function FeaturedCard() {
     return () => {
       clearTimeout(start);
       timers.current.forEach(clearTimeout);
+      cancelAnimationFrame(raf.current);
     };
   }, [inView]);
 
   const isLocked = phase === 'locked';
+  const tuning = phase === 'searching' || phase === 'locking';
+  const needlePos = phase === 'searching' ? pos : LOCKED_POS;
+  const readout = (BAND_MIN + needlePos * (BAND_MAX - BAND_MIN)).toFixed(1);
 
   return (
     <div ref={ref} className={styles.cardWrap}>
@@ -62,18 +118,29 @@ export default function FeaturedCard() {
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        {/* Header bar */}
+        {/* Header bar — a tuner readout */}
         <div className={styles.label}>
           {isLocked ? (
             <>
-              <span className={styles.labelDot}>✦</span>
+              <span
+                className={`${styles.reception} ${onAir ? styles.receptionLive : ''}`}
+                aria-hidden="true"
+              >
+                <span /><span /><span />
+              </span>
+              <span className={styles.freqLocked}>{TARGET.toFixed(1)}</span>
+              <span className={styles.labelSep} aria-hidden="true">—</span>
               {t('LOCKED', '已鎖定')}
             </>
           ) : (
             <>
-              <span className={styles.labelBlink}>▓</span>
-              {t('ACQUIRING', '接收中')}
-              <span className={styles.labelEllipsis}>...</span>
+              {t('TUNING', '調頻中')}
+              <span
+                className={`${styles.freq} ${phase === 'searching' ? styles.freqDrifting : ''}`}
+                aria-hidden="true"
+              >
+                {readout}
+              </span>
             </>
           )}
 
@@ -81,7 +148,7 @@ export default function FeaturedCard() {
             className={`${styles.replayBtn} ${isLocked ? styles.replayActive : ''}`}
             onClick={runSequence}
             tabIndex={isLocked ? 0 : -1}
-            aria-label={t('Replay signal acquisition', '重新接收訊號')}
+            aria-label={t('Retune', '重新調頻')}
           >
             ↻
           </button>
@@ -98,8 +165,16 @@ export default function FeaturedCard() {
             <div className={styles.imgOverlay} />
             <div className={styles.imgScanlines} />
 
-            {phase === 'searching' && <div className={styles.scanBar} />}
-            {phase === 'searching' && <div className={styles.scanProgress} />}
+            {/* The dial: a tick band along the bottom, a needle hunting
+                across it. Gone once the release is in. */}
+            {tuning && <div className={styles.band} aria-hidden="true" />}
+            {tuning && (
+              <div
+                className={styles.needle}
+                style={{ left: `${needlePos * 100}%` }}
+                aria-hidden="true"
+              />
+            )}
             {phase === 'locking' && <div className={styles.lockFlash} />}
 
             <AnimatePresence>
@@ -111,8 +186,12 @@ export default function FeaturedCard() {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <span className={styles.scanLabel}>{t('SCANNING', '掃描中')}</span>
-                  <span className={styles.scanId}>// SKX-LTX</span>
+                  <span className={styles.scanLabel}>
+                    {phase === 'locking'
+                      ? t('SIGNAL FOUND', '找到訊號')
+                      : t('NO SIGNAL', '無訊號')}
+                  </span>
+                  <span className={styles.scanId}>{BAND_MIN} — {BAND_MAX} bpm</span>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -120,7 +199,7 @@ export default function FeaturedCard() {
 
           {/* Info column */}
           <div className={styles.infoWrap}>
-            {/* Placeholder shimmer while searching */}
+            {/* Placeholder shimmer while tuning */}
             <AnimatePresence>
               {!isLocked && (
                 <motion.div
