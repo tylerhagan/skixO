@@ -13,7 +13,7 @@ export default function Ticker() {
       {tickerItems.map((item, i) => (
         <span key={i} className={styles.item}>
           {item}
-          <span className={styles.sep}>◆</span>
+          <span className={styles.sep}>✦</span>
         </span>
       ))}
     </div>

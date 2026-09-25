@@ -16,7 +16,7 @@
 
 .line { color: var(--grey); white-space: pre-wrap; }
 
-.own { color: var(--red-bright); white-space: pre-wrap; }
+.own { color: var(--bone); white-space: pre-wrap; }
 
 .inputRow {
   display: flex;
@@ -25,7 +25,7 @@
   margin-top: 4px;
 }
 
-.prompt { color: var(--red); }
+.prompt { color: var(--bone); }
 
 .input {
   flex: 1;
@@ -35,5 +35,5 @@
   color: var(--white);
   font: inherit;
   letter-spacing: inherit;
-  caret-color: var(--red-bright);
+  caret-color: var(--bone);
 }

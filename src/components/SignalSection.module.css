@@ -20,7 +20,7 @@
   color: var(--grey);
   line-height: 1.7;
   max-width: 560px;
-  border-left: 2px solid var(--red-dim);
+  border-left: 2px solid var(--stone);
   padding-left: 24px;
   margin: 52px 0 56px;
   letter-spacing: 0.02em;
@@ -47,13 +47,13 @@
   transition: background 0.25s;
 }
 
-.card:hover { background: rgba(204,0,0,0.03); }
+.card:hover { background: rgba(var(--bone-rgb), 0.03); }
 
 .cardNum {
   font-family: var(--font-mono);
   font-size: 0.58rem;
   letter-spacing: 0.15em;
-  color: var(--red-dim);
+  color: var(--stone);
   width: 26px;
   flex-shrink: 0;
 }
@@ -74,7 +74,7 @@
   transition: color 0.2s;
 }
 
-.card:hover .cardTitle { color: var(--red-bright); }
+.card:hover .cardTitle { color: var(--bone); }
 
 .cardZh {
   font-family: var(--font-zh);
@@ -112,13 +112,13 @@
 }
 
 .card:hover .cardListen {
-  color: var(--red);
-  border-color: var(--red-dim);
+  color: var(--bone);
+  border-color: var(--stone);
 }
 
 .cardListenActive {
-  color: var(--red) !important;
-  border-color: var(--red) !important;
+  color: var(--signal) !important;
+  border-color: var(--signal) !important;
   animation: listenBlink 0.7s step-end infinite;
 }
 
@@ -128,7 +128,7 @@
 }
 
 .cardPlaying {
-  background: rgba(204, 0, 0, 0.04);
+  background: rgba(var(--bone-rgb), 0.04);
 }
 
 /* Animated red underline on hover */
@@ -138,7 +138,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: var(--red);
+  background: var(--bone);
   transform-origin: left;
 }
 
@@ -157,7 +157,7 @@
   display: block;
   width: 2px;
   height: 100%;
-  background: var(--red);
+  background: var(--signal);
   border-radius: 1px;
   transform-origin: center;
   flex-shrink: 0;
@@ -178,8 +178,8 @@
 }
 
 .catalogueBtn:hover {
-  color: var(--red);
-  border-color: var(--red-dim);
+  color: var(--bone);
+  border-color: var(--stone);
 }
 
 /* Responsive */

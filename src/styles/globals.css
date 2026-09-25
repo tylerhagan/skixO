@@ -3,23 +3,54 @@
    ───────────────────────────────────────────── */
 
 :root {
-  --red:        #cc0000;
-  --red-bright: #ff2020;
-  --red-dim:    #660000;
-  --red-glow:   rgba(204, 0, 0, 0.25);
+  /* ── Palette ───────────────────────────────────────────────
+     Sampled from the mascot artwork. Bone is the primary ink: it does
+     the work red used to do — borders, tags, underlines, rules, labels.
 
-  --white:      #f0ece8;
-  --grey:       #888880;
-  --grey-dim:   #333330;
-  --grey-mid:   #555550;
+     Signal is rationed. In the art it is under 1% of pixels (two earcup
+     rings, one playhead, one point on the bramble), and the interface
+     holds to that: it appears when something is playing or actively
+     running, and nowhere else. If you find yourself reaching for it
+     for emphasis, the answer is bone.
+     ───────────────────────────────────────────────────────── */
+  --ink:        #0D0F12;
+  --ink-2:      #1F2125;
+  --graphite:   #2A2D31;
+  --stone:      #A9A59C;
+  --sand:       #BFB6A3;
+  --bone:       #EDE6D6;
+  --signal:     #E8612C;
 
-  --black:      #050505;
-  --black-2:    #0c0c0c;
-  --black-3:    #111111;
+  /* Channel values, for alpha washes: rgba(var(--bone-rgb), 0.15) */
+  --ink-rgb:    13, 15, 18;
+  --bone-rgb:   237, 230, 214;
+  --stone-rgb:  169, 165, 156;
+  --signal-rgb: 232, 97, 44;
+
+  --signal-glow: rgba(232, 97, 44, 0.25);
+
+  /* Scanlines, split by what they sit on. Over release artwork they still
+     earn their keep. Over section backgrounds — now flat cel-shaded mascot
+     art with hard edges — they moiré against the linework, so they are held
+     near-invisible. Tune both here rather than per component. */
+  --scanline-art: rgba(0, 0, 0, 0.07);
+  --scanline-bg:  rgba(0, 0, 0, 0.022);
+
+  /* Legacy aliases — the old neutral names, repointed at the new palette.
+     162 call sites still use these; they resolve correctly, so a rename
+     is cosmetic and can happen whenever. Do not add new uses. */
+  --white:      var(--bone);
+  --grey:       var(--stone);
+  --grey-dim:   var(--graphite);
+  --grey-mid:   #6E6A62;
+
+  --black:      var(--ink);
+  --black-2:    var(--ink-2);
+  --black-3:    var(--graphite);
 
   --font-display: 'Bebas Neue', sans-serif;
-  --font-mono:    'Share Tech Mono', monospace;
-  --font-body:    'Rajdhani', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+  --font-body:    'Manrope', sans-serif;
   --font-zh:      'Noto Sans TC', sans-serif;
 
   --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -79,7 +110,10 @@ body::after {
   position: fixed;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  opacity: calc(0.03 + var(--amp, 0) * 0.035);
+  /* Held well back. The mascot art is flat cel shading with hard edges —
+     the grain that suited the photoreal identity reads as compression
+     noise over vector work. Enough to break up flat fills, no more. */
+  opacity: calc(0.014 + var(--amp, 0) * 0.016);
   pointer-events: none;
   z-index: 9998;
 }
@@ -87,13 +121,13 @@ body::after {
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--black); }
-::-webkit-scrollbar-thumb { background: var(--red-dim); }
-::-webkit-scrollbar-thumb:hover { background: var(--red); }
+::-webkit-scrollbar-thumb { background: var(--graphite); }
+::-webkit-scrollbar-thumb:hover { background: var(--stone); }
 
 /* Selection */
 ::selection {
-  background: var(--red);
-  color: var(--white);
+  background: var(--bone);
+  color: var(--ink);
 }
 
 /* Reduced motion — disable all animations for users who prefer it */

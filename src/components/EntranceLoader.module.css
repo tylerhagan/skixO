@@ -17,8 +17,8 @@
     0deg,
     transparent,
     transparent 2px,
-    rgba(0,0,0,0.08) 2px,
-    rgba(0,0,0,0.08) 4px
+    var(--scanline-art) 2px,
+    var(--scanline-art) 4px
   );
   pointer-events: none;
   animation: flicker 4s ease infinite;
@@ -42,13 +42,13 @@
 }
 
 .tl { top: 32px; left: 32px;
-  border-top: 1px solid var(--red); border-left: 1px solid var(--red); }
+  border-top: 1px solid var(--bone); border-left: 1px solid var(--bone); }
 .tr { top: 32px; right: 32px;
-  border-top: 1px solid var(--red); border-right: 1px solid var(--red); }
+  border-top: 1px solid var(--bone); border-right: 1px solid var(--bone); }
 .bl { bottom: 32px; left: 32px;
-  border-bottom: 1px solid var(--red); border-left: 1px solid var(--red); }
+  border-bottom: 1px solid var(--bone); border-left: 1px solid var(--bone); }
 .br { bottom: 32px; right: 32px;
-  border-bottom: 1px solid var(--red); border-right: 1px solid var(--red); }
+  border-bottom: 1px solid var(--bone); border-right: 1px solid var(--bone); }
 
 /* Centre */
 .centre {
@@ -66,7 +66,7 @@
   color: var(--white);
   line-height: 1;
 }
-.logoI { color: var(--red); }
+.logoI { color: var(--bone); }
 
 /* Lines */
 .lines {
@@ -93,7 +93,7 @@
 }
 
 .linePrompt {
-  color: var(--red);
+  color: var(--bone);
   font-size: 0.6em;
   flex-shrink: 0;
 }
@@ -103,7 +103,7 @@
 .lineZh {
   font-family: var(--font-zh);
   font-size: 0.95em;
-  color: var(--red);
+  color: var(--bone);
   letter-spacing: 0.1em;
 }
 
@@ -118,7 +118,7 @@
 .progressFill {
   height: 100%;
   width: 100%;
-  background: var(--red);
+  background: var(--bone);
   transform-origin: left;
 }
 
@@ -135,7 +135,7 @@
   gap: 10px;
 }
 
-.coordsDot { color: var(--red-dim); }
+.coordsDot { color: var(--stone); }
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {

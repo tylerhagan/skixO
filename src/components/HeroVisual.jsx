@@ -44,10 +44,13 @@ export default function HeroVisual() {
         ? h * 0.05 + levels.amp * h * 0.16
         : h * 0.028;
 
-      // Two passes: wide dim glow, then the bright core line
+      // Two passes: wide dim glow, then the bright core line.
+      // Idle the carrier is bone — a signal being searched for. Once a
+      // track plays the line locks to the accent.
+      const tint = playing ? '232, 97, 44' : '237, 230, 214';
       const passes = [
-        { width: 3.5, color: `rgba(204, 0, 0, ${playing ? 0.28 : 0.16})` },
-        { width: 1.2, color: `rgba(255, 48, 48, ${playing ? 0.95 : 0.55})` },
+        { width: 3.5, color: `rgba(${tint}, ${playing ? 0.28 : 0.10})` },
+        { width: 1.2, color: `rgba(${tint}, ${playing ? 0.95 : 0.4})` },
       ];
       for (const pass of passes) {
         ctx.beginPath();
@@ -79,11 +82,11 @@ export default function HeroVisual() {
       ctx.fillRect(0, 0, w, h);
       ctx.globalCompositeOperation = 'source-over';
 
-      // Bass glow — reinforces the existing red radial in the overlay
+      // Bass glow — only ever visible while playing, so it carries the accent
       if (levels?.playing && levels.bass > 0.05) {
         const g = ctx.createRadialGradient(w * 0.7, h * 0.5, 0, w * 0.7, h * 0.5, Math.max(w, h) * 0.45);
-        g.addColorStop(0, `rgba(204, 0, 0, ${levels.bass * 0.13})`);
-        g.addColorStop(1, 'rgba(204, 0, 0, 0)');
+        g.addColorStop(0, `rgba(232, 97, 44, ${levels.bass * 0.13})`);
+        g.addColorStop(1, 'rgba(232, 97, 44, 0)');
         ctx.fillStyle = g;
         ctx.fillRect(0, 0, w, h);
       }

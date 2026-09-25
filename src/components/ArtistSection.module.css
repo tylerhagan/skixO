@@ -12,7 +12,7 @@
   right: -20px;
   font-family: var(--font-display);
   font-size: 20vw;
-  color: rgba(204,0,0,0.025);
+  color: rgba(var(--bone-rgb), 0.025);
   pointer-events: none;
   white-space: nowrap;
   line-height: 1;
@@ -53,7 +53,7 @@
   position: absolute;
   inset: -8px;
   border-radius: 50%;
-  border: 1px solid rgba(204,0,0,0.3);
+  border: 1px solid rgba(var(--bone-rgb), 0.3);
   animation: ringPulse 3s ease infinite;
 }
 
@@ -85,7 +85,7 @@
   font-family: var(--font-mono);
   font-size: 0.6rem;
   letter-spacing: 0.25em;
-  color: var(--red);
+  color: var(--bone);
   margin-bottom: 10px;
   text-transform: uppercase;
 }

@@ -2,15 +2,20 @@ import { useEffect, useRef } from 'react';
 import { audioEngine } from '../lib/audioEngine';
 import styles from './LiquidField.module.css';
 
-// The liquid counterpoint to the glitch — slow crimson blobs drifting
-// behind sections with transparent backgrounds (Signal, Tune In).
-// Rendered at 1/8 resolution and upscaled: gradients stay soft, GPU
-// cost stays negligible. While a track plays, bass swells the field.
+// The liquid counterpoint to the glitch — slow warm blobs drifting behind
+// sections with transparent backgrounds (Signal, Tune In). Rendered at 1/8
+// resolution and upscaled: gradients stay soft, GPU cost stays negligible.
+// While a track plays, bass swells the field.
+//
+// Bone/sand/stone rather than the old crimson, and at roughly half the
+// alpha — these tones sit far lighter against ink than crimson did, so the
+// same numbers would have read as fog rather than a lift. No signal here:
+// the field is always on, and the accent is reserved for playback.
 const BLOBS = [
-  { r: 0.34, hue: [204, 0, 0], a: 0.10, sx: 0.21, sy: 0.13, px: 0.25, py: 0.35 },
-  { r: 0.42, hue: [102, 0, 0], a: 0.14, sx: 0.13, sy: 0.17, px: 0.75, py: 0.6 },
-  { r: 0.26, hue: [204, 0, 0], a: 0.08, sx: 0.17, sy: 0.23, px: 0.55, py: 0.2 },
-  { r: 0.3, hue: [153, 0, 10], a: 0.1, sx: 0.11, sy: 0.19, px: 0.35, py: 0.8 },
+  { r: 0.34, hue: [237, 230, 214], a: 0.05,  sx: 0.21, sy: 0.13, px: 0.25, py: 0.35 },
+  { r: 0.42, hue: [191, 182, 163], a: 0.065, sx: 0.13, sy: 0.17, px: 0.75, py: 0.6 },
+  { r: 0.26, hue: [169, 165, 156], a: 0.04,  sx: 0.17, sy: 0.23, px: 0.55, py: 0.2 },
+  { r: 0.3,  hue: [191, 182, 163], a: 0.05,  sx: 0.11, sy: 0.19, px: 0.35, py: 0.8 },
 ];
 const SCALE = 8;       // downscale factor
 const FRAME_MS = 33;   // ~30fps is plenty for motion this slow

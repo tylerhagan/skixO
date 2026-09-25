@@ -4,11 +4,11 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: var(--red);
+  background: var(--bone);
   transform-origin: left;
   z-index: 2000;
   pointer-events: none;
-  box-shadow: 0 0 8px var(--red-glow);
+  box-shadow: 0 0 8px rgba(var(--bone-rgb), 0.25);
 }
 
 @media (prefers-reduced-motion: reduce) {

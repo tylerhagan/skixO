@@ -51,7 +51,7 @@ export default function FeaturedCard() {
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        <span className={styles.featLabelDot}>◆</span>
+        <span className={styles.featLabelDot}>✦</span>
         {t('LATEST', '最新')}
         <span className={styles.featLabelRule} />
       </motion.div>
@@ -66,7 +66,7 @@ export default function FeaturedCard() {
         <div className={styles.label}>
           {isLocked ? (
             <>
-              <span className={styles.labelDot}>◆</span>
+              <span className={styles.labelDot}>✦</span>
               LOCKED
             </>
           ) : (

@@ -120,7 +120,7 @@ export default function MusicSection() {
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.25 }}
           >
-            <span className={styles.playlistDot}>◆</span>
+            <span className={styles.playlistDot}>✦</span>
             {t('FULL PLAYLIST ON YOUTUBE', '完整播放清單')}
             <a
               href={EASTERN_PLAYLIST}
