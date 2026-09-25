@@ -108,7 +108,7 @@ export default function Release() {
           <motion.table className={styles.meta} variants={fadeUp} initial="hidden" animate="show">
             <tbody>
               <tr><td className={styles.metaKey}>{t('RELEASED', '發行日期')}</td><td className={styles.metaVal}>{release.date}</td></tr>
-              <tr><td className={styles.metaKey}>FREQ</td><td className={styles.metaVal}>{release.bpm} bpm</td></tr>
+              <tr><td className={styles.metaKey}>{t('FREQ', '頻率')}</td><td className={styles.metaVal}>{release.bpm} bpm</td></tr>
               <tr><td className={styles.metaKey}>{t('CATALOGUE', '目錄編號')}</td><td className={styles.metaVal}>{release.catalogue}</td></tr>
             </tbody>
           </motion.table>

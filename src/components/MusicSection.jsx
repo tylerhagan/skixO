@@ -7,7 +7,7 @@ import styles from './MusicSection.module.css';
 const VIDEOS = [
   // Eastern Remixes
   { id: 'a2sSj_aiDhY', title: 'LIGHTS IN YOUR EYES', artist: 'Gummy B', type: 'eastern' },
-  { id: '7lnSVhn_RyY', title: '夜曲 NOCTURNE', artist: '周杰伦 Jay Chou', type: 'eastern' },
+  { id: '7lnSVhn_RyY', title: '夜曲 NOCTURNE', artist: '周杰倫 Jay Chou', type: 'eastern' },
   { id: 'RfXKNRE-59w', title: '模特 MODEL', artist: '李榮浩 Ronghao Li', type: 'eastern' },
   { id: 'kKq-jU_WJ7s', title: 'WHO 誰', artist: '廖俊澧 ft. 岑寧兒', type: 'eastern' },
   { id: 'AU42eLgyLPY', title: '只有唔語才能解除唔語', artist: '柏林角落 Berlin the Corner', type: 'eastern' },
@@ -34,15 +34,18 @@ const FILTERS = [
   { key: 'eastern',  en: 'EASTERN REMIXES',  zh: '東方混音' },
 ];
 
+// Bilingual like the filter bar above it — these used to stay English in
+// 中文 mode while the filters that select them switched.
 const TYPE_LABEL = {
-  original: 'ORIGINAL',
-  remix:    'REMIX',
-  eastern:  'EASTERN',
+  original: { en: 'ORIGINAL', zh: '原創' },
+  remix:    { en: 'REMIX',    zh: '混音' },
+  eastern:  { en: 'EASTERN',  zh: '東方' },
 };
 
 const EASTERN_PLAYLIST = 'https://www.youtube.com/playlist?list=PLZg8rU_U1gb6-LJrYKIZe1a9Eer7aAbdZ';
 
 function VideoCard({ video, index }) {
+  const { t } = useLang();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-30px' });
 
@@ -71,7 +74,7 @@ function VideoCard({ video, index }) {
 
       <div className={styles.meta}>
         <span className={`${styles.typeTag} ${styles[`type_${video.type}`]}`}>
-          {TYPE_LABEL[video.type]}
+          {t(TYPE_LABEL[video.type].en, TYPE_LABEL[video.type].zh)}
         </span>
         <div className={styles.title}>{video.title}</div>
         <div className={styles.artist}>{video.artist}</div>
@@ -103,6 +106,7 @@ export default function MusicSection() {
           <button
             key={f.key}
             className={`${styles.filterBtn} ${active === f.key ? styles.filterActive : ''}`}
+            aria-pressed={active === f.key}
             onClick={() => setActive(f.key)}
           >
             {t(f.en, f.zh)}

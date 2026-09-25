@@ -2,10 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { footerQuotes } from '../data/siteData';
 import { useLang } from '../hooks/useLang';
+import { scrollToTop } from '../lib/scroll';
 import styles from './Footer.module.css';
 
 export default function Footer() {
-  const { lang } = useLang();
+  const { t } = useLang();
   const [idx, setIdx] = useState(0);
   // A reward for reaching the bottom of the page — resting on the footer's
   // own top edge like a ledge. Mostly still; every few seconds it throws
@@ -70,8 +71,10 @@ export default function Footer() {
       <div className={styles.inner}>
         <button
           className={styles.logo}
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          aria-label="Back to top"
+          // Through Lenis, like the nav's lockup. A native smooth
+          // scrollTo fights Lenis's own animation (see lib/scroll.js).
+          onClick={scrollToTop}
+          aria-label={t('Back to top', '回到頂部')}
         >
           <img src="/emblem.svg" alt="" aria-hidden="true" className={styles.logoEmblem} />
           <img src="/wordmark-cut-bone.svg" alt="skixO" className={styles.logoWordmark} />
@@ -104,7 +107,7 @@ export default function Footer() {
         </div>
 
         <div className={styles.bottom}>
-          <span className={styles.copy}>© 2026 skixO. All rights reserved.</span>
+          <span className={styles.copy}>© 2026 skixO. {t('All rights reserved.', '版權所有。')}</span>
         </div>
       </div>
     </footer>

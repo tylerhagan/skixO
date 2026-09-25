@@ -12,7 +12,7 @@ const sectionIds = ['home', 'artist', 'signal', 'dossier', 'catalogue', 'tune-in
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const { lang, toggle } = useLang();
+  const { lang, toggle, t } = useLang();
   const active = useScrollSpy(sectionIds);
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -45,7 +45,7 @@ export default function Nav() {
         <button
           className={styles.logo}
           onClick={() => (onHome ? scrollToTop() : navigate('/'))}
-          aria-label="Back to top"
+          aria-label={t('Back to top', '回到頂部')}
         >
           <img src="/emblem.svg" alt="" aria-hidden="true" className={styles.logoEmblem} />
           <img src="/wordmark-cut-bone.svg" alt="skixO" className={styles.logoWordmark} />
@@ -75,7 +75,7 @@ export default function Nav() {
         </ul>
 
         <div className={styles.controls}>
-          <button className={styles.langToggle} onClick={toggle} aria-label="Toggle language">
+          <button className={styles.langToggle} onClick={toggle} title={t('Switch to Chinese', '切換到英文')}>
             <span className={lang === 'en' ? styles.langActive : ''}>EN</span>
             <span className={styles.langSep}>/</span>
             <span className={lang === 'zh' ? styles.langActive : ''}>中文</span>
@@ -84,7 +84,8 @@ export default function Nav() {
           <button
             className={`${styles.burger} ${menuOpen ? styles.burgerOpen : ''}`}
             onClick={() => setMenuOpen(o => !o)}
-            aria-label="Toggle menu"
+            aria-label={t('Menu', '選單')}
+            aria-expanded={menuOpen}
           >
             <span /><span /><span />
           </button>

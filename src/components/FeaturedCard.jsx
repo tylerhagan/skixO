@@ -67,12 +67,12 @@ export default function FeaturedCard() {
           {isLocked ? (
             <>
               <span className={styles.labelDot}>✦</span>
-              LOCKED
+              {t('LOCKED', '已鎖定')}
             </>
           ) : (
             <>
               <span className={styles.labelBlink}>▓</span>
-              ACQUIRING
+              {t('ACQUIRING', '接收中')}
               <span className={styles.labelEllipsis}>...</span>
             </>
           )}
@@ -81,7 +81,7 @@ export default function FeaturedCard() {
             className={`${styles.replayBtn} ${isLocked ? styles.replayActive : ''}`}
             onClick={runSequence}
             tabIndex={isLocked ? 0 : -1}
-            aria-label="Replay signal acquisition"
+            aria-label={t('Replay signal acquisition', '重新接收訊號')}
           >
             ↻
           </button>
@@ -111,7 +111,7 @@ export default function FeaturedCard() {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <span className={styles.scanLabel}>SCANNING</span>
+                  <span className={styles.scanLabel}>{t('SCANNING', '掃描中')}</span>
                   <span className={styles.scanId}>// SKX-LTX</span>
                 </motion.div>
               )}

@@ -50,7 +50,7 @@ export default function TuneInSection() {
               <div className={styles.cardIcon}>{icons[ch.icon]}</div>
               <span className={styles.cardFreq}>{ch.id}</span>
             </div>
-            <div className={styles.cardLabel}>{t(ch.label, ch.label)}</div>
+            <div className={styles.cardLabel}>{t(ch.label, ch.labelZh)}</div>
             <div className={styles.cardPlatform}>{ch.platform}</div>
             <span className={styles.cardArrow}>↗</span>
             <div className={styles.cardBorder} />

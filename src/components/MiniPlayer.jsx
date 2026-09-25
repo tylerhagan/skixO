@@ -140,7 +140,7 @@ export default function MiniPlayer() {
                 <button
                   className={styles.stopBtn}
                   onClick={() => (isLocal ? toggle() : setStopped(s => !s))}
-                  aria-label={paused ? 'Resume' : 'Stop'}
+                  aria-label={paused ? t('Resume', '繼續') : t('Stop', '停止')}
                 >
                   {paused ? '▶' : '■'}
                 </button>
@@ -148,7 +148,7 @@ export default function MiniPlayer() {
                 <button
                   className={styles.close}
                   onClick={() => setTrack(null)}
-                  aria-label="Close player"
+                  aria-label={t('Close player', '關閉播放器')}
                 >
                   ✕
                 </button>

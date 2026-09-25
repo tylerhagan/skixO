@@ -88,6 +88,7 @@ export const channels = [
   {
     id: 'CH-01',
     label: 'VISUAL CHANNEL',
+    labelZh: '影像頻道',
     platform: 'YouTube',
     url: 'https://www.youtube.com/@skixo13',
     icon: 'youtube',
@@ -95,6 +96,7 @@ export const channels = [
   {
     id: 'CH-02',
     label: 'PRIMARY FEED',
+    labelZh: '主要訊號',
     platform: 'SoundCloud',
     url: 'https://soundcloud.com/skixo',
     icon: 'soundcloud',
@@ -102,6 +104,7 @@ export const channels = [
   {
     id: 'CH-03',
     label: 'GRID DISTRIBUTION',
+    labelZh: '串流發行',
     platform: 'Spotify',
     url: 'https://open.spotify.com/artist/0bV3hLbjIx6fpRszSI0q5t',
     icon: 'spotify',
@@ -109,6 +112,7 @@ export const channels = [
   {
     id: 'CH-04',
     label: 'FIELD TRANSMISSIONS',
+    labelZh: '現場傳輸',
     platform: 'Instagram',
     url: 'https://www.instagram.com/skixo/',
     icon: 'instagram',
@@ -116,6 +120,7 @@ export const channels = [
   {
     id: 'CH-05',
     label: 'BOOKINGS & DEMOS',
+    labelZh: '演出邀約與投稿',
     platform: 'Contact',
     url: 'mailto:skixo@proton.me',
     icon: 'mail',

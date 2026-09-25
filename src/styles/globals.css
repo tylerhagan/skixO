@@ -62,9 +62,15 @@
   --black-2:    var(--ink-2);
   --black-3:    var(--graphite);
 
-  --font-display: 'Bebas Neue', sans-serif;
-  --font-mono:    'JetBrains Mono', monospace;
-  --font-body:    'Manrope', sans-serif;
+  /* Noto Sans TC as each stack's CJK fallback. None of the Latin faces
+     carry Han glyphs, so in 中文 mode every t() string rendered in a
+     display/mono/body context (section tags, the Tune In headline, the
+     dial readout, card labels) fell straight through to whatever the OS
+     had — JhengHei on Windows, PingFang on Mac — instead of the site's
+     own Chinese face. Latin text is unaffected: the first face covers it. */
+  --font-display: 'Bebas Neue', 'Noto Sans TC', sans-serif;
+  --font-mono:    'JetBrains Mono', 'Noto Sans TC', monospace;
+  --font-body:    'Manrope', 'Noto Sans TC', sans-serif;
   --font-zh:      'Noto Sans TC', sans-serif;
 
   --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);

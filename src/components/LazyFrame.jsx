@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useLang } from '../hooks/useLang';
 import styles from './LazyFrame.module.css';
 
 // Facade for third-party embeds: shows a lightweight thumbnail and only
 // injects the (heavy) iframe once the user actually clicks play.
 export default function LazyFrame({ src, title, thumb, height, aspect = '16 / 9' }) {
+  const { t } = useLang();
   const [active, setActive] = useState(false);
 
   const style = height
@@ -33,13 +35,13 @@ export default function LazyFrame({ src, title, thumb, height, aspect = '16 / 9'
       className={styles.facade}
       style={style}
       onClick={() => setActive(true)}
-      aria-label={`Play: ${title}`}
+      aria-label={`${t('Play', '播放')}: ${title}`}
     >
       <img src={thumb} alt="" className={styles.thumb} loading="lazy" />
       <span className={styles.overlay} />
       <span className={styles.scanlines} />
       <span className={styles.playBtn}>▶</span>
-      <span className={styles.hint}>TAP TO DECODE</span>
+      <span className={styles.hint}>{t('TAP TO DECODE', '點擊解碼')}</span>
     </button>
   );
 }

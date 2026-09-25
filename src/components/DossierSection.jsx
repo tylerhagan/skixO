@@ -167,9 +167,10 @@ export default function DossierSection() {
             transition={{ duration: 0.7, delay: 0.7 }}
           >
             <span className={styles.welcomeZh}>訊號傳向東方</span>
-            <span className={styles.welcomeEn}>
-              {t('A signal reaching east.', '訊號傳向東方')}
-            </span>
+            {/* Always English: this card is already the bilingual pair,
+                the Chinese line sits right above. Routing it through t()
+                printed 訊號傳向東方 twice in 中文 mode. */}
+            <span className={styles.welcomeEn}>A signal reaching east.</span>
           </motion.div>
         </div>
       </div>
