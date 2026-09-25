@@ -5,13 +5,17 @@
   padding: 64px var(--section-px) 40px;
 }
 
-/* Straddles the footer's own top border — arms resting on it like a desk,
-   most of the frame's empty headspace cropped away by object-fit. */
+/* Straddles the footer's own top border like a ledge — forearm resting
+   on it, fingertips dipping just past the line, as if leaning over a
+   wall. -132px was measured against the actual cropped frame (rendered
+   the real object-fit:cover crop with the border line overlaid at
+   several candidate offsets and compared), not eyeballed against the
+   live page. */
 .mascotWrap {
   position: absolute;
-  top: 0;
+  top: -132px;
   left: 50%;
-  transform: translate(-50%, -62%);
+  transform: translateX(-50%);
   width: 200px;
   height: 148px;
   cursor: default;

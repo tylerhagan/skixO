@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { footerQuotes } from '../data/siteData';
 import { useLang } from '../hooks/useLang';
 import styles from './Footer.module.css';
@@ -8,9 +8,14 @@ export default function Footer() {
   const { lang } = useLang();
   const [idx, setIdx] = useState(0);
   // A reward for reaching the bottom of the page — resting on the footer's
-  // own top edge as if it were a desk. Waves back on hover; a hard swap,
-  // same as every other mascot frame change on the site.
+  // own top edge like a ledge. Mostly still; every few seconds it throws
+  // up a peace sign for a moment, unprompted, then settles back. Also
+  // waves immediately on hover — the timer will just pick back up on its
+  // next tick, no real conflict. A hard swap, no crossfade, same as every
+  // other mascot frame change on the site.
   const [waving, setWaving] = useState(false);
+  const reducedMotion = useReducedMotion();
+  const hoveringRef = useRef(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -19,14 +24,40 @@ export default function Footer() {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    if (reducedMotion) return;
+
+    let cancelled = false;
+    let timer = 0;
+
+    const cycle = () => {
+      const gap = 3000 + Math.random() * 2000; // every 3-5s
+      timer = window.setTimeout(() => {
+        if (cancelled || hoveringRef.current) { cycle(); return; }
+        setWaving(true);
+        timer = window.setTimeout(() => {
+          if (cancelled) return;
+          if (!hoveringRef.current) setWaving(false);
+          cycle();
+        }, 900);
+      }, gap);
+    };
+
+    cycle();
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [reducedMotion]);
+
   const quote = footerQuotes[idx];
 
   return (
     <footer className={styles.footer}>
       <div
         className={styles.mascotWrap}
-        onMouseEnter={() => setWaving(true)}
-        onMouseLeave={() => setWaving(false)}
+        onMouseEnter={() => { hoveringRef.current = true; setWaving(true); }}
+        onMouseLeave={() => { hoveringRef.current = false; setWaving(false); }}
       >
         <img
           src={waving ? '/mascot/cutout-peek-wave.webp' : '/mascot/cutout-peek-still.webp'}
