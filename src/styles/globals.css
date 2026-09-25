@@ -173,6 +173,27 @@ body::after {
 ::-webkit-scrollbar-thumb { background: var(--graphite); }
 ::-webkit-scrollbar-thumb:hover { background: var(--stone); }
 
+/* Keyboard focus — one bone ring everywhere, instead of each browser's
+   default (blue in Chromium) on a palette with no blue in it. Only the
+   frequency dial had its own focus style; now everything matches it. */
+:focus-visible {
+  outline: 1px solid var(--bone);
+  outline-offset: 3px;
+}
+
+/* Visually hidden, still read by assistive tech. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Selection */
 ::selection {
   background: var(--bone);

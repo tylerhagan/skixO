@@ -33,14 +33,14 @@ export default function ArtistSection() {
             <div className={styles.avatarRing} />
           </motion.div>
 
-          <motion.h2
+          <motion.h3
             className={styles.name}
             variants={fadeUp(0.1)}
             initial="hidden"
             animate={inView ? 'show' : 'hidden'}
           >
             skixO
-          </motion.h2>
+          </motion.h3>
 
           <motion.p
             className={styles.subtitle}

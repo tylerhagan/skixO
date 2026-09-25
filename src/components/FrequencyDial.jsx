@@ -76,10 +76,16 @@ export default function FrequencyDial() {
 
   // Keyboard tuning is exact (no snap radius), otherwise ±0.1 steps
   // could never escape a station's pull.
+  // The full ARIA slider key set — role="slider" tells screen-reader
+  // users to expect Up/Down, Home/End and PageUp/Down, not just Left/Right.
+  const KEY_STEP = {
+    ArrowLeft: -0.1, ArrowDown: -0.1, ArrowRight: 0.1, ArrowUp: 0.1,
+    PageDown: -1, PageUp: 1, Home: -Infinity, End: Infinity,
+  };
   const onKeyDown = e => {
-    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    const step = KEY_STEP[e.key];
+    if (step === undefined) return;
     e.preventDefault();
-    const step = e.key === 'ArrowLeft' ? -0.1 : 0.1;
     const f = Math.round(Math.min(MAX, Math.max(MIN, freq + step)) * 10) / 10;
     setFreq(f);
     const exact = STATIONS.find(s => Math.abs(s.freq - f) < 0.001);

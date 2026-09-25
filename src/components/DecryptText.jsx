@@ -35,8 +35,13 @@ export default function DecryptText({ text, interval = 34, revealPerTick = 1, as
     return <Tag ref={ref} className={className}>{text}</Tag>;
   }
 
+  // Real text for assistive tech, scramble for eyes. Was aria-label on
+  // the wrapper with the visible glyphs aria-hidden — but aria-label on a
+  // plain span/div (no role) is ignored by most screen readers, so with
+  // the only readable content hidden, every section title read as empty.
   return (
-    <Tag ref={ref} className={className} aria-label={text}>
+    <Tag ref={ref} className={className}>
+      <span className="sr-only">{text}</span>
       <span aria-hidden="true">{output || ' '}</span>
     </Tag>
   );

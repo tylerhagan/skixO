@@ -79,7 +79,10 @@
   transition: background 0.25s, transform 0.25s;
 }
 
+/* Ink glyph on the bone hover fill. The ▶ was var(--white) — which is
+   bone — so on hover the play icon vanished into its own button. */
 .facade:hover .playBtn {
+  color: var(--ink);
   background: var(--bone);
   transform: translate(-50%, -50%) scale(1.08);
 }

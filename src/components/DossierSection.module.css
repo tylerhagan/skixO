@@ -56,7 +56,7 @@
 }
 
 .fileRow {
-  border-bottom: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(var(--bone-rgb), 0.04);
 }
 .fileRow:last-child { border-bottom: none; }
 

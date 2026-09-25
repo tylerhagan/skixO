@@ -29,7 +29,7 @@
 .list {
   display: flex;
   flex-direction: column;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  border-top: 1px solid rgba(var(--bone-rgb), 0.05);
   margin-bottom: 48px;
 }
 
@@ -40,7 +40,7 @@
   align-items: center;
   gap: 28px;
   padding: 22px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid rgba(var(--bone-rgb), 0.05);
   text-decoration: none;
   overflow: hidden;
   cursor: pointer;

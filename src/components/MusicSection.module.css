@@ -178,7 +178,7 @@
 
 .type_original {
   color: var(--white);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(var(--bone-rgb), 0.2);
 }
 
 .type_remix {
@@ -205,7 +205,9 @@
   font-family: var(--font-mono);
   font-size: 0.58rem;
   letter-spacing: 0.12em;
-  color: var(--grey-dim);
+  /* grey-mid, not grey-dim: these cards sit on graphite, the one ground
+     grey-dim doesn't clear AA on (4.28:1). grey-mid is 5.11:1 there. */
+  color: var(--grey-mid);
   text-transform: uppercase;
 }
 

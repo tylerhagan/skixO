@@ -4,6 +4,7 @@
   gap: 10px;
   font-family: var(--font-mono);
   font-size: 0.72rem;
+  font-weight: 400; /* it's an <h2>; keep the tag's weight, not the UA bold */
   letter-spacing: 0.28em;
   color: var(--bone);
   text-transform: uppercase;

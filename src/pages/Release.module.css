@@ -130,7 +130,7 @@
   padding: 11px 18px;
   width: 130px;
   text-transform: uppercase;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(var(--bone-rgb), 0.04);
 }
 
 .metaVal {
@@ -139,7 +139,7 @@
   letter-spacing: 0.1em;
   color: var(--white);
   padding: 11px 18px 11px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(var(--bone-rgb), 0.04);
 }
 
 /* Story + credits */
@@ -167,7 +167,7 @@
   display: flex;
   gap: 24px;
   padding: 8px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid rgba(var(--bone-rgb), 0.05);
   max-width: 420px;
 }
 
