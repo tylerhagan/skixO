@@ -120,8 +120,12 @@ const HERO_FIGURE_HEIGHT = 0.86; // figure height, as a fraction of canvas heigh
 const HERO_BOTTOM_MARGIN = 0.06; // seated pose reads grounded, not centred
 
 const HERO_FRAMES = [
-  { src: 'image-src/mascot/seated-idle.png',      out: 'public/hero-desktop-idle.webp' },
-  { src: 'image-src/mascot/seated-listening.png', out: 'public/hero-desktop-listening.webp' },
+  { src: 'image-src/mascot/seated-idle.png',       out: 'public/hero-desktop-idle.webp' },
+  { src: 'image-src/mascot/seated-listening.png',  out: 'public/hero-desktop-listening.webp' },
+  // Half-time nod, alternated with the frame above while a track plays
+  // (Hero.jsx). Same placement math as its neighbours so the swap reads
+  // as a head movement, not a jump cut.
+  { src: 'image-src/mascot/listening-nod.png',     out: 'public/hero-desktop-listening-nod.webp' },
 ];
 
 for (const { src, out } of HERO_FRAMES) {

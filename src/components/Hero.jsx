@@ -1,5 +1,5 @@
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { useLang } from '../hooks/useLang';
 import { usePlayer } from '../contexts/PlayerContext';
 import { featuredRelease } from '../data/siteData';
@@ -36,9 +36,31 @@ export default function Hero() {
   const { t } = useLang();
   const { track, setTrack, playing, toggle } = usePlayer();
   const sectionRef = useRef(null);
+  const reducedMotion = useReducedMotion();
 
   const featuredActive = track?.id === 'featured';
   const featuredPlaying = featuredActive && playing;
+
+  // The half-time head-nod. 174 BPM (the site's own stated tempo, see the
+  // coords bar below) at half-time is one hit every 60/174*2 ≈ 690ms —
+  // alternating frames every half of that gives one full
+  // listening → nod → listening cycle per hit. A hard swap, not a
+  // crossfade, same as every other mascot frame change on the site.
+  //
+  // `nodding` only ever means "which half of the alternation is the
+  // interval currently on" — whether that's actually shown is decided
+  // below by `showNod`, so stopping playback never needs an effect to
+  // reset state back to false, just a render-time guard.
+  const [nodding, setNodding] = useState(false);
+  const showNod = featuredPlaying && !reducedMotion && nodding;
+  useEffect(() => {
+    if (!featuredPlaying || reducedMotion) return;
+    // The nod frame has never been requested before this point — without
+    // this it would pop in visibly on the first nod of every playback.
+    new Image().src = '/hero-desktop-listening-nod.webp';
+    const id = setInterval(() => setNodding(n => !n), 345);
+    return () => clearInterval(id);
+  }, [featuredPlaying, reducedMotion]);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -58,15 +80,22 @@ export default function Hero() {
           than fought for at runtime, since the source art's aspect is too
           close to a typical viewport's for object-position to create any
           real crop slack. Swaps to the headphones-on frame the instant
-          playback starts — a hard cut, no crossfade, same as every other
-          mascot swap on the site.
+          playback starts, then nods on the half-time (see `showNod` above)
+          — a hard cut every time, no crossfade, same as every other mascot
+          swap on the site.
           Mobile: the lean pair, which has no listening frame of its own
           (headphones stay slung round the neck); it swaps pose instead,
           head down at rest and up once something's playing. */}
       <motion.div className={styles.bg} style={{ y: bgY }}>
         <img
           className={`${styles.bgImg} ${styles.bgImgDesktop}`}
-          src={featuredPlaying ? '/hero-desktop-listening.webp' : '/hero-desktop-idle.webp'}
+          src={
+            !featuredPlaying
+              ? '/hero-desktop-idle.webp'
+              : showNod
+                ? '/hero-desktop-listening-nod.webp'
+                : '/hero-desktop-listening.webp'
+          }
           alt=""
           aria-hidden="true"
         />
