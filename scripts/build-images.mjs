@@ -26,8 +26,17 @@ const ROOT = path.resolve(import.meta.dirname, '..');
 const force = process.argv.includes('--force');
 
 // srcDir (image-src/…) → outDir (public/…), same filenames, .png → .webp
+//
+// The mascot target is an allow-list, not every PNG in the folder: most
+// masters are consumed below instead (the seated frames and the nod by the
+// hero composite, the peek pair by the cutout pass), and a straight .webp
+// of those is a byproduct nothing loads — which still ships, because it's
+// in public/. Add a frame here only when the site references it as-is.
 const TARGETS = [
-  { srcDir: 'image-src/mascot', outDir: 'public/mascot', opts: { quality: 92, effort: 6 } },
+  {
+    srcDir: 'image-src/mascot', outDir: 'public/mascot', opts: { quality: 92, effort: 6 },
+    only: ['lean-down.png', 'lean-up.png', 'studio.png', 'studio-nod.png'],
+  },
   { srcDir: 'image-src',        outDir: 'public',        opts: { quality: 92, effort: 6 }, only: ['bramble.png'] },
 ];
 

@@ -1,7 +1,8 @@
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { featuredRelease } from '../data/siteData';
 import { useLang } from '../hooks/useLang';
+import { usePlayer } from '../contexts/PlayerContext';
 import SectionTag from './SectionTag';
 import LazyFrame from './LazyFrame';
 import styles from './AboutSection.module.css';
@@ -25,12 +26,38 @@ export default function AboutSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
+  // The figure at the desk nods while something is actually playing —
+  // the hero's half-time nod at the hero's 430ms, and a hard src swap,
+  // never a crossfade, like every mascot frame change. Only while the
+  // section is on screen: there's no one to see it otherwise.
+  const { live } = usePlayer();
+  const reducedMotion = useReducedMotion();
+  const onScreen = useInView(ref);
+  const beating = live && onScreen && !reducedMotion;
+  const [nodding, setNodding] = useState(false);
+  const showNod = beating && nodding;
+  useEffect(() => {
+    if (!beating) return;
+    const id = setInterval(() => setNodding(n => !n), 430);
+    return () => clearInterval(id);
+  }, [beating]);
+
+  // Warm the nod frame once playback starts. The section is below the
+  // fold, so it's cached long before anyone scrolls down to it.
+  useEffect(() => {
+    if (live) new Image().src = '/mascot/studio-nod.webp';
+  }, [live]);
+
   return (
     <section className={styles.section} id="artist" ref={ref}>
       {/* Background — the desk, not a banner. "Three years back at the
           desk" in the bio below is this frame, not a figure of speech. */}
       <div className={styles.bg}>
-        <img src="/mascot/studio.webp" alt="" className={styles.bgImg} />
+        <img
+          src={showNod ? '/mascot/studio-nod.webp' : '/mascot/studio.webp'}
+          alt=""
+          className={styles.bgImg}
+        />
         <div className={styles.bgOverlay} />
         <div className={styles.bgScanlines} />
       </div>
