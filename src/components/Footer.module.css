@@ -32,20 +32,27 @@
   text-align: center;
 }
 
+/* Logo — same emblem + wordmark lockup as Nav, sized for the footer's
+   more prominent sign-off moment (was 76px as a single image before). */
 .logo {
-  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 16px;
   cursor: pointer;
   transition: opacity 0.2s;
 }
 .logo:hover { opacity: 0.6; }
 
-.logoImg {
-  height: 76px;
+.logoEmblem {
+  height: 84px; /* 1.5 × wordmark height */
   width: auto;
   display: block;
-  mix-blend-mode: lighten;
-  margin-top: -13px;
-  margin-bottom: -13px;
+}
+
+.logoWordmark {
+  height: 56px;
+  width: auto;
+  display: block;
 }
 
 .quoteWrap {

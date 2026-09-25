@@ -51,14 +51,14 @@ export default function EntranceLoader({ onComplete }) {
 
           {/* Centre content */}
           <div className={styles.centre}>
-            <motion.div
+            <motion.img
+              src="/wordmark-cut-bone.svg"
+              alt="skixO"
               className={styles.logo}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
-            >
-              sk<span className={styles.logoI}>i</span>x<span>O</span>
-            </motion.div>
+            />
 
             <div className={styles.lines}>
               {lines.map((line, i) => (

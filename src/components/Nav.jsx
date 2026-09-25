@@ -47,7 +47,8 @@ export default function Nav() {
           onClick={() => (onHome ? scrollToTop() : navigate('/'))}
           aria-label="Back to top"
         >
-          <img src="/logo-min.png" alt="skixO" className={styles.logoImg} />
+          <img src="/emblem.svg" alt="" aria-hidden="true" className={styles.logoEmblem} />
+          <img src="/wordmark-cut-bone.svg" alt="skixO" className={styles.logoWordmark} />
         </button>
 
         <ul className={styles.links}>
