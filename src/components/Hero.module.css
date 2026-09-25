@@ -191,24 +191,6 @@
   transition: transform 0.08s linear, opacity 0.08s linear;
 }
 
-.ctaSecondary {
-  display: inline-flex;
-  align-items: center;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  color: var(--grey);
-  border: 1px solid var(--grey-dim);
-  padding: 13px 22px;
-  text-transform: uppercase;
-  transition: color 0.2s, border-color 0.2s;
-}
-
-.ctaSecondary:hover {
-  color: var(--white);
-  border-color: var(--grey-mid);
-}
-
 /* Featured release card slot */
 .cardSlot {
   position: absolute;

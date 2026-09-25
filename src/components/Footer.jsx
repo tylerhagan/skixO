@@ -25,6 +25,12 @@ export default function Footer() {
     return () => clearInterval(timer);
   }, []);
 
+  // Warm the wave frame up front: the first auto-wave only lasts 900ms,
+  // and fetching the frame at that moment could eat most of it.
+  useEffect(() => {
+    new Image().src = '/mascot/cutout-peek-wave.webp';
+  }, []);
+
   useEffect(() => {
     if (reducedMotion) return;
 

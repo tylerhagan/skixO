@@ -119,21 +119,6 @@
   transform-origin: left;
 }
 
-/* Coords */
-.coords {
-  position: absolute;
-  bottom: 32px;
-  right: 40px;
-  font-family: var(--font-mono);
-  font-size: 0.55rem;
-  letter-spacing: 0.25em;
-  color: var(--grey-dim);
-  display: flex;
-  gap: 10px;
-}
-
-.coordsDot { color: var(--stone); }
-
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .scanlines { animation: none; }

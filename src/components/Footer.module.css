@@ -127,10 +127,3 @@
   letter-spacing: 0.2em;
   color: var(--grey-dim);
 }
-
-.coords {
-  font-family: var(--font-mono);
-  font-size: 0.5rem;
-  letter-spacing: 0.25em;
-  color: rgba(var(--bone-rgb), 0.25);
-}

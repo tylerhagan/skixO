@@ -3,10 +3,13 @@
 // so the audio-reactive pipeline can be developed and demoed
 // before real track excerpts are bounced from the DAW.
 //
-// Output: public/audio/placeholder-signal.wav (gitignored, regenerated
-// by `npm run build` via the prebuild hook). Once a real excerpt
-// exists (e.g. public/audio/prove.mp3), point featuredRelease.audioSrc
-// at it in src/data/siteData.js and this file is no longer used.
+// Output: public/audio/placeholder-signal.wav (gitignored). Manual
+// only — `npm run audio:placeholder`. It used to run on every build via
+// prebuild, but featuredRelease now points at the real excerpt
+// (prove-clip.mp3), so nothing references the placeholder, and since
+// Vite copies public/ verbatim it was shipping 2.9 MB of unused WAV to
+// production on every deploy. Delete the local copy once you're done
+// with it for the same reason.
 //
 // Usage: node scripts/make-placeholder-audio.mjs [--force]
 // ─────────────────────────────────────────────

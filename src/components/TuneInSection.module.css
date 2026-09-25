@@ -34,7 +34,7 @@
 
 .card:hover { background: var(--black-3); }
 
-/* Red top border animates on hover */
+/* Top border lights on hover */
 .cardBorder {
   position: absolute;
   top: 0;
@@ -102,22 +102,6 @@
   color: var(--bone);
   transform: translate(3px, -3px);
 }
-
-/* Welcome note */
-.welcomeNote {
-  margin-top: 56px;
-  text-align: center;
-}
-
-.welcomeZh {
-  font-family: var(--font-zh);
-  font-size: 1rem;
-  color: var(--grey-dim);
-  letter-spacing: 0.12em;
-  transition: color 0.3s;
-}
-
-.welcomeZh:hover { color: var(--grey); }
 
 /* Responsive */
 @media (max-width: 1100px) {

@@ -55,12 +55,26 @@ export default function Hero() {
   const showNod = featuredPlaying && !reducedMotion && nodding;
   useEffect(() => {
     if (!featuredPlaying || reducedMotion) return;
-    // The nod frame has never been requested before this point — without
-    // this it would pop in visibly on the first nod of every playback.
-    new Image().src = '/hero-desktop-listening-nod.webp';
     const id = setInterval(() => setNodding(n => !n), 430);
     return () => clearInterval(id);
   }, [featuredPlaying, reducedMotion]);
+
+  // Warm every frame the hero can cut to, once the page is idle. The nod
+  // frame used to be fetched at play-start and the headphones-on frame
+  // not at all — so the very first cut, the one the whole play button is
+  // built around, waited on a network round-trip while the audio had
+  // already started. A hard cut only reads as a cut if it lands on the
+  // beat. Only this viewport's pair: the other never displays here.
+  useEffect(() => {
+    const frames = window.matchMedia('(min-width: 769px)').matches
+      ? ['/hero-desktop-listening.webp', '/hero-desktop-listening-nod.webp']
+      : ['/mascot/lean-up.webp'];
+    const warm = () => frames.forEach(src => { new Image().src = src; });
+    const idle = window.requestIdleCallback ?? (fn => setTimeout(fn, 1200));
+    const cancel = window.cancelIdleCallback ?? clearTimeout;
+    const handle = idle(warm);
+    return () => cancel(handle);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,

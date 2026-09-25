@@ -90,25 +90,6 @@
   text-transform: uppercase;
 }
 
-.ytWrap {
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
-  overflow: hidden;
-  border: 1px solid var(--grey-dim);
-}
-
-.ytWrap iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.scWrap {
-  border: 1px solid var(--grey-dim);
-}
-
 /* Responsive */
 @media (max-width: 900px) {
   .grid {
