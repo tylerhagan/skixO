@@ -4,6 +4,37 @@
   background: transparent;
 }
 
+/* Header block — heading, count, intro, and the standing figure. */
+.head {
+  position: relative;
+  /* flow-root keeps the intro's bottom margin inside this box, so the
+     figure's bottom: 0 lands on the list's top rule, not 56px above it. */
+  display: flow-root;
+  min-height: clamp(0px, 30vw, 440px);
+}
+
+/* The standing pose, feet on the list's top rule. Opaque art on a
+   near-ink background (see scripts/build-images.mjs), so it's feathered
+   into the page with a mask rather than cut out — both axes, intersected,
+   so the frame's own edges and the long floor line never show. */
+.figure {
+  position: absolute;
+  right: clamp(0px, 5vw, 96px);
+  bottom: 0;
+  height: calc(100% + var(--section-py) * 0.6);
+  width: auto;
+  pointer-events: none;
+  user-select: none;
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent 0%, #000 18%, #000 82%, transparent 100%),
+    linear-gradient(180deg, transparent 0%, #000 8%, #000 95%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg, transparent 0%, #000 18%, #000 82%, transparent 100%),
+    linear-gradient(180deg, transparent 0%, #000 8%, #000 95%, transparent 100%);
+  mask-composite: intersect;
+}
+
 .selectedNote {
   font-family: var(--font-mono);
   font-size: 0.58rem;
@@ -169,6 +200,19 @@
 .waveformLive .waveBar { background: var(--signal); }
 
 /* Responsive */
+/* Below 900px the intro fills the width, so the figure shrinks to a
+   column beside the heading and the intro makes room for it. */
+@media (max-width: 900px) {
+  .head { min-height: 0; }
+  .figure {
+    right: -8px;
+    bottom: auto;
+    top: 0;
+    height: 250px;
+  }
+  .intro { max-width: calc(100% - 112px); }
+}
+
 @media (max-width: 640px) {
   .cardDate   { display: none; }
   .cardListen { display: none; }

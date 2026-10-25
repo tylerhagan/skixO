@@ -19,7 +19,7 @@ export default function Home() {
       <SignalSection />
       <SectionDivider label="SKX-001" />
       <DossierSection />
-      <SectionDivider label="SKX-002" />
+      <SectionDivider label="SKX-002" slice="30%" flip />
       <MusicSection />
       <TuneInSection />
     </main>

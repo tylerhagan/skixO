@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { tracks } from '../data/siteData';
 import peaks from '../data/peaks.json';
 import { useLang } from '../hooks/useLang';
@@ -12,30 +12,60 @@ export default function SignalSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
+  // The standing figure listens along: head down on the half-time while
+  // anything plays, the same 430ms hard cut as the hero and the desk.
+  const { live } = usePlayer();
+  const reducedMotion = useReducedMotion();
+  const onScreen = useInView(ref);
+  const beating = live && onScreen && !reducedMotion;
+  const [nodding, setNodding] = useState(false);
+  const showNod = beating && nodding;
+  useEffect(() => {
+    if (!beating) return;
+    const id = setInterval(() => setNodding(n => !n), 430);
+    return () => clearInterval(id);
+  }, [beating]);
+
+  useEffect(() => {
+    if (live) new Image().src = '/mascot/stand-nod.webp';
+  }, [live]);
+
   return (
     <section className={styles.section} id="signal" ref={ref}>
-      <SectionTag en="SELECTED" zh="精選" />
+      {/* The figure stands on the list's top rule, in the space beside the
+          intro that used to sit empty — the mascot vanished after the
+          Artist section and didn't come back until the footer. */}
+      <div className={styles.head}>
+        <SectionTag en="SELECTED" zh="精選" />
 
-      <motion.div
-        className={styles.selectedNote}
-        initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 1 } : {}}
-        transition={{ delay: 0.1 }}
-      >
-        04 / 17
-      </motion.div>
+        <motion.div
+          className={styles.selectedNote}
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.1 }}
+        >
+          04 / 17
+        </motion.div>
 
-      <motion.p
-        className={styles.intro}
-        initial={{ opacity: 0, x: -20 }}
-        animate={inView ? { opacity: 1, x: 0 } : {}}
-        transition={{ duration: 0.7, delay: 0.15 }}
-      >
-        {t(
-          'He arrived through the cracks in someone else\'s music.\u00a0Then he stopped asking permission.',
-          '他從他人音樂的裂縫中出現。然後他不再征求許可。'
-        )}
-      </motion.p>
+        <motion.p
+          className={styles.intro}
+          initial={{ opacity: 0, x: -20 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.15 }}
+        >
+          {t(
+            'He arrived through the cracks in someone else\'s music.\u00a0Then he stopped asking permission.',
+            '他從他人音樂的裂縫中出現。然後他不再征求許可。'
+          )}
+        </motion.p>
+
+        <img
+          src={showNod ? '/mascot/stand-nod.webp' : '/mascot/stand.webp'}
+          alt=""
+          className={styles.figure}
+          loading="lazy"
+        />
+      </div>
 
       {/* No catalogue link — the CATALOGUE section follows immediately below. */}
       <div className={styles.list}>

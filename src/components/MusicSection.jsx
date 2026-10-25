@@ -2,30 +2,10 @@ import { useState, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useLang } from '../hooks/useLang';
 import SectionTag from './SectionTag';
+import { VIDEOS } from '../data/catalogue';
 import styles from './MusicSection.module.css';
 
-const VIDEOS = [
-  // Eastern Remixes
-  { id: 'a2sSj_aiDhY', title: 'LIGHTS IN YOUR EYES', artist: 'Gummy B', type: 'eastern' },
-  { id: '7lnSVhn_RyY', title: '夜曲 NOCTURNE', artist: '周杰倫 Jay Chou', type: 'eastern' },
-  { id: 'RfXKNRE-59w', title: '模特 MODEL', artist: '李榮浩 Ronghao Li', type: 'eastern' },
-  { id: 'kKq-jU_WJ7s', title: 'WHO 誰', artist: '廖俊澧 ft. 岑寧兒', type: 'eastern' },
-  { id: 'AU42eLgyLPY', title: '只有唔語才能解除唔語', artist: '柏林角落 Berlin the Corner', type: 'eastern' },
-  { id: '5zdidTaZf3M', title: '愛情你比我想的還較偉大', artist: '茄子蛋 EggPlantEgg', type: 'eastern' },
-  { id: 'hei62d71fuA', title: '床 LIE', artist: '草東沒有派對 No Party for Cao Dong', type: 'eastern' },
-  { id: '3bVGE5g3ibM', title: '我若是有來生我想欲變成你', artist: '茄子蛋 EggPlantEgg ft. YVV', type: 'eastern' },
-  { id: 'zvRfal00Wmg', title: '日常 EVERYDAY LIFE', artist: '茄子蛋 EggPlantEgg', type: 'eastern' },
-  // Other Remixes
-  { id: 'XyQpKZ9WxKc', title: 'MILA 米拉', artist: 'Xu Bin 徐濱', type: 'remix' },
-  { id: 'BLhdjHB2Zbo', title: 'THE WINNER IS (2012)', artist: 'DeVotchKa', type: 'remix' },
-  { id: '2ZLQmdZGyIk', title: 'THE WINNER IS', artist: 'DeVotchKa', type: 'remix' },
-  // Originals
-  { id: 'YKsIuaGSStQ', title: 'DUEN', artist: 'skixO', type: 'original' },
-  { id: 'AlprPVhKRu4', title: 'MIDNIGHT', artist: 'skixO', type: 'original' },
-  { id: 'YQy7s0y5Kuc', title: 'OH GOD', artist: 'skixO', type: 'original' },
-  { id: '2dQapfiJrpw', title: 'NEED', artist: 'skixO', type: 'original' },
-  { id: 'vSeMjPox2H4', title: '1:48', artist: 'skixO', type: 'original' },
-];
+
 
 const FILTERS = [
   { key: 'all',      en: 'ALL',              zh: '全部' },
@@ -44,7 +24,7 @@ const TYPE_LABEL = {
 
 const EASTERN_PLAYLIST = 'https://www.youtube.com/playlist?list=PLZg8rU_U1gb6-LJrYKIZe1a9Eer7aAbdZ';
 
-function VideoCard({ video, index }) {
+function VideoCard({ video, index, featured }) {
   const { t } = useLang();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-30px' });
@@ -55,16 +35,25 @@ function VideoCard({ video, index }) {
       href={`https://www.youtube.com/watch?v=${video.id}`}
       target="_blank"
       rel="noopener noreferrer"
-      className={styles.card}
+      className={`${styles.card} ${featured ? styles.featured : ''}`}
       initial={{ opacity: 0, y: 20 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.45, delay: (index % 4) * 0.07, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
       <div className={styles.thumb}>
+        {/* Self-hosted, baked by scripts/build-covers.mjs. The duotone sits
+            on top in the site's two tones; hover fades it to reveal the
+            source art in colour underneath. */}
         <img
-          src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
-          alt={video.title}
+          src={`/covers/${video.id}.webp`}
+          alt=""
           className={styles.thumbImg}
+          loading="lazy"
+        />
+        <img
+          src={`/covers/${video.id}-duo.webp`}
+          alt={video.title}
+          className={`${styles.thumbImg} ${styles.thumbDuo}`}
           loading="lazy"
         />
         <div className={styles.thumbOverlay} />
@@ -145,7 +134,9 @@ export default function MusicSection() {
       >
         <AnimatePresence mode="popLayout">
           {filtered.map((video, i) => (
-            <VideoCard key={video.id} video={video} index={i} />
+            // 17 cards in a 4-column grid left one orphan on the last row;
+            // the lead card at 2×2 makes it 20 cells, five full rows.
+            <VideoCard key={video.id} video={video} index={i} featured={active === 'all' && i === 0} />
           ))}
         </AnimatePresence>
       </motion.div>

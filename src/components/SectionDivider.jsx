@@ -18,18 +18,26 @@ function barsFromSeed(seed, count = 28) {
   return bars;
 }
 
-export default function SectionDivider({ label = 'SKX', coord }) {
+// `slice` picks which band of the bramble banner shows (an object-position
+// y value) and `flip` mirrors it, so consecutive dividers aren't the same
+// strip of thorns twice.
+export default function SectionDivider({ label = 'SKX', coord, slice = 'center', flip = false }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-40px' });
   const bars = barsFromSeed(label);
 
   return (
     <div className={styles.divider} ref={ref} aria-hidden="true">
-      {/* The bramble banner, cropped by cover-fit to the seam its own
-          horizontal rule and star sit on (source centre, so object-position
-          is just "center") — every divider on the site is a slice of the
-          same running thorn line, not a repeated standalone graphic. */}
-      <img src="/bramble.webp" alt="" className={styles.bgImg} />
+      {/* The bramble banner, cropped by cover-fit to a thin band. By
+          default that's the seam its own horizontal rule and star sit on
+          (source centre); `slice`/`flip` move later dividers to other
+          bands of the same running thorn line. */}
+      <img
+        src="/bramble.webp"
+        alt=""
+        className={styles.bgImg}
+        style={{ objectPosition: `center ${slice}`, transform: flip ? 'scaleX(-1)' : undefined }}
+      />
       <div className={styles.bgOverlay} />
 
       {/* Left line — reinforces the art's own rule with a crisp CSS edge */}

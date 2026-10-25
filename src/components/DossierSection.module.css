@@ -1,6 +1,8 @@
 .section {
   padding: var(--section-py) var(--section-px);
-  background: var(--black-2);
+  /* Transparent like Selected — one ground for the whole page, with the
+     LiquidField behind it. --black-2 made this a lighter grey panel. */
+  background: transparent;
 }
 
 .grid {
@@ -9,6 +11,44 @@
   gap: 80px;
   align-items: start;
   margin-top: 56px;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+/* Origin plate — display type as the image */
+.plate {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-display);
+  font-weight: 400;
+  /* Sized so 121.4°E fills, not overflows, the 360px column. */
+  font-size: clamp(3.5rem, 7vw, 7rem);
+  line-height: 0.86;
+  letter-spacing: 0.01em;
+}
+
+.plateLat {
+  color: var(--bone);
+}
+
+.plateLong {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(var(--bone-rgb), 0.55);
+}
+
+.plateCaption {
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(var(--bone-rgb), 0.15);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  line-height: 1;
+  letter-spacing: 0.28em;
+  color: var(--grey-dim);
 }
 
 /* File card */

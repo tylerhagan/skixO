@@ -325,6 +325,48 @@ for (const { src, out } of CUTOUT_FRAMES) {
 }
 console.log('');
 
+// ── Standing pair (Selected) ──────────────────
+// Head-up / head-down frames of the standing pose. NOT cut out like the
+// peek pair: this art's outline stroke has gaps at the jacket hem and
+// knees, so the edge flood-fill leaks straight into the clothing (checked
+// over orange — the jacket went half transparent), and its floor line
+// runs the full frame width. The art's background is ~#0D0E10, close
+// enough to --ink that an opaque frame feathered by a CSS mask
+// (SignalSection.module.css) blends into the page with no visible edge.
+//
+// Both frames take the same fixed crop — framing the figure with the
+// floor line kept short — so the hard cut between them moves only the
+// head, never the body.
+const STAND_FRAMES = [
+  { src: 'image-src/mascot/stood.png',     out: 'public/mascot/stand.webp' },
+  { src: 'image-src/mascot/stood-nod.png', out: 'public/mascot/stand-nod.webp' },
+];
+const STAND_CROP = { left: 152, top: 40, width: 720, height: 1460 }; // of the 1024×1536 masters
+const STAND_HEIGHT = 1000;
+
+for (const { src, out } of STAND_FRAMES) {
+  const srcPath = path.join(ROOT, src);
+  const outPath = path.join(ROOT, out);
+  if (!existsSync(srcPath)) continue;
+
+  if (!force && existsSync(outPath)) {
+    const [s, o] = await Promise.all([stat(srcPath), stat(outPath)]);
+    if (o.mtimeMs >= s.mtimeMs) {
+      console.log(`  · ${path.basename(out)} — up to date, skipping`);
+      continue;
+    }
+  }
+
+  await sharp(srcPath)
+    .extract(STAND_CROP)
+    .resize({ height: STAND_HEIGHT })
+    .webp({ quality: 90, effort: 6 })
+    .toFile(outPath);
+  const size = (await stat(outPath)).size;
+  console.log(`  ✓ ${path.basename(out).padEnd(28)} ${STAND_CROP.width}×${STAND_CROP.height} crop, ${kb(size)}`);
+}
+console.log('');
+
 // ── Artist portrait ───────────────────────────
 // A dedicated square crop of the (now transparent) peek-still cutout,
 // centred on the face — the full frame is a wide arms-resting pose, not

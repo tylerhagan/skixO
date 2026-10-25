@@ -79,42 +79,59 @@ export default function DossierSection() {
       <SectionTag en="DOSSIER" zh="檔案" />
 
       <div className={styles.grid}>
-        {/* Classified file card */}
-        <motion.div
-          className={styles.file}
-          initial={{ opacity: 0, y: 32 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.1 }}
-        >
-          <div className={styles.fileHeader}>
-            {/* Was "CLASSIFIED" — government-agency framing left over from
-                the old surveillance identity, never touched by the mask
-                reframe. The mask is the redaction now, worn by choice,
-                not a stamp applied by some outside authority. */}
-            <span className={styles.fileLabel}>{t('REDACTED', '已隱藏')}</span>
-            <span className={styles.fileId}>FILE // SKX-001</span>
-          </div>
-          <table className={styles.fileTable}>
-            <tbody>
-              {dossierFile.map(({ key, value, redact, active, secret }) => (
-                <tr key={key} className={styles.fileRow}>
-                  <td className={styles.fileKey}>{key}</td>
-                  <td className={`${styles.fileVal} ${redact && !secret ? styles.redact : ''} ${active ? styles.active : ''}`}>
-                    {redact && secret ? (
-                      <RedactedValue
-                        value={value}
-                        secret={secret}
-                        holdLabel={t('HOLD TO DECRYPT', '長按解密')}
-                      />
-                    ) : (
-                      value
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </motion.div>
+        <div className={styles.side}>
+          {/* Classified file card */}
+          <motion.div
+            className={styles.file}
+            initial={{ opacity: 0, y: 32 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.1 }}
+          >
+            <div className={styles.fileHeader}>
+              {/* Was "CLASSIFIED" — government-agency framing left over from
+                  the old surveillance identity, never touched by the mask
+                  reframe. The mask is the redaction now, worn by choice,
+                  not a stamp applied by some outside authority. */}
+              <span className={styles.fileLabel}>{t('REDACTED', '已隱藏')}</span>
+              <span className={styles.fileId}>FILE // SKX-001</span>
+            </div>
+            <table className={styles.fileTable}>
+              <tbody>
+                {dossierFile.map(({ key, value, redact, active, secret }) => (
+                  <tr key={key} className={styles.fileRow}>
+                    <td className={styles.fileKey}>{key}</td>
+                    <td className={`${styles.fileVal} ${redact && !secret ? styles.redact : ''} ${active ? styles.active : ''}`}>
+                      {redact && secret ? (
+                        <RedactedValue
+                          value={value}
+                          secret={secret}
+                          holdLabel={t('HOLD TO DECRYPT', '長按解密')}
+                        />
+                      ) : (
+                        value
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </motion.div>
+
+          {/* The origin as a plate, set at display size — type as the
+              graphic, under the file whose ORIGIN row it answers. The
+              coordinates are already public (the hero's footer line); what
+              they mean stays behind the redaction above. */}
+          <motion.div
+            className={styles.plate}
+            initial={{ opacity: 0, y: 24 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.3 }}
+          >
+            <span className={styles.plateLat}>51.5°N</span>
+            <span className={styles.plateLong}>121.4°E</span>
+            <span className={styles.plateCaption}>{t('ORIGIN // UNRESOLVED', '原點 // 未解')}</span>
+          </motion.div>
+        </div>
 
         {/* Narrative */}
         <div className={styles.narrative}>
