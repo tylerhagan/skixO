@@ -1,0 +1,129 @@
+<!doctype html>
+<!--
+  skixO cover template, rendered by scripts/build-covers.mjs in headless
+  Edge/Chrome. Not part of the site. Parameters arrive as JSON in the URL
+  hash: { bg, title, feat, aspect } — see build-covers.mjs.
+
+  An HTML page rather than sharp+SVG: Bebas and JetBrains Mono aren't
+  system fonts, librsvg won't load web fonts, and the cover should be set
+  in exactly the type the site is. Fonts are vendored in ./fonts so a
+  render never depends on the network.
+-->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: 'Bebas Neue'; src: url('fonts/bebas-neue.woff2') format('woff2'); }
+  @font-face { font-family: 'JetBrains Mono'; font-weight: 500; src: url('fonts/jetbrains-mono-500.woff2') format('woff2'); }
+
+  :root {
+    --ink-rgb: 13, 15, 18;
+    --bone: #EDE6D6;
+    /* Everything scales off --u: 1% of the cover's width. */
+    --u: 10px;
+  }
+  .wide { --u: 6.4px; }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: rgb(var(--ink-rgb)); overflow: hidden; }
+
+  .cover {
+    position: relative;
+    width: 1000px;
+    height: 1000px;
+    overflow: hidden;
+    color: var(--bone);
+  }
+  .wide .cover { width: 640px; height: 360px; }
+
+  .bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Ink at the foot for the title, a lighter wash at the head for the
+     wordmark. Scenes vary a lot in brightness; this keeps both legible
+     without flattening the image. */
+  .shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(0deg, rgba(var(--ink-rgb), 0.82) 0%, rgba(var(--ink-rgb), 0.35) 30%, rgba(var(--ink-rgb), 0) 52%),
+      linear-gradient(180deg, rgba(var(--ink-rgb), 0.55) 0%, rgba(var(--ink-rgb), 0) 22%);
+  }
+
+  .head {
+    position: absolute;
+    top: calc(var(--u) * 5.6);
+    left: calc(var(--u) * 5.6);
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--u) * 1.6);
+  }
+
+  /* The lowercase cut-O wordmark, never typed: Bebas has no lowercase. */
+  .wordmark { height: calc(var(--u) * 6.4); width: auto; align-self: flex-start; }
+
+  .feat {
+    font-family: 'JetBrains Mono', 'Noto Sans TC', 'Microsoft JhengHei', monospace;
+    font-weight: 500;
+    /* Big enough to survive a store thumbnail (~300px wide). */
+    font-size: calc(var(--u) * 2.6);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+  .feat:empty { display: none; }
+
+  .title {
+    position: absolute;
+    left: calc(var(--u) * 5.2);
+    right: calc(var(--u) * 5.6);
+    bottom: calc(var(--u) * 4.4);
+    font-family: 'Bebas Neue', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+    font-weight: 400;
+    font-size: calc(var(--u) * 16.8);
+    line-height: 0.86;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+  <div class="cover">
+    <img class="bg" alt="">
+    <div class="shade"></div>
+    <div class="head">
+      <img class="wordmark" src="../../public/wordmark-cut-bone.svg" alt="">
+      <div class="feat"></div>
+    </div>
+    <div class="title"></div>
+  </div>
+
+<script>
+  const p = JSON.parse(decodeURIComponent(location.hash.slice(1)));
+  if (p.aspect === 'wide') document.documentElement.classList.add('wide');
+
+  document.querySelector('.bg').src = p.bg;
+  document.querySelector('.feat').textContent = p.feat ? `ft. ${p.feat}` : '';
+  const title = document.querySelector('.title');
+  title.textContent = p.title;
+
+  // Ready once fonts and both images are in, and the title is shrunk to
+  // fit on one line. build-covers.mjs waits on window.coverReady.
+  window.coverReady = (async () => {
+    await document.fonts.ready;
+    await Promise.all([...document.images].map(img => img.decode().catch(() => {})));
+    const max = title.parentElement.clientWidth - title.offsetLeft * 2;
+    let size = parseFloat(getComputedStyle(title).fontSize);
+    while (title.scrollWidth > max && size > 20) {
+      size -= 2;
+      title.style.fontSize = `${size}px`;
+    }
+    return true;
+  })();
+</script>
+</body>
+</html>

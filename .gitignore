@@ -26,6 +26,9 @@ audio-src/
 image-src/
 # Original delivery folder — same masters, kept as the drop inbox.
 newassets/
+# Release artwork masters (3000×3000) from scripts/build-covers.mjs —
+# regenerable from image-src/scenes, and too heavy to commit.
+release-art/
 # Generated dev placeholder (recreated by `npm run audio:placeholder` / prebuild)
 public/audio/placeholder-signal.wav
 

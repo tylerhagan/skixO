@@ -1,7 +1,12 @@
 // The YouTube catalogue. Shared by MusicSection.jsx and
-// scripts/build-covers.mjs, which bakes each video's thumbnail into the
-// self-hosted covers under public/covers/ — add a video here, then run
-// `npm run covers`.
+// scripts/build-covers.mjs, which builds each card's covers under
+// public/covers/ — add a video here, then run `npm run covers`.
+//
+// Optional per entry:
+//   feat:  'Taer'  — credit line on a designed cover ("ft. Taer")
+//   cover: { scene, treatment } — design the cover from a scene in
+//          image-src/scenes/ instead of using the YouTube thumbnail.
+//          treatment 'duotone' (ink/bone) or 'scene' (its own colours).
 export const VIDEOS = [
   // Eastern Remixes
   { id: 'a2sSj_aiDhY', title: 'LIGHTS IN YOUR EYES', artist: 'Gummy B', type: 'eastern' },
@@ -18,9 +23,14 @@ export const VIDEOS = [
   { id: 'BLhdjHB2Zbo', title: 'THE WINNER IS (2012)', artist: 'DeVotchKa', type: 'remix' },
   { id: '2ZLQmdZGyIk', title: 'THE WINNER IS', artist: 'DeVotchKa', type: 'remix' },
   // Originals
-  { id: 'YKsIuaGSStQ', title: 'DUEN', artist: 'skixO', type: 'original' },
-  { id: 'AlprPVhKRu4', title: 'MIDNIGHT', artist: 'skixO', type: 'original' },
-  { id: 'YQy7s0y5Kuc', title: 'OH GOD', artist: 'skixO', type: 'original' },
-  { id: '2dQapfiJrpw', title: 'NEED', artist: 'skixO', type: 'original' },
-  { id: 'vSeMjPox2H4', title: '1:48', artist: 'skixO', type: 'original' },
+  { id: 'YKsIuaGSStQ', title: 'DUEN', artist: 'skixO', type: 'original',
+    cover: { scene: 'wistful-night-coastline', treatment: 'duotone' } },
+  { id: 'AlprPVhKRu4', title: 'MIDNIGHT', artist: 'skixO', type: 'original',
+    cover: { scene: 'wistful-night-cityskyline', treatment: 'duotone' } },
+  { id: 'YQy7s0y5Kuc', title: 'OH GOD', artist: 'skixO', type: 'original',
+    cover: { scene: 'surreal-night-eclipse', treatment: 'duotone' } },
+  { id: '2dQapfiJrpw', title: 'NEED', artist: 'skixO', type: 'original',
+    cover: { scene: 'wistful-night-rain-window', treatment: 'duotone' } },
+  { id: 'vSeMjPox2H4', title: '1:48', artist: 'skixO', type: 'original',
+    cover: { scene: 'wistful-night-asiancityl', treatment: 'duotone' } },
 ];
