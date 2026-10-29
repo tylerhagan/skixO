@@ -203,3 +203,13 @@ export const press = {
       en: 'PR\u00d8VE artwork', zh: '《PR\u00d8VE》封面' },
   ],
 };
+
+// The tuner's unlisted station (179.3, found by ear — see FrequencyDial).
+// Embed mode until a hosted excerpt exists: drop one at
+// public/audio/same-scene.mp3 and set audioSrc here. (It isn't a release,
+// so `npm run audio:excerpts` doesn't cut it.)
+export const secretTransmission = {
+  title: '同一场景 Same Scene (demo)',
+  url: 'https://soundcloud.com/skixo/same-scene',
+  audioSrc: null,
+};

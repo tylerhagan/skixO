@@ -69,6 +69,40 @@ npm run preview   # preview production build locally
 
 ---
 
+## Audio (excerpts, queue, tuner)
+
+Releases in `src/data/releases.js` with an `audioSrc` play a hosted 45s
+excerpt through the Web Audio engine: real analysis drives the visuals,
+they join the mini player's queue (prev/next, auto-advance, seek) and each
+gets its own station on the Tune In dial. Releases without one fall back to
+the hidden SoundCloud embed (or a YouTube link).
+
+**Cutting excerpts** (needs ffmpeg on PATH: `winget install ffmpeg`):
+
+1. Bounce full-length WAVs into `audio-src/<slug>.wav` (gitignored, local only).
+2. Run:
+   ```powershell
+   npm run audio:excerpts                 # new ones only
+   npm run audio:excerpts -- --force      # redo all
+   npm run audio:excerpts -- --only=prove # one release
+   ```
+   Each becomes `public/audio/<slug>.mp3`: 45s from 25% in, 0.5s fade in /
+   1.5s fade out, loudness-normalised to about -14 LUFS, MP3 128k stereo
+   (~700KB). To cut from a different point, set
+   `excerpt: { start: <seconds> }` on that release.
+3. The script prints the `audioSrc: '/audio/<slug>.mp3'` lines to paste into
+   `releases.js`. The site only plays what the data names; nothing is
+   auto-detected.
+4. Commit the MP3s. Never commit the WAVs.
+
+No ffmpeg or no `audio-src/` (Vercel, CI): the script skips with a hint and
+exits cleanly. It is not part of `prebuild`.
+
+`npm run audio:peaks` (waveform shapes for the track cards) reads the same
+`audio-src/` WAVs.
+
+---
+
 ## Deployment (Vercel)
 
 1. Push repo to GitHub

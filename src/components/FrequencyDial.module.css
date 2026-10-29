@@ -129,3 +129,66 @@
   color: var(--grey-dim);
   text-align: center;
 }
+
+.hint {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+}
+
+/* Mute for the tuning static. Bone ink, mono caps, no icon. */
+.staticToggle {
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.26em;
+  color: var(--grey-dim);
+  border: 1px solid rgba(var(--bone-rgb), 0.18);
+  padding: 4px 8px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.staticToggle:hover,
+.staticToggle[aria-pressed='true'] {
+  color: var(--bone);
+}
+.staticToggle:hover { border-color: rgba(var(--bone-rgb), 0.45); }
+.staticToggle:focus-visible {
+  outline: 1px solid var(--bone);
+  outline-offset: 2px;
+}
+
+/* The unlisted station arriving: a one-second dropout on the readout.
+   Bone only, the station isn't playing yet. */
+.readoutGlitch {
+  animation: readoutGlitch 1s steps(1) 1;
+}
+
+@keyframes readoutGlitch {
+  0%   { transform: translateX(0);    opacity: 1;   filter: none; }
+  8%   { transform: translateX(-3px); opacity: 0.4; clip-path: inset(0 0 55% 0); }
+  16%  { transform: translateX(4px);  opacity: 1;   clip-path: inset(40% 0 0 0); }
+  24%  { transform: translateX(0);    opacity: 0.2; clip-path: none; }
+  34%  { transform: translateX(-2px); opacity: 1;   text-shadow: 3px 0 rgba(var(--bone-rgb), 0.5); }
+  46%  { transform: translateX(2px);  opacity: 0.6; clip-path: inset(20% 0 30% 0); }
+  58%  { transform: translateX(0);    opacity: 1;   clip-path: none; text-shadow: none; }
+  72%  { opacity: 0.3; }
+  80%  { opacity: 1; transform: translateX(-1px); }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+.stationDotNew {
+  animation: dotArrive 1s steps(4) 1;
+}
+
+@keyframes dotArrive {
+  0%, 50% { opacity: 0; }
+  25%, 75%, 100% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .readoutGlitch,
+  .stationDotNew,
+  .freqDrifting,
+  .statusLocked { animation: none; }
+}
