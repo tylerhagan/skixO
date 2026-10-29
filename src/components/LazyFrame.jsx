@@ -2,9 +2,14 @@ import { useState } from 'react';
 import { useLang } from '../hooks/useLang';
 import styles from './LazyFrame.module.css';
 
-// Facade for third-party embeds: shows a lightweight thumbnail and only
-// injects the (heavy) iframe once the user actually clicks play.
-export default function LazyFrame({ src, title, thumb, height, aspect = '16 / 9' }) {
+// Facade for third-party embeds: shows a lightweight placeholder and only
+// injects the (heavy) iframe once the user actually clicks.
+//
+// With `thumb`, the placeholder is the artwork with a centred play button
+// (YouTube). Without one it is a slim strip at the embed's own height,
+// labelled with `label` (SoundCloud, Spotify), so the page does not jump
+// when the real player swaps in.
+export default function LazyFrame({ src, title, thumb, label, height, aspect = '16 / 9' }) {
   const { t } = useLang();
   const [active, setActive] = useState(false);
 
@@ -26,6 +31,26 @@ export default function LazyFrame({ src, title, thumb, height, aspect = '16 / 9'
           allowFullScreen
         />
       </div>
+    );
+  }
+
+  if (!thumb) {
+    return (
+      <button
+        type="button"
+        className={`${styles.facade} ${styles.strip}`}
+        style={style}
+        onClick={() => setActive(true)}
+        aria-label={`${t('Load player', '載入播放器')}: ${label || ''} ${title}`.trim()}
+      >
+        <span className={styles.scanlines} />
+        <span className={styles.stripPlay}>▶</span>
+        <span className={styles.stripText}>
+          {label && <span className={styles.stripLabel}>{label}</span>}
+          <span className={styles.stripTitle}>{title}</span>
+        </span>
+        <span className={styles.stripHint}>{t('TAP TO DECODE', '點擊解碼')}</span>
+      </button>
     );
   }
 

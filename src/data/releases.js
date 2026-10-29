@@ -28,6 +28,13 @@
 //                 baked cover when null
 //   tagline / story / credits / lyrics   optional, bilingual {en, zh}
 //
+// Each release also gets, at build time (postbuild):
+//   public/og/<slug>.png          1200×630 share card (scripts/build-og.mjs)
+//   dist/release/<slug>/index.html  the SPA shell with that release's
+//                 title/description/og:* baked in, so link previews work
+//                 (scripts/prerender-release-meta.mjs)
+// Adding a release here is all it takes; commit the new og PNG.
+//
 // Order: newest first. The catalogue grid keeps this order; the queue
 // plays it top to bottom.
 // ─────────────────────────────────────────────
@@ -432,6 +439,39 @@ export const toTrack = (r, lang = 'en') => ({
   audioSrc: r.audioSrc,
   artwork: coverSrc(r),
 });
+
+// Type label for cards and the release page, bilingual.
+export const TYPE_LABEL = {
+  original: { en: 'ORIGINAL',      zh: '原創' },
+  remix:    { en: 'REMIX',         zh: '混音' },
+  eastern:  { en: 'EASTERN REMIX', zh: '東方混音' },
+};
+
+// Canonical origin, shared by the structured data and the build scripts.
+export const SITE_URL = 'https://www.skixo.uk';
+export const releaseUrl = r => `${SITE_URL}/release/${r.slug}`;
+
+// One-line description for <meta name="description"> and og:description.
+// English only: crawlers read one language, and the site's default is en.
+export const releaseDescription = r => {
+  const bits = [displayTitle(r), creditLine(r)];
+  if (r.tagline?.en) bits.push(r.tagline.en);
+  else bits.push('Liquid Drum & Bass.');
+  return bits.join(' · ');
+};
+
+// schema.org ItemList of every release page, for the home page.
+export const catalogueLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'skixO catalogue',
+  itemListElement: releases.map((r, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: releaseUrl(r),
+    name: displayTitle(r),
+  })),
+};
 
 // Everything with a hosted excerpt, in catalogue order — the queue.
 export const playable = () => releases.filter(r => r.audioSrc);

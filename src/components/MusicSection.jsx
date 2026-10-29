@@ -1,8 +1,9 @@
 import { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useLang } from '../hooks/useLang';
 import SectionTag from './SectionTag';
-import { VIDEOS } from '../data/catalogue';
+import { releases } from '../data/releases';
 import styles from './MusicSection.module.css';
 
 
@@ -24,17 +25,24 @@ const TYPE_LABEL = {
 
 const EASTERN_PLAYLIST = 'https://www.youtube.com/playlist?list=PLZg8rU_U1gb6-LJrYKIZe1a9Eer7aAbdZ';
 
-function VideoCard({ video, index, featured }) {
+const MotionLink = motion.create(Link);
+
+function VideoCard({ release, index, featured }) {
   const { t } = useLang();
+  // Same card text as before the move to releases.js.
+  const video = {
+    id: release.youtubeId,
+    type: release.type,
+    title: release.titleZh ? `${release.titleZh} ${release.title}` : release.title,
+    artist: release.artist || (release.feat ? `skixO ft. ${release.feat}` : 'skixO'),
+  };
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-30px' });
 
   return (
-    <motion.a
+    <MotionLink
       ref={ref}
-      href={`https://www.youtube.com/watch?v=${video.id}`}
-      target="_blank"
-      rel="noopener noreferrer"
+      to={`/release/${release.slug}`}
       className={`${styles.card} ${featured ? styles.featured : ''}`}
       initial={{ opacity: 0, y: 20 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -44,18 +52,31 @@ function VideoCard({ video, index, featured }) {
         {/* Self-hosted, baked by scripts/build-covers.mjs. The duotone sits
             on top in the site's two tones; hover fades it to reveal the
             source art in colour underneath. */}
-        <img
-          src={`/covers/${video.id}.webp`}
-          alt=""
-          className={styles.thumbImg}
-          loading="lazy"
-        />
-        <img
-          src={`/covers/${video.id}-duo.webp`}
-          alt={video.title}
-          className={`${styles.thumbImg} ${styles.thumbDuo}`}
-          loading="lazy"
-        />
+        {release.artwork ? (
+          // Designed square artwork (PRØVE): its video has no baked
+          // cover, and the art is already in the site's tones.
+          <img
+            src={release.artwork}
+            alt={video.title}
+            className={styles.thumbImg}
+            loading="lazy"
+          />
+        ) : (
+          <>
+            <img
+              src={`/covers/${video.id}.webp`}
+              alt=""
+              className={styles.thumbImg}
+              loading="lazy"
+            />
+            <img
+              src={`/covers/${video.id}-duo.webp`}
+              alt={video.title}
+              className={`${styles.thumbImg} ${styles.thumbDuo}`}
+              loading="lazy"
+            />
+          </>
+        )}
         <div className={styles.thumbOverlay} />
         <div className={styles.thumbScanlines} />
         <div className={styles.playIcon}>▶</div>
@@ -68,7 +89,7 @@ function VideoCard({ video, index, featured }) {
         <div className={styles.title}>{video.title}</div>
         <div className={styles.artist}>{video.artist}</div>
       </div>
-    </motion.a>
+    </MotionLink>
   );
 }
 
@@ -78,7 +99,7 @@ export default function MusicSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
 
-  const filtered = active === 'all' ? VIDEOS : VIDEOS.filter(v => v.type === active);
+  const filtered = active === 'all' ? releases : releases.filter(r => r.type === active);
 
   return (
     <section className={styles.section} id="catalogue" ref={ref}>
@@ -133,10 +154,10 @@ export default function MusicSection() {
         layout
       >
         <AnimatePresence mode="popLayout">
-          {filtered.map((video, i) => (
+          {filtered.map((release, i) => (
             // 17 cards in a 4-column grid left one orphan on the last row;
             // the lead card at 2×2 makes it 20 cells, five full rows.
-            <VideoCard key={video.id} video={video} index={i} featured={active === 'all' && i === 0} />
+            <VideoCard key={release.slug} release={release} index={i} featured={active === 'all' && i === 0} />
           ))}
         </AnimatePresence>
       </motion.div>

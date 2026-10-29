@@ -104,3 +104,73 @@
 .facade:hover .hint {
   opacity: 1;
 }
+
+/* Strip facade — no thumbnail (SoundCloud, Spotify). Sits at the real
+   player's height so nothing shifts when the iframe loads. */
+.strip {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 20px;
+  text-align: left;
+  background: rgba(var(--bone-rgb), 0.03);
+}
+
+.strip:hover { background: rgba(var(--bone-rgb), 0.06); }
+
+.stripPlay {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  color: var(--white);
+  border: 1px solid rgba(var(--bone-rgb), 0.6);
+  transition: background 0.25s, color 0.25s;
+}
+
+.strip:hover .stripPlay {
+  color: var(--ink);
+  background: var(--bone);
+}
+
+.stripText {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.stripLabel {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.24em;
+  color: var(--grey);
+  text-transform: uppercase;
+}
+
+.stripTitle {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stripHint {
+  margin-left: auto;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.32em;
+  color: var(--grey);
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .stripHint { display: none; }
+}

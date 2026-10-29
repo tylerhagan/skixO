@@ -9,8 +9,10 @@
     "audio:peaks": "node scripts/build-peaks.mjs",
     "images": "node scripts/build-images.mjs",
     "covers": "node scripts/build-covers.mjs",
-    "prebuild": "node scripts/build-peaks.mjs && node scripts/build-images.mjs && node scripts/build-covers.mjs",
+    "og": "node scripts/build-og.mjs",
+    "prebuild": "node scripts/build-peaks.mjs && node scripts/build-images.mjs && node scripts/build-covers.mjs && node scripts/build-og.mjs",
     "build": "vite build",
+    "postbuild": "node scripts/prerender-release-meta.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
