@@ -78,7 +78,18 @@
 
   --nav-height: 72px;
   --section-px: clamp(24px, 6vw, 96px);
-  --section-py: clamp(80px, 10vw, 140px);
+  /* Vertical rhythm. --section-py is the gap above a section's first
+     content; --section-pb the gap below its last. The old single value
+     (80–140px, both ends) stacked to 160–280px of bare texture at every
+     seam, plus a 130px divider at two of them — whole screens of nothing
+     at 800px and on phones. Capped by viewport height too (11vh / ~8vh),
+     so a short landscape window doesn't get a tall-screen gutter.
+       375×667  → 56 / 56      800×1000 → 56 / 56
+       1280×800 → 88 / 66      1600×900 → 99 / 74 */
+  --section-py: clamp(56px, min(7vw, 11vh), 112px);
+  --section-pb: max(56px, calc(var(--section-py) * 0.75));
+  /* Heading → first block of content inside a section. */
+  --section-head-gap: clamp(28px, 3.5vw, 48px);
 
   /* Live signal amplitude (0–1), written per-frame by src/lib/audioEngine.js
      while a local track plays. Anything can react to the music via this. */

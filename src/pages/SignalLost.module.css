@@ -1,0 +1,110 @@
+/* SIGNAL LOST — the 404. Light on purpose: one figure, one dead readout,
+   one way home. Its own module now; it used to borrow Release's. */
+.lost {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: calc(var(--nav-height) + 24px) var(--section-px) var(--section-pb);
+}
+
+/* The cutout is a square frame with the figure in its lower half; sized
+   by width, with a negative bottom margin so the readout's top rule
+   reads as the ledge he's peeking over. */
+.mascot {
+  width: clamp(168px, 30vw, 248px);
+  height: auto;
+  margin-bottom: -6px;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* FrequencyDial's readout, untuned: same mono face and sizes, rule above
+   and below like the band it would normally sit on. */
+.readout {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  width: min(100%, 420px);
+  padding: 14px 4px 12px;
+  border-top: 1px solid var(--grey-dim);
+  border-bottom: 1px solid rgba(var(--bone-rgb), 0.08);
+  font-family: var(--font-mono);
+}
+
+.freq {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  letter-spacing: 0.08em;
+  color: var(--grey-mid);
+  animation: deadAir 2.6s steps(1, end) infinite;
+}
+
+/* Not a blink: an occasional drop, the way a dead station flickers. */
+@keyframes deadAir {
+  0%, 100% { opacity: 1; }
+  62%      { opacity: 0.55; }
+  66%      { opacity: 1; }
+  71%      { opacity: 0.7; }
+  73%      { opacity: 1; }
+}
+
+.unit {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--grey-dim);
+}
+
+.status {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.62rem;
+  letter-spacing: 0.24em;
+  color: var(--bone);
+  text-transform: uppercase;
+  align-self: center;
+}
+
+.title {
+  margin-top: 28px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(3rem, 8vw, 6rem);
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+  color: var(--white);
+}
+
+.text {
+  margin-top: 14px;
+  font-family: var(--font-body);
+  font-weight: 300;
+  color: var(--grey);
+  letter-spacing: 0.02em;
+}
+
+.back {
+  margin-top: 28px;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.24em;
+  color: var(--ink);
+  background: var(--bone);
+  padding: 13px 26px;
+  transition: background 0.2s;
+}
+
+.back:hover { background: var(--sand); }
+
+@media (max-width: 420px) {
+  .readout { gap: 8px; }
+  .status  { letter-spacing: 0.16em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .freq { animation: none; }
+}

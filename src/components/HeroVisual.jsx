@@ -10,6 +10,17 @@ import styles from './HeroVisual.module.css';
 export default function HeroVisual() {
   const canvasRef = useRef(null);
 
+  // The wordmark's one-off glitch (Hero.module.css, .titleImg) runs from
+  // 1.2s to 1.55s after the hero mounts. Flag it as spent once it has had
+  // time to play, so a return to / later in the visit doesn't replay it.
+  // A page reload clears it: that's a new first paint.
+  useEffect(() => {
+    const root = document.documentElement;
+    if (root.dataset.heroGlitched) return;
+    const id = setTimeout(() => { root.dataset.heroGlitched = '1'; }, 2000);
+    return () => clearTimeout(id);
+  }, []);
+
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');

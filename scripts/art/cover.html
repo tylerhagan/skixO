@@ -2,7 +2,24 @@
 <!--
   skixO cover template, rendered by scripts/build-covers.mjs in headless
   Edge/Chrome. Not part of the site. Parameters arrive as JSON in the URL
-  hash: { bg, title, feat, aspect } — see build-covers.mjs.
+  hash — see build-covers.mjs:
+    { treatment, aspect, title, feat, credit, cat, bg, glyph }
+
+  Two treatments:
+    'duotone' / 'scene'  a scene image (bg) under the type
+    'type'               no image at all: ink ground, a procedural texture
+                         (feTurbulence grain + hairline diagonals) and the
+                         skixO glyph, carrying title, credit and catalogue
+                         number. For remixes, where the artwork isn't ours
+                         to use.
+
+  Two aspects:
+    'square'  the 3000×3000 store master. Carries all the type.
+    'wide'    the 640×360 catalogue card. Carries NO title or credit: the
+              site sets its own lockup over the lower third of every card
+              (MusicSection.module.css .meta), and a baked title under it
+              read twice. Only the catalogue number, top-right, clear of
+              the site's type tag top-left.
 
   An HTML page rather than sharp+SVG: Bebas and JetBrains Mono aren't
   system fonts, librsvg won't load web fonts, and the cover should be set
@@ -18,9 +35,12 @@
 
   :root {
     --ink-rgb: 13, 15, 18;
+    --bone-rgb: 237, 230, 214;
     --bone: #EDE6D6;
     /* Everything scales off --u: 1% of the cover's width. */
     --u: 10px;
+    --mono: 'JetBrains Mono', 'Noto Sans TC', 'Microsoft JhengHei', monospace;
+    --display: 'Bebas Neue', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
   }
   .wide { --u: 6.4px; }
 
@@ -33,9 +53,11 @@
     height: 1000px;
     overflow: hidden;
     color: var(--bone);
+    background: rgb(var(--ink-rgb));
   }
   .wide .cover { width: 640px; height: 360px; }
 
+  /* ── Scene treatments ─────────────────────── */
   .bg {
     position: absolute;
     inset: 0;
@@ -55,6 +77,50 @@
       linear-gradient(180deg, rgba(var(--ink-rgb), 0.55) 0%, rgba(var(--ink-rgb), 0) 22%);
   }
 
+  /* ── Type treatment ───────────────────────── */
+  .type .bg, .type .shade { display: none; }
+  .texture, .glyph { display: none; }
+  .type .texture, .type .glyph { display: block; }
+
+  /* Two layers, both procedural. Hairline diagonals at a fixed pitch in
+     --u, so the master and the card carry the same density; grain from
+     feTurbulence, held back so it reads as paper, not static. */
+  .texture {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 70% at 30% 75%, transparent 0%, rgba(var(--ink-rgb), 0.65) 100%),
+      repeating-linear-gradient(-45deg,
+        rgba(var(--bone-rgb), 0.075) 0 1px,
+        transparent 1px calc(var(--u) * 1.6));
+  }
+  .texture::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.93 0 0 0 0 0.90 0 0 0 0 0.84 0 0 0 1.6 -0.55'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: calc(var(--u) * 30) calc(var(--u) * 30);
+    opacity: 0.16;
+  }
+
+  /* The glyph, oversized and cropped by the right edge: the image this
+     cover has instead of a scene. Bone, held back so the title wins. */
+  .glyph {
+    position: absolute;
+    width: calc(var(--u) * 78);
+    height: auto;
+    right: calc(var(--u) * -16);
+    top: calc(var(--u) * 6);
+    opacity: 0.13;
+  }
+  .wide .glyph {
+    width: calc(var(--u) * 52);
+    right: calc(var(--u) * -6);
+    top: calc(var(--u) * -4);
+    opacity: 0.17;
+  }
+
+  /* ── Type (all treatments) ────────────────── */
   .head {
     position: absolute;
     top: calc(var(--u) * 5.6);
@@ -68,7 +134,7 @@
   .wordmark { height: calc(var(--u) * 6.4); width: auto; align-self: flex-start; }
 
   .feat {
-    font-family: 'JetBrains Mono', 'Noto Sans TC', 'Microsoft JhengHei', monospace;
+    font-family: var(--mono);
     font-weight: 500;
     /* Big enough to survive a store thumbnail (~300px wide). */
     font-size: calc(var(--u) * 2.6);
@@ -76,51 +142,122 @@
     text-transform: uppercase;
   }
   .feat:empty { display: none; }
+  .type .feat { display: none; } /* the credit block carries it */
 
-  .title {
+  /* Catalogue number, top-right: the dossier's file code. */
+  .cat {
+    position: absolute;
+    top: calc(var(--u) * 6.2);
+    right: calc(var(--u) * 5.6);
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: calc(var(--u) * 2.2);
+    letter-spacing: 0.3em;
+    line-height: 1;
+    padding: calc(var(--u) * 0.9) calc(var(--u) * 0.9) calc(var(--u) * 0.9) calc(var(--u) * 1.2);
+    border: 1px solid rgba(var(--bone-rgb), 0.5);
+  }
+  .cat:empty { display: none; }
+  .wide .cat {
+    top: calc(var(--u) * 2.4);
+    right: calc(var(--u) * 2.4);
+    font-size: calc(var(--u) * 1.6);
+    background: rgba(var(--ink-rgb), 0.7);
+  }
+
+  .foot {
     position: absolute;
     left: calc(var(--u) * 5.2);
     right: calc(var(--u) * 5.6);
     bottom: calc(var(--u) * 4.4);
-    font-family: 'Bebas Neue', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--u) * 2.4);
+  }
+
+  /* Remix credit, type treatment only: original artist over skixO's
+     line, ruled off from the title. Not uppercased by CSS: the artist
+     names arrive as written, and skixO has to stay skixO. */
+  .credit {
+    display: none;
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: calc(var(--u) * 2.4);
+    letter-spacing: 0.18em;
+    line-height: 1.5;
+    padding-left: calc(var(--u) * 0.4);
+    padding-bottom: calc(var(--u) * 2);
+    border-bottom: 1px solid rgba(var(--bone-rgb), 0.45);
+    white-space: pre-line;
+  }
+  .type .credit:not(:empty) { display: block; }
+
+  .title {
+    font-family: var(--display);
     font-weight: 400;
     font-size: calc(var(--u) * 16.8);
     line-height: 0.86;
     letter-spacing: 0.01em;
     white-space: nowrap;
   }
+  /* Typographic covers let the title stack: it is the image. */
+  .type .title { white-space: normal; overflow-wrap: normal; }
+
+  .wide .head, .wide .foot { display: none; }
 </style>
 </head>
 <body>
   <div class="cover">
     <img class="bg" alt="">
     <div class="shade"></div>
+    <div class="texture"></div>
+    <img class="glyph" alt="">
     <div class="head">
       <img class="wordmark" src="../../public/wordmark-cut-bone.svg" alt="">
       <div class="feat"></div>
     </div>
-    <div class="title"></div>
+    <div class="cat"></div>
+    <div class="foot">
+      <div class="credit"></div>
+      <div class="title"></div>
+    </div>
   </div>
 
 <script>
   const p = JSON.parse(decodeURIComponent(location.hash.slice(1)));
-  if (p.aspect === 'wide') document.documentElement.classList.add('wide');
+  const root = document.documentElement;
+  if (p.aspect === 'wide') root.classList.add('wide');
+  if (p.treatment === 'type') root.classList.add('type');
 
-  document.querySelector('.bg').src = p.bg;
+  const bg = document.querySelector('.bg');
+  const glyph = document.querySelector('.glyph');
+  if (p.bg) bg.src = p.bg; else bg.remove();
+  if (p.glyph) glyph.src = p.glyph; else glyph.remove();
+
   document.querySelector('.feat').textContent = p.feat ? `ft. ${p.feat}` : '';
+  document.querySelector('.cat').textContent = p.cat || '';
+  document.querySelector('.credit').textContent = p.credit || '';
   const title = document.querySelector('.title');
   title.textContent = p.title;
 
-  // Ready once fonts and both images are in, and the title is shrunk to
-  // fit on one line. build-covers.mjs waits on window.coverReady.
+  // Ready once fonts and images are in and the title is fitted.
+  // build-covers.mjs waits on window.coverReady.
   window.coverReady = (async () => {
     await document.fonts.ready;
     await Promise.all([...document.images].map(img => img.decode().catch(() => {})));
-    const max = title.parentElement.clientWidth - title.offsetLeft * 2;
+    if (getComputedStyle(title).display === 'none' || !title.offsetParent) return true;
+
     let size = parseFloat(getComputedStyle(title).fontSize);
-    while (title.scrollWidth > max && size > 20) {
-      size -= 2;
-      title.style.fontSize = `${size}px`;
+    const shrink = () => { size -= 2; title.style.fontSize = `${size}px`; };
+    if (p.treatment === 'type') {
+      // At most two lines, no word wider than the column.
+      const tooBig = () =>
+        title.scrollWidth > title.clientWidth + 1 ||
+        title.getBoundingClientRect().height > size * 0.86 * 2 + 2;
+      while (tooBig() && size > 20) shrink();
+    } else {
+      // One line.
+      while (title.scrollWidth > title.clientWidth + 1 && size > 20) shrink();
     }
     return true;
   })();

@@ -122,6 +122,7 @@
    identity's glitch treatment. Signal means "playing", nothing else, and
    glitch lives only in GlitchMask. */
 .title {
+  position: relative;
   display: block;
   margin-bottom: 20px;
 }
@@ -130,6 +131,71 @@
   display: block;
   height: clamp(4.2rem, 12vw, 9rem);
   width: auto;
+}
+
+/* ── The one glitch ─────────────────────────
+   "Glitch architecture" is in the genre line; this is the one place the
+   page does it. Once, 350ms, as the wordmark settles from its fade-up
+   (container delay 0.3s + stagger 0.12s + 0.8s fade ≈ 1.2s), then never
+   again: HeroVisual.jsx flags <html data-hero-glitched> after the first
+   run, so coming back to / in the same visit doesn't replay it.
+   Two layers, hard cuts (steps), no tween:
+   - the wordmark itself splits into bone/stone channel ghosts and jumps;
+   - a second copy (::after, same SVG as a mask) shows one displaced
+     horizontal slice at a time.
+   Bone and stone only. Signal means "playing", and nothing is. */
+.titleImg {
+  animation: wordmarkSplit 350ms steps(1, end) 1.2s 1 both;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* Same box as the img: height-driven, the SVG's viewBox sets width. */
+  height: clamp(4.2rem, 12vw, 9rem);
+  aspect-ratio: 501.8 / 159;
+  background: var(--bone);
+  -webkit-mask: url('/wordmark-cut-bone.svg') left top / 100% 100% no-repeat;
+  mask: url('/wordmark-cut-bone.svg') left top / 100% 100% no-repeat;
+  opacity: 0;
+  pointer-events: none;
+  animation: wordmarkSlice 350ms steps(1, end) 1.2s 1 both;
+}
+
+@keyframes wordmarkSplit {
+  0%   { transform: none; filter: none; }
+  10%  { transform: translateX(-5px);
+         filter: drop-shadow(6px 0 rgba(var(--stone-rgb), 0.85)) drop-shadow(-4px 0 rgba(var(--bone-rgb), 0.45)); }
+  26%  { transform: translateX(3px);
+         filter: drop-shadow(-3px 0 rgba(var(--stone-rgb), 0.85)) drop-shadow(3px 0 rgba(var(--bone-rgb), 0.45)); }
+  40%  { transform: none; filter: none; }
+  58%  { transform: translateX(-2px) skewX(-6deg);
+         filter: drop-shadow(8px 0 rgba(var(--stone-rgb), 0.7)); }
+  74%  { transform: translateX(1px);
+         filter: drop-shadow(-2px 0 rgba(var(--stone-rgb), 0.6)); }
+  86%, 100% { transform: none; filter: none; }
+}
+
+@keyframes wordmarkSlice {
+  0%   { opacity: 0; }
+  10%  { opacity: 1; clip-path: inset(22% 0 58% 0); transform: translateX(14px); }
+  26%  { opacity: 1; clip-path: inset(64% 0 14% 0); transform: translateX(-10px); }
+  40%  { opacity: 0; }
+  58%  { opacity: 1; clip-path: inset(40% 0 44% 0); transform: translateX(22px); }
+  74%  { opacity: 1; clip-path: inset(8% 0 80% 0);  transform: translateX(-6px); }
+  86%, 100% { opacity: 0; clip-path: none; transform: none; }
+}
+
+:global(html[data-hero-glitched]) .titleImg,
+:global(html[data-hero-glitched]) .title::after {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .titleImg,
+  .title::after { animation: none; }
 }
 
 /* Genre line */
@@ -275,5 +341,6 @@
   .coords { display: none; }
   /* Tops out at ~77px, just under the desktop clamp at 641px, so the
      breakpoint never makes the wordmark jump bigger as the screen narrows. */
-  .titleImg { height: clamp(3.6rem, 19vw, 4.8rem); }
+  .titleImg,
+  .title::after { height: clamp(3.6rem, 19vw, 4.8rem); }
 }

@@ -1,5 +1,5 @@
 .section {
-  padding: var(--section-py) var(--section-px);
+  padding: var(--section-py) var(--section-px) var(--section-pb);
   /* Transparent like Selected and Tune In — the LiquidField drifts behind
      the whole page. This was the one --black-2 panel left (with the
      dossier), and read as a different site wedged between the others. */
@@ -12,8 +12,8 @@
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  margin-top: 40px;
-  margin-bottom: 32px;
+  margin-top: var(--section-head-gap);
+  margin-bottom: clamp(20px, 2.5vw, 32px);
 }
 
 .filterBtn {
@@ -83,6 +83,13 @@
 }
 
 /* ── Card ───────────────────────────────────── */
+/* One system for seventeen sources. Every tile is the same lockup: the
+   duotone frame pulled to one contrast curve, one grain and scanline
+   pass, the type tag pinned top-left, title and artist over a scrim in
+   the lower third. The baked thumbnails disagree about crop and
+   typography; the lockup on top is what makes the grid read as one
+   catalogue rather than seventeen screenshots. Colour is the hover
+   reveal, never the resting state. */
 .card {
   display: flex;
   flex-direction: column;
@@ -91,24 +98,35 @@
   background: var(--black-3);
   position: relative;
   overflow: hidden;
+  /* Title size follows the tile's own width (cqi), not the viewport's:
+     the same 1fr tile is ~190px wide at 800px and ~330px on a phone. */
+  container-type: inline-size;
 }
 
-.card:hover .thumbImg {
-  transform: scale(1.04);
+.card:hover .thumbImg,
+.card:focus-visible .thumbImg {
+  transform: scale(1.035);
 }
 
 .card:hover .thumbDuo,
-.card:focus-visible .thumbDuo {
+.card:focus-visible .thumbDuo,
+.card:hover .thumbOverlay,
+.card:focus-visible .thumbOverlay {
   opacity: 0;
 }
 
-.card:hover .thumbOverlay {
-  background: rgba(var(--ink-rgb), 0.1);
-}
-
-.card:hover .playIcon {
+.card:hover .playIcon,
+.card:focus-visible .playIcon {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
+}
+
+/* Inset, not the global 3px-offset ring: with a 2px grid gap an outset
+   ring would draw over the neighbouring tiles. */
+.card:focus-visible {
+  outline: 2px solid var(--bone);
+  outline-offset: -2px;
+  z-index: 1;
 }
 
 /* ── Thumbnail ──────────────────────────────── */
@@ -125,18 +143,31 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.5s ease, opacity 0.4s ease;
+  transition: transform 0.6s var(--ease-out), opacity 0.4s ease;
 }
 
-/* A fade, not a hard cut: these are release covers, not mascot frames. */
-.thumbDuo { z-index: 1; }
+/* The baked duotone maps luminance straight across ink → bone, so a pale
+   thumbnail comes out a flat bone slab and a dark one near-black. The
+   contrast pull spreads every frame across the same range, shadows to
+   ink and highlights to bone, so they sit at one exposure in the grid.
+   A fade, not a hard cut, on hover: these are release covers, not
+   mascot frames. */
+.thumbDuo {
+  z-index: 1;
+  filter: contrast(1.28) brightness(0.9);
+}
 
+/* A multiply wash in stone: takes the top off any remaining hot
+   highlight without greying the shadows the way the old flat ink alpha
+   layer did. Lifts away with the duotone on hover. */
 .thumbOverlay {
   position: absolute;
   inset: 0;
-  background: rgba(var(--ink-rgb), 0.15);
-  transition: background 0.3s;
+  background: rgba(var(--stone-rgb), 0.55);
+  mix-blend-mode: multiply;
+  transition: opacity 0.4s ease;
   z-index: 1;
+  pointer-events: none;
 }
 
 .thumbScanlines {
@@ -153,9 +184,21 @@
   pointer-events: none;
 }
 
+/* One grain, same seed and scale on every tile, so the texture is the
+   catalogue's rather than whatever compression each source arrived with. */
+.thumbScanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' seed='17' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  mix-blend-mode: overlay;
+  opacity: 0.22;
+}
+
 .playIcon {
   position: absolute;
-  top: 50%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0.85);
   font-size: 1.4rem;
@@ -164,7 +207,7 @@
   transition: opacity 0.25s, transform 0.25s;
   z-index: 3;
   /* Ink halo for legibility over bright thumbnails. Was a signal glow —
-     on hover, over a video link that plays nothing on this site. */
+     on hover, over a link that plays nothing on this site. */
   text-shadow: 0 0 16px rgba(var(--ink-rgb), 0.9);
 }
 
@@ -182,39 +225,67 @@
   min-height: 0;
 }
 
-/* .meta is flex: 1 on every card; here it would split the spare height
-   with the thumb and leave an empty panel under the title. */
-.featured .meta { flex: none; }
-
-.featured .title {
-  font-family: var(--font-display);
-  font-size: clamp(1.4rem, 2.4vw, 2rem);
-  letter-spacing: 0.04em;
-  line-height: 1;
+.featured .meta {
+  padding: 22px 24px;
 }
 
-/* ── Meta ───────────────────────────────────── */
+.featured .typeTag {
+  top: 16px;
+  left: 16px;
+}
+
+.featured .title {
+  font-size: clamp(1.8rem, 7cqi, 3.4rem);
+  line-height: 0.92;
+}
+
+.featured .artist { font-size: 0.66rem; }
+
+/* ── Meta: the lockup ───────────────────────── */
+/* Laid over the whole tile so the type tag can pin top-left while title
+   and artist sit bottom-left. The scrim fades out by ~78% of the height;
+   above it the frame is untouched. pointer-events off: the card is the
+   link, this is type on top of it. */
 .meta {
-  padding: 12px 14px 14px;
+  position: absolute;
+  inset: 0;
+  z-index: 4;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  flex: 1;
+  justify-content: flex-end;
+  gap: 5px;
+  padding: 12px 14px;
+  pointer-events: none;
+  /* Sized for a two-line title on the narrowest tile (~190px at 800px
+     wide), where the lockup takes ~60% of the height. */
+  background: linear-gradient(
+    0deg,
+    rgba(var(--ink-rgb), 0.94) 0%,
+    rgba(var(--ink-rgb), 0.78) 32%,
+    rgba(var(--ink-rgb), 0.32) 58%,
+    transparent 78%
+  );
 }
 
 .typeTag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
   font-family: var(--font-mono);
   font-size: 0.48rem;
   letter-spacing: 0.3em;
+  line-height: 1;
   text-transform: uppercase;
-  padding: 2px 6px;
-  align-self: flex-start;
-  margin-bottom: 2px;
+  padding: 4px 6px 4px 7px;
+  background: rgba(var(--ink-rgb), 0.78);
 }
 
+/* Three types, one shape: the difference is in the rule, not the
+   colour. Original the solid bone edge, remix the quiet one, eastern
+   the doubled one (its own category on this site). */
 .type_original {
   color: var(--white);
-  border: 1px solid rgba(var(--bone-rgb), 0.2);
+  border: 1px solid rgba(var(--bone-rgb), 0.55);
 }
 
 .type_remix {
@@ -224,27 +295,42 @@
 
 .type_eastern {
   color: var(--bone);
-  border: 1px solid rgba(var(--bone-rgb), 0.4);
-  background: rgba(var(--bone-rgb), 0.06);
+  border: 1px solid rgba(var(--bone-rgb), 0.55);
+  box-shadow:
+    inset 0 0 0 2px rgba(var(--ink-rgb), 0.78),
+    inset 0 0 0 3px rgba(var(--bone-rgb), 0.25);
 }
 
+/* Bebas for Latin; CJK titles fall through to Noto Sans TC (see
+   --font-display), which sets wider and heavier, so the two-line clamp
+   is what keeps 我若是有來生我想欲變成你 inside the scrim. */
 .title {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.08em;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.05rem, 8.2cqi, 1.7rem);
+  line-height: 1.04;
+  letter-spacing: 0.03em;
   color: var(--white);
-  line-height: 1.4;
   text-transform: uppercase;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  text-shadow: 0 1px 12px rgba(var(--ink-rgb), 0.6);
 }
 
 .artist {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.12em;
-  /* grey-mid, not grey-dim: these cards sit on graphite, the one ground
-     grey-dim doesn't clear AA on (4.28:1). grey-mid is 5.11:1 there. */
+  font-size: 0.56rem;
+  letter-spacing: 0.14em;
+  /* Over the scrim's ink end, not graphite: grey-mid clears AA there. */
   color: var(--grey-mid);
   text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ── Responsive ─────────────────────────────── */
@@ -260,7 +346,9 @@
   .grid { grid-template-columns: 1fr; }
   .featured { grid-column: auto; grid-row: auto; }
   .featured .thumb { aspect-ratio: 16 / 9; flex: none; }
-  .featured .meta { flex: 1; }
+  .featured .meta { padding: 12px 14px; }
+  .featured .typeTag { top: 10px; left: 10px; }
+  .featured .title { font-size: clamp(1.4rem, 8.2cqi, 2rem); }
   .filters { gap: 6px; }
   .filterBtn { padding: 7px 12px; font-size: 0.58rem; }
 }
