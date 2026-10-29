@@ -128,7 +128,7 @@ export const channels = [
     label: 'BOOKINGS & DEMOS',
     labelZh: '演出邀約與投稿',
     platform: 'Contact',
-    url: 'mailto:skixo@proton.me',
+    url: '/press#booking',
     icon: 'mail',
   },
 ];
@@ -160,3 +160,46 @@ export const dossierFile = [
   { key: 'ACCESS',     value: '████',                           redact: true,
     secret: 'LEVEL Ø — SELF-GRANTED 自授' },
 ];
+
+// ── Press kit ────────────────────────────────
+// One source for /press and scripts/build-press-kit.mjs (plain ESM, safe to
+// import from Node). Change the copy here and re-run `npm run press:pdf`.
+// If the Chinese copy gains new characters, re-run the CJK subset step
+// documented in the header of scripts/build-press-kit.mjs.
+export const press = {
+  email: 'skixo@proton.me',
+  bpm: '170\u2013180',
+  base: 'Berlin, DE',
+  origin: 'London, UK',
+  releases: 17,
+  pdf: '/press/skixO-press-kit.pdf',
+  // zh: draft, needs native check
+  zhDraft: true,
+  bios: {
+    short: {
+      en: 'skixO is a London-born, Berlin-based producer making liquid drum & bass. After an eighteen-year silence he came back to the desk, and the Eastern Remixes series now reworks Chinese and Taiwanese artists. PRØVE feat. Berlin the Corner is his first original single, part of a catalogue now at 17 releases.',
+      zh: 'skixO 生於倫敦，現居柏林，創作液態鼓打貝斯。沉寂十八年後，他重回混音台前，「東方重混」系列重新詮釋華語與台灣藝術家的作品。《PRØVE》（與 Berlin the Corner 合作）是他的首支原創單曲，至今共發行 17 件作品。',
+    },
+    long: {
+      en: 'skixO is a producer born in London and based in Berlin, writing liquid drum & bass that is hooky, restless and built for movement. Glitch is the second language: stutters, cuts and hard edges laid over warm, rolling basslines, so a track can feel both organic and machined. After twenty-five years of production and an eighteen-year silence, he returned to the desk three years ago. The music never left. It waited.\n\nThe Eastern Remixes series began with something more personal than craft: a partner from Taiwan, travel across Asia and friendships built in Taipei. It reworks the songs of Chinese and Taiwanese artists through liquid drum & bass and glitch, keeping the melodies and rewiring everything underneath.\n\nWith PRØVE feat. Berlin the Corner, released on 30 May 2026, the sound became his own: his first original single. The catalogue now stands at 17 releases, played at 170 to 180 BPM.',
+      zh: 'skixO 生於倫敦，現居柏林，創作旋律鮮明、躁動、為律動而生的液態鼓打貝斯。故障音效是他的第二語言：碎裂、切斷與銳利的邊緣，疊在溫暖滾動的貝斯線上，讓一首曲子同時帶有有機與機械的質地。經歷二十五年的製作歲月與十八年的沉寂後，他於三年前重返混音台。音樂從未離開，只是一直在等待。\n\n「東方重混」系列的起點，比技藝更貼近個人：一位來自台灣的伴侶、走遍亞洲的旅程，以及在台北結下的友誼。這個系列透過液態鼓打貝斯與故障音效，重新詮釋華語與台灣藝術家的歌曲，保留旋律，重新接線其餘一切。\n\n2026 年 5 月 30 日發行的《PRØVE》（與 Berlin the Corner 合作）是他的首支原創單曲，聲音從此屬於他自己。目前共發行 17 件作品，速度落在 170 至 180 BPM。',
+    },
+  },
+  // Dimensions checked with sharp/identify; SVGs are vector, viewBox size shown.
+  assets: [
+    { id: 'portrait', file: 'portrait.webp', href: '/portrait.webp', w: 750, h: 750, fmt: 'WEBP',
+      en: 'Portrait', zh: '肖像' },
+    { id: 'lean', file: 'lean-up.webp', href: '/mascot/lean-up.webp', w: 1024, h: 1536, fmt: 'WEBP',
+      en: 'Mascot, full figure', zh: '吉祥物，全身' },
+    { id: 'peek', file: 'cutout-peek-still.webp', href: '/mascot/cutout-peek-still.webp', w: 1254, h: 1254, fmt: 'WEBP',
+      en: 'Mascot, cut-out', zh: '吉祥物，去背' },
+    { id: 'emblem', file: 'emblem.svg', href: '/emblem.svg', w: 1024, h: 1024, fmt: 'SVG',
+      en: 'Emblem', zh: '徽章' },
+    { id: 'wordmark', file: 'wordmark-cut-bone.svg', href: '/wordmark-cut-bone.svg', w: 502, h: 159, fmt: 'SVG',
+      en: 'Wordmark, bone', zh: '字標，骨白' },
+    { id: 'glyph', file: 'skixO-glyph.svg', href: '/skixO-glyph.svg', w: 1104, h: 1104, fmt: 'SVG', mask: true,
+      en: 'Glyph', zh: '符號' },
+    { id: 'prove', file: 'prove-square.png', href: '/prove-square.png', w: 3000, h: 3000, fmt: 'PNG',
+      en: 'PR\u00d8VE artwork', zh: '《PR\u00d8VE》封面' },
+  ],
+};

@@ -13,6 +13,7 @@ import ScrollProgress from './components/ScrollProgress';
 import Home from './pages/Home';
 import Release from './pages/Release';
 import Console from './pages/Console';
+import Press from './pages/Press';
 import SignalLost from './pages/SignalLost';
 import './styles/globals.css';
 
@@ -51,6 +52,7 @@ function Layout() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/release/:slug" element={<Release />} />
+            <Route path="/press" element={<Press />} />
             <Route path="/console" element={<Console />} />
             <Route path="*" element={<SignalLost />} />
           </Routes>
