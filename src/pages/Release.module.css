@@ -49,6 +49,20 @@
 
 .titleLong { font-size: clamp(2.6rem, 5.5vw, 5rem); line-height: 1; }
 
+/* Bilingual titles stack: Latin in Bebas, Han in Noto on its own line at
+   a smaller size, instead of one run that breaks mid-word. */
+.titleZh {
+  display: block;
+  font-family: var(--font-zh);
+  font-weight: 300;
+  font-size: 0.42em;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  margin-top: 0.12em;
+  color: var(--bone);
+}
+.titleLatin { display: block; }
+
 .featArtist { text-transform: none; }
 
 .feat {

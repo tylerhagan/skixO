@@ -118,7 +118,13 @@ export default function Release() {
             initial="hidden"
             animate="show"
           >
-            {title}
+            {release.titleZh ? (
+              lang === 'zh' ? (
+                <><span className={styles.titleZh}>{release.titleZh}</span><span className={styles.titleLatin}>{release.title}</span></>
+              ) : (
+                <>{release.title}<span className={styles.titleZh}>{release.titleZh}</span></>
+              )
+            ) : title}
           </motion.h1>
           <motion.div className={styles.feat} variants={fadeUp} initial="hidden" animate="show">
             {release.type === 'original' ? (
@@ -210,10 +216,14 @@ export default function Release() {
 
         {/* Right — artwork, then the players, each only when present */}
         <div className={styles.media}>
-          <motion.div className={styles.artWrap} variants={fadeUp} initial="hidden" animate="show">
-            <img src={coverSrc(release)} alt={t(`${release.title} artwork`, `${release.title} 封面`)} className={styles.art} />
-            <div className={styles.artScanlines} />
-          </motion.div>
+          {/* Designed artwork only: the baked YouTube cover would repeat
+              the video's own thumbnail directly beneath it. */}
+          {release.artwork && (
+            <motion.div className={styles.artWrap} variants={fadeUp} initial="hidden" animate="show">
+              <img src={release.artwork} alt={t(`${release.title} artwork`, `${release.title} 封面`)} className={styles.art} />
+              <div className={styles.artScanlines} />
+            </motion.div>
+          )}
           {release.youtubeId && (
             <motion.div variants={fadeUp} initial="hidden" animate="show">
               <LazyFrame
