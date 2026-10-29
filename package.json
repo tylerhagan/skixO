@@ -7,10 +7,14 @@
     "dev": "vite",
     "audio:placeholder": "node scripts/make-placeholder-audio.mjs",
     "audio:peaks": "node scripts/build-peaks.mjs",
+    "audio:excerpts": "node scripts/make-excerpts.mjs",
     "images": "node scripts/build-images.mjs",
     "covers": "node scripts/build-covers.mjs",
-    "prebuild": "node scripts/build-peaks.mjs && node scripts/build-images.mjs && node scripts/build-covers.mjs",
+    "press:pdf": "node scripts/build-press-kit.mjs",
+    "og": "node scripts/build-og.mjs",
+    "prebuild": "node scripts/build-peaks.mjs && node scripts/build-images.mjs && node scripts/build-covers.mjs && node scripts/build-og.mjs && node scripts/build-press-kit.mjs",
     "build": "vite build",
+    "postbuild": "node scripts/prerender-release-meta.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -30,6 +34,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
+    "pdfkit": "^0.20.2",
     "sharp": "^0.35.4",
     "vite": "^8.0.12"
   }

@@ -17,7 +17,7 @@
   background: rgba(var(--ink-rgb), 0.97);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
-  height: 68px;
+  height: var(--mini-player-h, 68px);
   /* Glow breathes with the music via --amp (set by audioEngine) */
   box-shadow: 0 -6px calc(20px + var(--amp, 0) * 44px) rgba(var(--signal-rgb), calc(0.07 + var(--amp, 0) * 0.3));
 }
@@ -43,6 +43,53 @@
   padding: 0 var(--section-px);
   gap: 24px;
 }
+
+/* Progress — local excerpts only. A 2px rule along the top edge; the
+   hit area is taller than it looks (the ::before) so it can be grabbed. */
+.progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 1;
+  cursor: pointer;
+  touch-action: none;
+}
+.progress::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -6px;
+  bottom: -8px;
+}
+.progress:focus-visible {
+  outline: 1px solid var(--bone);
+  outline-offset: 3px;
+}
+/* The fill is the playhead: it only moves while something plays, so the
+   accent is allowed. Paused, it falls back to bone. */
+.progressFill {
+  position: absolute;
+  inset: 0;
+  background: var(--signal);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.25s linear;
+}
+.playerPaused .progressFill { background: var(--bone); }
+.progress:hover .progressFill { height: 4px; top: -1px; }
+
+.cover {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border: 1px solid rgba(var(--bone-rgb), 0.15);
+  filter: grayscale(0.15);
+}
+.playerPaused .cover { opacity: 0.6; }
 
 /* Track info */
 .info {
@@ -183,6 +230,23 @@
   flex-shrink: 0;
   transition: color 0.2s, border-color 0.2s, background 0.2s;
 }
+.transport {
+  display: flex;
+  gap: 6px;
+}
+
+.stopBtn:disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.stopBtn:focus-visible,
+.close:focus-visible,
+.scLink:focus-visible {
+  outline: 1px solid var(--bone);
+  outline-offset: 2px;
+}
+
 .stopBtn:hover {
   color: var(--white);
   border-color: rgba(var(--bone-rgb), 0.4);
@@ -211,4 +275,22 @@
   .wave { display: none; }
   .scLink { display: none; }
   .inner { gap: 12px; }
+  .actions { gap: 10px; }
+  .cover { width: 34px; height: 34px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar { animation: none; transform: scaleY(0.5); }
+  .playDot { animation: none; }
+  .progressFill { transition: none; }
+}
+
+/* While the bar is up (MiniPlayer toggles .has-mini-player on <html>),
+   pad the page by its height so the last content — the Tune In channel
+   cards, the footer — can scroll clear of it instead of sitting under it. */
+:global(html.has-mini-player) {
+  --mini-player-h: 68px;
+}
+:global(html.has-mini-player) body {
+  padding-bottom: calc(var(--mini-player-h) + env(safe-area-inset-bottom, 0px));
 }

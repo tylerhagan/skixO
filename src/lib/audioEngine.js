@@ -11,10 +11,18 @@
 //
 // While audio plays, the global `--amp` CSS custom property on <html>
 // tracks the smoothed signal amplitude (0–1) so plain CSS can react.
+//
+// Also: a throttled 'time' event ({ currentTime, duration }) for the mini
+// player's progress bar, seek(), and static(on): quiet pink noise for the
+// tuner, generated in the graph (never a file) and wired straight to the
+// output, past the analyser, so tuning noise never drives the visuals.
 // ─────────────────────────────────────────────
 
 const FFT_SIZE = 2048;
 const BIN_COUNT = 24; // log-ish spaced bands published for bar visuals
+const TIME_EVERY_MS = 250; // 'time' event throttle — a 2px bar needs no more
+const STATIC_GAIN = 0.08;
+const STATIC_RAMP = 0.06; // seconds — no clicks in or out
 
 class AudioEngine {
   constructor() {
@@ -29,6 +37,9 @@ class AudioEngine {
     this.lastSample = -1;
     this.smoothedAmp = 0;
     this.ampRaf = 0;
+    this.lastTime = 0;
+    this.staticBuffer = null;
+    this.staticVoice = null; // { src, gain } while static is sounding
     // Precompute log-spaced band edges over ~0–10kHz
     const maxBin = Math.floor((10000 / 22050) * (FFT_SIZE / 2));
     this.binEdges = Array.from({ length: BIN_COUNT + 1 }, (_, i) =>
@@ -58,7 +69,78 @@ class AudioEngine {
 
     this.el.addEventListener('play', () => { this.levels.playing = true; this.emit('play'); this.runAmpLoop(); });
     this.el.addEventListener('pause', () => { this.levels.playing = false; this.emit('pause'); });
-    this.el.addEventListener('ended', () => { this.levels.playing = false; this.emit('ended'); });
+    this.el.addEventListener('ended', () => { this.levels.playing = false; this.emitTime(true); this.emit('ended'); });
+    this.el.addEventListener('timeupdate', () => this.emitTime(false));
+    this.el.addEventListener('durationchange', () => this.emitTime(true));
+    this.el.addEventListener('emptied', () => this.emitTime(true));
+  }
+
+  emitTime(force) {
+    const now = performance.now();
+    if (!force && now - this.lastTime < TIME_EVERY_MS) return;
+    this.lastTime = now;
+    const d = this.el.duration;
+    this.emit('time', { currentTime: this.el.currentTime || 0, duration: Number.isFinite(d) ? d : 0 });
+  }
+
+  // fraction 0–1 of the loaded excerpt
+  seek(fraction) {
+    const d = this.el?.duration;
+    if (!Number.isFinite(d) || d <= 0) return;
+    this.el.currentTime = Math.min(d - 0.05, Math.max(0, fraction * d));
+    this.emitTime(true);
+  }
+
+  // Pink noise (Paul Kellet's filter over white), two seconds, looped.
+  makeStaticBuffer() {
+    const len = this.ctx.sampleRate * 2;
+    const buf = this.ctx.createBuffer(1, len, this.ctx.sampleRate);
+    const out = buf.getChannelData(0);
+    let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+    for (let i = 0; i < len; i++) {
+      const w = Math.random() * 2 - 1;
+      b0 = 0.99886 * b0 + w * 0.0555179;
+      b1 = 0.99332 * b1 + w * 0.0750759;
+      b2 = 0.96900 * b2 + w * 0.1538520;
+      b3 = 0.86650 * b3 + w * 0.3104856;
+      b4 = 0.55000 * b4 + w * 0.5329522;
+      b5 = -0.7616 * b5 - w * 0.0168980;
+      out[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + w * 0.5362) * 0.11;
+      b6 = w * 0.115926;
+    }
+    return buf;
+  }
+
+  // Only ever called on from a pointer gesture (the tuner's pointerdown),
+  // so creating/resuming the context here satisfies autoplay policy.
+  static(on) {
+    if (on) {
+      if (this.staticVoice) return;
+      this.ensure();
+      if (this.ctx.state === 'suspended') this.ctx.resume().catch(() => {});
+      if (!this.staticBuffer) this.staticBuffer = this.makeStaticBuffer();
+      const src = this.ctx.createBufferSource();
+      src.buffer = this.staticBuffer;
+      src.loop = true;
+      const gain = this.ctx.createGain();
+      const t = this.ctx.currentTime;
+      gain.gain.setValueAtTime(0, t);
+      gain.gain.linearRampToValueAtTime(STATIC_GAIN, t + STATIC_RAMP);
+      src.connect(gain);
+      gain.connect(this.ctx.destination);
+      src.start(t, Math.random() * 2); // random phase: no audible loop seam on repeat drags
+      this.staticVoice = { src, gain };
+    } else {
+      const v = this.staticVoice;
+      if (!v) return;
+      this.staticVoice = null;
+      const t = this.ctx.currentTime;
+      v.gain.gain.cancelScheduledValues(t);
+      v.gain.gain.setValueAtTime(v.gain.gain.value, t);
+      v.gain.gain.linearRampToValueAtTime(0, t + STATIC_RAMP);
+      v.src.stop(t + STATIC_RAMP + 0.02);
+      v.src.onended = () => { v.src.disconnect(); v.gain.disconnect(); };
+    }
   }
 
   async play(src) {
@@ -143,8 +225,8 @@ class AudioEngine {
     return () => this.listeners.get(event).delete(cb);
   }
 
-  emit(event) {
-    this.listeners.get(event)?.forEach(cb => cb());
+  emit(event, detail) {
+    this.listeners.get(event)?.forEach(cb => cb(detail));
   }
 }
 

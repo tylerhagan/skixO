@@ -44,7 +44,26 @@
   line-height: 0.9;
   color: var(--white);
   /* Channel-split shadow removed, same reasoning as the hero title. */
+  overflow-wrap: anywhere;
 }
+
+.titleLong { font-size: clamp(2.6rem, 5.5vw, 5rem); line-height: 1; }
+
+/* Bilingual titles stack: Latin in Bebas, Han in Noto on its own line at
+   a smaller size, instead of one run that breaks mid-word. */
+.titleZh {
+  display: block;
+  font-family: var(--font-zh);
+  font-weight: 300;
+  font-size: 0.42em;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  margin-top: 0.12em;
+  color: var(--bone);
+}
+.titleLatin { display: block; }
+
+.featArtist { text-transform: none; }
 
 .feat {
   font-family: var(--font-mono);
@@ -210,21 +229,39 @@
   pointer-events: none;
 }
 
-/* Lyrics */
+/* Lyrics — stanzas at body size; two columns on desktop, a stanza
+   never splits across them. */
 .lyrics { margin-top: 72px; }
 
+.lyricsToggle {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.28em;
+  color: var(--bone);
+  padding: 6px 0;
+  margin-bottom: 20px;
+  transition: color 0.2s;
+}
+.lyricsToggle:hover { color: var(--sand); }
+
 .lyricsGrid {
+  max-width: 1040px;
+}
+
+.stanza {
+  break-inside: avoid;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  max-width: 720px;
+  gap: 4px;
+  padding-bottom: 28px;
 }
 
 .lyricLine {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 32px;
+  gap: 24px;
   font-family: var(--font-body);
+  font-size: 1rem;
   font-weight: 300;
   line-height: 1.7;
   color: var(--white);
@@ -234,12 +271,18 @@
 
 .lyricSingle {
   font-family: var(--font-zh), var(--font-body);
+  font-size: 1rem;
   font-weight: 300;
-  line-height: 1.9;
+  line-height: 1.8;
   color: var(--white);
 }
 
-.lyricBreak { height: 20px; }
+@media (min-width: 900px) {
+  .lyricsGrid {
+    columns: 2;
+    column-gap: clamp(40px, 6vw, 96px);
+  }
+}
 
 /* Lost signal (unknown slug) */
 .lost {
@@ -305,5 +348,5 @@
 @media (max-width: 900px) {
   .grid { grid-template-columns: 1fr; }
   .media { position: static; order: -1; max-width: 480px; }
-  .lyricLine { grid-template-columns: 1fr; gap: 4px; }
+  .lyricLine { grid-template-columns: 1fr; gap: 2px; }
 }

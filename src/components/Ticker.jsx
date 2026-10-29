@@ -1,4 +1,5 @@
 import { tickerItems } from '../data/siteData';
+import { useLang } from '../hooks/useLang';
 import { usePlayer } from '../contexts/PlayerContext';
 import styles from './Ticker.module.css';
 
@@ -12,9 +13,11 @@ export default function Ticker() {
   // The badge dot only takes the accent while something is actually
   // playing — it used to pulse signal-orange permanently on every visit.
   const { live } = usePlayer();
+  const { t } = useLang();
+  const items = tickerItems.map(it => t(it.en, it.zh));
   const half = (
     <div className={styles.half}>
-      {tickerItems.map((item, i) => (
+      {items.map((item, i) => (
         <span key={i} className={styles.item}>
           {item}
           <span className={styles.sep}>✦</span>
@@ -24,10 +27,10 @@ export default function Ticker() {
   );
 
   return (
-    <div className={styles.ticker} aria-label={tickerItems.join(' — ')}>
+    <div className={styles.ticker} aria-label={items.join(' — ')}>
       <div className={styles.badge}>
         <span className={`${styles.badgeDot} ${live ? styles.badgeDotLive : ''}`} />
-        LIVE
+        {t('LIVE', '直播')}
       </div>
       <div className={styles.viewport} aria-hidden="true">
         <div className={styles.reel}>

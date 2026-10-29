@@ -42,3 +42,6 @@ public/audio/placeholder-signal.wav
 *.njsproj
 *.sln
 *.sw?
+
+# Agent worktrees
+.claude/worktrees/

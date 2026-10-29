@@ -24,7 +24,7 @@ skixo-react/
 │   ├── hero-banner.png
 │   ├── avatar-circle.png
 │   ├── prove-thumbnail.png
-│   └── prove-square.png
+│   └── prove-square.webp
 │
 ├── src/
 │   ├── components/          # Reusable UI components
@@ -69,6 +69,40 @@ npm run preview   # preview production build locally
 
 ---
 
+## Audio (excerpts, queue, tuner)
+
+Releases in `src/data/releases.js` with an `audioSrc` play a hosted 45s
+excerpt through the Web Audio engine: real analysis drives the visuals,
+they join the mini player's queue (prev/next, auto-advance, seek) and each
+gets its own station on the Tune In dial. Releases without one fall back to
+the hidden SoundCloud embed (or a YouTube link).
+
+**Cutting excerpts** (needs ffmpeg on PATH: `winget install ffmpeg`):
+
+1. Bounce full-length WAVs into `audio-src/<slug>.wav` (gitignored, local only).
+2. Run:
+   ```powershell
+   npm run audio:excerpts                 # new ones only
+   npm run audio:excerpts -- --force      # redo all
+   npm run audio:excerpts -- --only=prove # one release
+   ```
+   Each becomes `public/audio/<slug>.mp3`: 45s from 25% in, 0.5s fade in /
+   1.5s fade out, loudness-normalised to about -14 LUFS, MP3 128k stereo
+   (~700KB). To cut from a different point, set
+   `excerpt: { start: <seconds> }` on that release.
+3. The script prints the `audioSrc: '/audio/<slug>.mp3'` lines to paste into
+   `releases.js`. The site only plays what the data names; nothing is
+   auto-detected.
+4. Commit the MP3s. Never commit the WAVs.
+
+No ffmpeg or no `audio-src/` (Vercel, CI): the script skips with a hint and
+exits cleanly. It is not part of `prebuild`.
+
+`npm run audio:peaks` (waveform shapes for the track cards) reads the same
+`audio-src/` WAVs.
+
+---
+
 ## Deployment (Vercel)
 
 1. Push repo to GitHub
@@ -103,3 +137,40 @@ When the skixO logo file arrives, add it to public/logo.svg and update Nav.jsx:
 Uses LangProvider context. To translate any string:
   const { t } = useLang();
   {t('English text', '中文文本')}
+
+---
+
+## Forms & newsletter
+
+The `/press` page carries a booking form and a newsletter capture. There is
+no backend, so both work out of the box with `mailto:` and can be pointed at
+a form service with two build-time environment variables (set them in the
+Vercel project settings, or a local `.env`).
+
+| Variable | Used by | Behaviour when set | When unset |
+|----------|---------|--------------------|------------|
+| `VITE_FORM_ENDPOINT` | `BookingForm` | POSTs JSON to the URL (Formspree-style) and shows sent / error states | Builds `mailto:skixo@proton.me` with a structured subject, e.g. `[BOOKING] Name — City 2026-11-20`, and opens it. `COPY MESSAGE` copies the same text for people without a mail client |
+| `VITE_NEWSLETTER_ENDPOINT` | `Newsletter` | POSTs `{ "email": "..." }` as JSON | Opens a `mailto:` to skixo@proton.me with the subject `SUBSCRIBE` |
+
+Booking payload: `_subject`, `type` (`booking`, `remix`, `press`, `other`),
+`name`, `email`, `message`, plus `date`, `venue`, `city` for bookings.
+Both forms have a honeypot field; submissions that fill it are dropped
+silently. Vite inlines these variables at build time, so redeploy after
+changing them.
+
+`<Newsletter />` is self-contained and can be dropped into any section
+inside `LangProvider`.
+
+## Press kit
+
+- Copy, facts and asset list live in the `press` export of `src/data/siteData.js`.
+- `npm run press:pdf` regenerates `public/press/skixO-press-kit.pdf` (one A4
+  page, pdfkit). It also runs as part of `prebuild`.
+- Fonts for the PDF are in `scripts/art/fonts/`: the two Latin faces as TTF
+  and a Noto Sans TC subset (`noto-sans-tc-subset.otf`). The subset only
+  holds the characters currently used; if the Chinese copy gains new
+  characters, rebuild it as described in the header of
+  `scripts/build-press-kit.mjs`. Without the subset the script still runs
+  and replaces the Chinese bio with a "see website" line.
+- The Chinese press copy is a draft and needs a native check.
+

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { featuredRelease, tracks, dossierFile } from '../data/siteData';
+import { formatDate } from '../lib/date';
 import { useLang } from '../hooks/useLang';
 import { usePlayer } from '../contexts/PlayerContext';
 import GlitchMask from '../components/GlitchMask';
@@ -63,11 +64,11 @@ export default function Console() {
         print(
           'SIGNAL ACTIVE — 174.0 bpm',
           `latest transmission: ${featuredRelease.title} feat. ${featuredRelease.feat}`,
-          `released ${featuredRelease.date} // try: play`,
+          `released ${formatDate(featuredRelease.date)} // try: play`,
         );
         break;
       case 'catalogue':
-        tracks.forEach(tr => print(`${tr.id}  ${tr.title}  — ${tr.date}`));
+        tracks.forEach(tr => print(`${tr.id}  ${tr.title}  — ${formatDate(tr.date)}`));
         print('full archive: /#catalogue');
         break;
       case 'dossier':

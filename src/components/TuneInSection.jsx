@@ -1,5 +1,7 @@
 import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useReveal } from '../hooks/useReveal';
+import Newsletter from './Newsletter';
 import { channels } from '../data/siteData';
 import { useLang } from '../hooks/useLang';
 import SectionTag from './SectionTag';
@@ -10,7 +12,7 @@ import styles from './TuneInSection.module.css';
 export default function TuneInSection() {
   const { t } = useLang();
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const { shown: inView, from } = useReveal(ref);
 
   return (
     <section className={styles.section} id="tune-in" ref={ref}>
@@ -18,7 +20,7 @@ export default function TuneInSection() {
 
       <motion.p
         className={styles.intro}
-        initial={{ opacity: 0, y: 20 }}
+        initial={from({ opacity: 0, y: 20 })}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, delay: 0.1 }}
       >
@@ -26,7 +28,7 @@ export default function TuneInSection() {
       </motion.p>
 
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
+        initial={from({ opacity: 0, y: 24 })}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, delay: 0.15 }}
       >
@@ -38,10 +40,10 @@ export default function TuneInSection() {
           <motion.a
             key={ch.id}
             href={ch.url}
-            target={ch.url.startsWith('mailto') ? undefined : '_blank'}
-            rel={ch.url.startsWith('mailto') ? undefined : 'noopener noreferrer'}
+            target={/^(mailto:|\/)/.test(ch.url) ? undefined : '_blank'}
+            rel={/^(mailto:|\/)/.test(ch.url) ? undefined : 'noopener noreferrer'}
             className={styles.card}
-            initial={{ opacity: 0, y: 32 }}
+            initial={from({ opacity: 0, y: 32 })}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.55, delay: 0.15 + i * 0.08 }}
             whileHover={{ y: -4 }}
@@ -56,6 +58,9 @@ export default function TuneInSection() {
             <div className={styles.cardBorder} />
           </motion.a>
         ))}
+      </div>
+      <div className={styles.newsletter}>
+        <Newsletter />
       </div>
       {/* 訊號傳向東方 is said once, in the dossier. Repeating it here spent it. */}
     </section>
