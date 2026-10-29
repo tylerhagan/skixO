@@ -242,29 +242,19 @@
 .featured .artist { font-size: 0.66rem; }
 
 /* ── Meta: the lockup ───────────────────────── */
-/* Laid over the whole tile so the type tag can pin top-left while title
-   and artist sit bottom-left. The scrim fades out by ~78% of the height;
-   above it the frame is untouched. pointer-events off: the card is the
-   link, this is type on top of it. */
+/* Type tag pinned over the thumb top-left; title and artist sit under
+   the image, never on it: most baked covers already carry their own
+   title, so an overlaid lockup doubled the type. pointer-events off: the
+   card is the link. */
 .meta {
-  position: absolute;
-  inset: 0;
+  position: relative;
   z-index: 4;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   gap: 5px;
-  padding: 12px 14px;
+  padding: 12px 14px 14px;
   pointer-events: none;
-  /* Sized for a two-line title on the narrowest tile (~190px at 800px
-     wide), where the lockup takes ~60% of the height. */
-  background: linear-gradient(
-    0deg,
-    rgba(var(--ink-rgb), 0.94) 0%,
-    rgba(var(--ink-rgb), 0.78) 32%,
-    rgba(var(--ink-rgb), 0.32) 58%,
-    transparent 78%
-  );
+  background: var(--black-3);
 }
 
 .typeTag {
@@ -318,14 +308,12 @@
   line-clamp: 2;
   overflow: hidden;
   overflow-wrap: anywhere;
-  text-shadow: 0 1px 12px rgba(var(--ink-rgb), 0.6);
 }
 
 .artist {
   font-family: var(--font-mono);
   font-size: 0.56rem;
   letter-spacing: 0.14em;
-  /* Over the scrim's ink end, not graphite: grey-mid clears AA there. */
   color: var(--grey-mid);
   text-transform: uppercase;
   white-space: nowrap;

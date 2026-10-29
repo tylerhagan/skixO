@@ -1,5 +1,6 @@
 .section {
-  padding: var(--section-py) var(--section-px) var(--section-pb);
+  /* Bottom clears the footer's mascot, which peeks 132px up into this section. */
+  padding: var(--section-py) var(--section-px) max(var(--section-pb), 160px);
   /* Transparent — the LiquidField drifts behind this section */
   background: transparent;
 }
@@ -109,6 +110,8 @@
 /* Responsive */
 @media (max-width: 1100px) {
   .grid { grid-template-columns: repeat(3, 1fr); }
+  /* Five cards in three columns: the last one spans the gap. */
+  .card:last-child { grid-column: span 2; }
 }
 
 @media (max-width: 700px) {
@@ -118,4 +121,9 @@
 @media (max-width: 440px) {
   .grid { grid-template-columns: 1fr 1fr; }
   .card { padding: 24px 18px; }
+}
+
+/* Newsletter, after the channel grid */
+.newsletter {
+  margin-top: clamp(40px, 5vw, 64px);
 }

@@ -59,7 +59,9 @@ export default function TuneInSection() {
           </motion.a>
         ))}
       </div>
-      <Newsletter />
+      <div className={styles.newsletter}>
+        <Newsletter />
+      </div>
       {/* 訊號傳向東方 is said once, in the dossier. Repeating it here spent it. */}
     </section>
   );
