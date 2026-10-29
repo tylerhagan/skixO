@@ -1,5 +1,5 @@
 import { useMemo, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { usePlayer } from '../contexts/PlayerContext';
 import { useLang } from '../hooks/useLang';
 import { audioEngine } from '../lib/audioEngine';
@@ -48,9 +48,23 @@ function LiveBars({ active }) {
 export default function MiniPlayer() {
   // Embed-mode stop state lives in PlayerContext (reset there by setTrack)
   // so the rest of the site can tell a stopped embed from a playing one.
-  const { track, setTrack, playing, toggle, embedStopped: stopped, setEmbedStopped: setStopped } = usePlayer();
+  const {
+    track, setTrack, playing, toggle, embedStopped: stopped, setEmbedStopped: setStopped,
+    next, prev, hasNext, hasPrev, progress, duration, seek,
+  } = usePlayer();
   const { t } = useLang();
+  const reduced = useReducedMotion();
   const isLocal = !!track?.audioSrc;
+
+  // Keep the page's last content (the Tune In channel cards, the footer)
+  // reachable above the fixed bar: MiniPlayer.module.css pads <body> by
+  // --mini-player-h while this class is on <html>.
+  const visible = !!track;
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.toggle('has-mini-player', visible);
+    return () => root.classList.remove('has-mini-player');
+  }, [visible]);
 
   const iframeSrc = useMemo(() => {
     if (!track || isLocal) return null;
@@ -65,6 +79,22 @@ export default function MiniPlayer() {
     : '';
 
   const paused = isLocal ? !playing : stopped;
+  const linkIsSoundcloud = !!track?.url?.includes('soundcloud.com');
+
+  // Clickable + keyboard seek on the progress bar (local excerpts only;
+  // an embed reports no position across the iframe boundary).
+  const barRef = useRef(null);
+  const seekFromPointer = e => {
+    const rect = barRef.current.getBoundingClientRect();
+    seek(Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width)));
+  };
+  const onSeekKey = e => {
+    const step = { ArrowLeft: -0.05, ArrowDown: -0.05, ArrowRight: 0.05, ArrowUp: 0.05, Home: -1, End: 1 }[e.key];
+    if (step === undefined) return;
+    e.preventDefault();
+    seek(e.key === 'Home' ? 0 : e.key === 'End' ? 0.999 : progress + step);
+  };
+  const fmt = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 
   return (
     <>
@@ -83,19 +113,41 @@ export default function MiniPlayer() {
         {track && (
           <motion.div
             className={`${styles.player} ${paused ? styles.playerPaused : ''}`}
-            initial={{ y: '100%' }}
-            animate={{ y: 0 }}
-            exit={{ y: '100%' }}
-            transition={{ type: 'spring', damping: 32, stiffness: 320 }}
+            initial={reduced ? { opacity: 0 } : { y: '100%' }}
+            animate={reduced ? { opacity: 1 } : { y: 0 }}
+            exit={reduced ? { opacity: 0 } : { y: '100%' }}
+            transition={reduced ? { duration: 0.15 } : { type: 'spring', damping: 32, stiffness: 320 }}
           >
             <div className={styles.topEdge} />
+
+            {isLocal && (
+              <div
+                ref={barRef}
+                className={styles.progress}
+                role="slider"
+                tabIndex={0}
+                aria-label={t('Seek', '跳轉')}
+                aria-valuemin={0}
+                aria-valuemax={Math.round(duration)}
+                aria-valuenow={Math.round(progress * duration)}
+                aria-valuetext={`${fmt(progress * duration)} / ${fmt(duration)}`}
+                onPointerDown={seekFromPointer}
+                onKeyDown={onSeekKey}
+              >
+                <span className={styles.progressFill} style={{ transform: `scaleX(${progress})` }} />
+              </div>
+            )}
 
             <div className={styles.inner}>
               {/* Track info */}
               <div className={styles.info}>
-                <span className={`${styles.playDot} ${paused ? styles.playDotStopped : ''}`}>
-                  {paused ? '◼' : '▓'}
-                </span>
+                {track.artwork ? (
+                  <img className={styles.cover} src={track.artwork} alt="" width="40" height="40" />
+                ) : (
+                  <span className={`${styles.playDot} ${paused ? styles.playDotStopped : ''}`}>
+                    {paused ? '◼' : '▓'}
+                  </span>
+                )}
                 <div className={styles.text}>
                   <span className={styles.title}>{displayTitle}</span>
                   <span className={styles.sub}>
@@ -133,17 +185,37 @@ export default function MiniPlayer() {
                     rel="noopener noreferrer"
                     className={styles.scLink}
                   >
-                    {t('OPEN IN SOUNDCLOUD ↗', '在 SOUNDCLOUD 收聽 ↗')}
+                    {linkIsSoundcloud
+                      ? t('OPEN IN SOUNDCLOUD ↗', '在 SOUNDCLOUD 收聽 ↗')
+                      : t('OPEN ON YOUTUBE ↗', '在 YOUTUBE 觀看 ↗')}
                   </a>
                 )}
 
-                <button
-                  className={styles.stopBtn}
-                  onClick={() => (isLocal ? toggle() : setStopped(s => !s))}
-                  aria-label={paused ? t('Resume', '繼續') : t('Stop', '停止')}
-                >
-                  {paused ? '▶' : '■'}
-                </button>
+                <div className={styles.transport}>
+                  <button
+                    className={styles.stopBtn}
+                    onClick={prev}
+                    disabled={!hasPrev}
+                    aria-label={t('Previous track', '上一首')}
+                  >
+                    <span aria-hidden="true">|◀</span>
+                  </button>
+                  <button
+                    className={styles.stopBtn}
+                    onClick={() => (isLocal ? toggle() : setStopped(s => !s))}
+                    aria-label={paused ? t('Play', '播放') : (isLocal ? t('Pause', '暫停') : t('Stop', '停止'))}
+                  >
+                    {paused ? '▶' : (isLocal ? '❚❚' : '■')}
+                  </button>
+                  <button
+                    className={styles.stopBtn}
+                    onClick={next}
+                    disabled={!hasNext}
+                    aria-label={t('Next track', '下一首')}
+                  >
+                    <span aria-hidden="true">▶|</span>
+                  </button>
+                </div>
 
                 <button
                   className={styles.close}

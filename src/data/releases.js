@@ -24,6 +24,9 @@
 //   audioSrc      hosted excerpt (public/audio/<slug>.mp3) — enables the
 //                 Web Audio player, the tuner station and the queue.
 //                 Generate with `npm run audio:excerpts`.
+//   excerpt       optional { start: seconds } — where that excerpt is cut
+//                 from (default: 25% into the track). Only read by
+//                 scripts/make-excerpts.mjs.
 //   artwork       square master for the release page; falls back to the
 //                 baked cover when null
 //   tagline / story / credits / lyrics   optional, bilingual {en, zh}
