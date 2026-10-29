@@ -199,7 +199,7 @@ export const press = {
       en: 'Wordmark, bone', zh: '字標，骨白' },
     { id: 'glyph', file: 'skixO-glyph.svg', href: '/skixO-glyph.svg', w: 1104, h: 1104, fmt: 'SVG', mask: true,
       en: 'Glyph', zh: '符號' },
-    { id: 'prove', file: 'prove-square.png', href: '/prove-square.png', w: 3000, h: 3000, fmt: 'PNG',
+    { id: 'prove', file: 'prove-square-3000.png', href: '/press/prove-square-3000.png', w: 3000, h: 3000, fmt: 'PNG',
       en: 'PR\u00d8VE artwork', zh: '《PR\u00d8VE》封面' },
   ],
 };

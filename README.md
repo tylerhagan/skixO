@@ -24,7 +24,7 @@ skixo-react/
 │   ├── hero-banner.png
 │   ├── avatar-circle.png
 │   ├── prove-thumbnail.png
-│   └── prove-square.png
+│   └── prove-square.webp
 │
 ├── src/
 │   ├── components/          # Reusable UI components
