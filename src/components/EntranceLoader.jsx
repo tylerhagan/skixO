@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLang } from '../hooks/useLang';
 import styles from './EntranceLoader.module.css';
 
 // Three lines in ~1.4s. The old four-line, 2.8s sequence gated the site
 // behind a load screen twice as long as the page took to render — and
 // announced the redaction the dossier is supposed to keep.
 const lines = [
-  { text: 'INITIALISING SIGNAL...',   zh: null,      delay: 0    },
-  { text: 'FREQUENCY: 174.0 bpm',      zh: null,      delay: 0.18 },
+  { text: 'INITIALISING SIGNAL...',   textZh: '訊號初始化中...', zh: null,      delay: 0    },
+  { text: 'FREQUENCY: 174.0 bpm',      textZh: '頻率：174.0 bpm', zh: null,      delay: 0.18 },
   { text: 'SIGNAL DETECTED.',          zh: '訊號已捕獲', delay: 0.4  },
 ];
 
 export default function EntranceLoader({ onComplete }) {
+  const { t } = useLang();
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -70,7 +72,7 @@ export default function EntranceLoader({ onComplete }) {
                   transition={{ delay: line.delay + 0.12, duration: 0.28 }}
                 >
                   <span className={styles.linePrompt}>▸</span>
-                  <span className={styles.lineText}>{line.text}</span>
+                  <span className={styles.lineText}>{t(line.text, line.textZh ?? line.text)}</span>
                   {line.zh && (
                     <span className={styles.lineZh}>{line.zh}</span>
                   )}

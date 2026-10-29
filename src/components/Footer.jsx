@@ -87,7 +87,7 @@ export default function Footer() {
         </button>
 
         <div className={styles.quoteWrap}>
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={!reducedMotion}>
             <motion.div
               key={idx}
               className={styles.quote}
