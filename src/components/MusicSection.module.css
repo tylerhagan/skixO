@@ -247,8 +247,9 @@
    title, so an overlaid lockup doubled the type. pointer-events off: the
    card is the link. */
 .meta {
-  position: relative;
-  z-index: 4;
+  /* Not positioned: the type tag inside it is absolute against the
+     card, so it sits over the thumb's top-left corner. */
+  position: static;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -261,6 +262,7 @@
   position: absolute;
   top: 10px;
   left: 10px;
+  z-index: 4;
   font-family: var(--font-mono);
   font-size: 0.48rem;
   letter-spacing: 0.3em;
