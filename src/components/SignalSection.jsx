@@ -2,6 +2,8 @@ import { useRef, useState, useEffect } from 'react';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { tracks } from '../data/siteData';
 import peaks from '../data/peaks.json';
+import { useReveal } from '../hooks/useReveal';
+import { formatDate } from '../lib/date';
 import { useLang } from '../hooks/useLang';
 import { usePlayer } from '../contexts/PlayerContext';
 import SectionTag from './SectionTag';
@@ -10,7 +12,7 @@ import styles from './SignalSection.module.css';
 export default function SignalSection() {
   const { t } = useLang();
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const { shown: inView, from } = useReveal(ref);
 
   // The standing figure listens along: head down on the half-time while
   // anything plays, the same 430ms hard cut as the hero and the desk.
@@ -40,7 +42,7 @@ export default function SignalSection() {
 
         <motion.div
           className={styles.selectedNote}
-          initial={{ opacity: 0 }}
+          initial={from({ opacity: 0 })}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ delay: 0.1 }}
         >
@@ -49,7 +51,7 @@ export default function SignalSection() {
 
         <motion.p
           className={styles.intro}
-          initial={{ opacity: 0, x: -20 }}
+          initial={from({ opacity: 0, x: -20 })}
           animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.15 }}
         >
@@ -70,7 +72,7 @@ export default function SignalSection() {
       {/* No catalogue link — the CATALOGUE section follows immediately below. */}
       <div className={styles.list}>
         {tracks.map((track, i) => (
-          <TrackCard key={track.id} track={track} index={i} inView={inView} />
+          <TrackCard key={track.id} track={track} index={i} inView={inView} from={from} />
         ))}
       </div>
     </section>
@@ -105,8 +107,8 @@ function peakBarHeights(slug, count = 24) {
   });
 }
 
-function TrackCard({ track, index, inView }) {
-  const { t } = useLang();
+function TrackCard({ track, index, inView, from }) {
+  const { t, lang } = useLang();
   const { track: current, setTrack, live } = usePlayer();
   const [hovered, setHovered] = useState(false);
   const heights = peakBarHeights(track.slug) ?? waveBarHeights(track.id + track.title);
@@ -122,7 +124,7 @@ function TrackCard({ track, index, inView }) {
       tabIndex={0}
       aria-pressed={isCurrent}
       className={`${styles.card} ${isCurrent ? styles.cardPlaying : ''}`}
-      initial={{ opacity: 0, y: 24 }}
+      initial={from({ opacity: 0, y: 24 })}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.55, delay: 0.2 + index * 0.08 }}
       onHoverStart={() => setHovered(true)}
@@ -143,7 +145,7 @@ function TrackCard({ track, index, inView }) {
             <span className={styles.cardZh}> {track.titleZh}</span>
           )}
         </div>
-        <div className={styles.cardSub}>{track.subtitle}</div>
+        <div className={styles.cardSub}>{t(track.subtitle, track.subtitleZh ?? track.subtitle)}</div>
       </div>
 
       {/* Waveform — animates on hover and while the track plays */}
@@ -170,7 +172,7 @@ function TrackCard({ track, index, inView }) {
         ))}
       </div>
 
-      <span className={styles.cardDate}>{track.date}</span>
+      <span className={styles.cardDate}>{formatDate(track.date, lang)}</span>
 
       <span className={`${styles.cardListen} ${isPlaying ? styles.cardListenActive : ''}`}>
         {isPlaying ? `▓ ${t('PLAYING', '播放中')}` : `${t('LISTEN', '收聽')} ↗`}

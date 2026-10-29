@@ -132,7 +132,7 @@ export default function Hero() {
         className={styles.content}
         style={{ y: textY, opacity }}
         variants={container}
-        initial="hidden"
+        initial={reducedMotion ? false : 'hidden'}
         animate="show"
       >
         {/* Tag */}
@@ -143,12 +143,20 @@ export default function Hero() {
 
         {/* Title */}
         <motion.h1 className={styles.title} variants={fadeUp}>
-          <img src="/wordmark-cut-bone.svg" alt="skixO" className={styles.titleImg} />
+          {/* The wordmark is the visual; the hidden text is what search
+              engines and screen readers get as the page's H1. */}
+          <img src="/wordmark-cut-bone.svg" alt="" aria-hidden="true" className={styles.titleImg} />
+          <span className="sr-only">
+            {t(
+              'skixO — liquid drum & bass producer, London-born, Berlin-based',
+              'skixO — 液態鼓打貝斯製作人，倫敦出生，柏林定居'
+            )}
+          </span>
         </motion.h1>
 
         {/* Genre line */}
         <motion.div className={styles.genre} variants={fadeUp}>
-          {t('LIQUID DRUM & BASS · GLITCH ARCHITECTURE', '液態鼓打貝斯 · 故障建築')}
+          {t('LIQUID DRUM & BASS · GLITCH ARCHITECTURE', '液態鼓打貝斯 · Glitch Architecture')}
         </motion.div>
 
         {/* Tagline */}
@@ -195,7 +203,7 @@ export default function Hero() {
       {/* Bottom coords bar */}
       <motion.div
         className={styles.coords}
-        initial={{ opacity: 0 }}
+        initial={reducedMotion ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.4 }}
       >
@@ -209,7 +217,7 @@ export default function Hero() {
       {/* Scroll hint */}
       <motion.div
         className={styles.scrollHint}
-        initial={{ opacity: 0 }}
+        initial={reducedMotion ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.8 }}
       >

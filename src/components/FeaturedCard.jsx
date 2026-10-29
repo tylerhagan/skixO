@@ -1,8 +1,10 @@
 import { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { featuredRelease } from '../data/siteData';
 import { useLang } from '../hooks/useLang';
+import { formatDate } from '../lib/date';
+import { useReveal } from '../hooks/useReveal';
 import { usePlayer } from '../contexts/PlayerContext';
 import styles from './FeaturedCard.module.css';
 
@@ -50,10 +52,10 @@ function huntAt(t) {
 const LOCKED_POS = HUNT[HUNT.length - 1][1];
 
 export default function FeaturedCard() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const { track, live } = usePlayer();
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-40px' });
+  const { shown: inView, from } = useReveal(ref, '0px 0px -5% 0px');
   const [phase, setPhase] = useState('idle');
   const [pos, setPos] = useState(HUNT[0][1]);
   const timers = useRef([]);
@@ -103,7 +105,7 @@ export default function FeaturedCard() {
       {/* Label — outside and above the card */}
       <motion.div
         className={styles.featLabel}
-        initial={{ opacity: 0, y: 6 }}
+        initial={from({ opacity: 0, y: 6 })}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
@@ -114,7 +116,7 @@ export default function FeaturedCard() {
 
       <motion.div
         className={styles.card}
-        initial={{ opacity: 0, y: 20 }}
+        initial={from({ opacity: 0, y: 20 })}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
@@ -230,7 +232,7 @@ export default function FeaturedCard() {
                     {t('feat.', '特別收錄')} {featuredRelease.feat}
                   </motion.div>
                   <motion.div className={styles.date} variants={itemVariants}>
-                    {featuredRelease.date}
+                    {formatDate(featuredRelease.date, lang)}
                   </motion.div>
                   {/* One way in — the release page carries watch/stream/credits */}
                   <motion.div className={styles.links} variants={itemVariants}>

@@ -52,7 +52,7 @@ export default function Nav() {
         </button>
 
         <ul className={styles.links}>
-          {navLinks.map(({ label, href }) => {
+          {navLinks.map(({ label, labelZh, href }) => {
             const id = href.replace('#', '');
             return (
               <li key={href}>
@@ -60,7 +60,7 @@ export default function Nav() {
                   className={`${styles.link} ${active === id ? styles.linkActive : ''}`}
                   onClick={() => handleNavClick(href)}
                 >
-                  {label}
+                  {t(label, labelZh)}
                   {active === id && (
                     <motion.span
                       className={styles.linkUnderline}
@@ -103,7 +103,7 @@ export default function Nav() {
             transition={{ type: 'tween', duration: 0.35, ease: [0.645, 0.045, 0.355, 1] }}
           >
             <div className={styles.mobileMenuInner}>
-              {navLinks.map(({ label, href }, i) => (
+              {navLinks.map(({ label, labelZh, href }, i) => (
                 <motion.button
                   key={href}
                   className={styles.mobileLink}
@@ -113,7 +113,7 @@ export default function Nav() {
                   transition={{ delay: i * 0.07 + 0.1 }}
                 >
                   <span className={styles.mobileLinkNum}>0{i + 1}</span>
-                  {label}
+                  {t(label, labelZh)}
                 </motion.button>
               ))}
               <motion.button

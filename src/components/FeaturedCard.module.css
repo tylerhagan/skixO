@@ -345,3 +345,55 @@
   border-color: var(--stone);
   background: rgba(var(--bone-rgb), 0.1);
 }
+
+/* ── Narrow phones: stack ────────────────────
+   Artwork across the top, kept short; title, credit, then date and the
+   button sharing a row. Nothing wraps mid-word. The dial and lock
+   animation are unchanged, only re-laid across the shorter strip. */
+@media (max-width: 519px) {
+  .inner {
+    flex-direction: column;
+  }
+
+  .imgWrap {
+    width: 100%;
+    height: 160px;
+  }
+
+  .imgOverlay {
+    background: linear-gradient(180deg, transparent 55%, var(--black-2));
+  }
+
+  .infoWrap {
+    min-height: 140px;
+  }
+
+  .info {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px 12px;
+    padding: 16px 18px 18px;
+  }
+
+  .name,
+  .feat {
+    flex: 1 1 100%;
+  }
+
+  .name {
+    font-size: 2.1rem;
+  }
+
+  .feat,
+  .date,
+  .linkBtn {
+    white-space: nowrap;
+  }
+
+  .links {
+    margin-top: 0;
+  }
+}

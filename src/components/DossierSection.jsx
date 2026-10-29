@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
-import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { dossierFile } from '../data/siteData';
+import { useReveal } from '../hooks/useReveal';
 import { useLang } from '../hooks/useLang';
 import SectionTag from './SectionTag';
 import styles from './DossierSection.module.css';
@@ -72,7 +73,7 @@ function RedactedValue({ value, secret, holdLabel }) {
 export default function DossierSection() {
   const { t } = useLang();
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const { shown: inView, from } = useReveal(ref);
 
   return (
     <section className={styles.section} id="dossier" ref={ref}>
@@ -83,7 +84,7 @@ export default function DossierSection() {
           {/* Classified file card */}
           <motion.div
             className={styles.file}
-            initial={{ opacity: 0, y: 32 }}
+            initial={from({ opacity: 0, y: 32 })}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.1 }}
           >
@@ -123,7 +124,7 @@ export default function DossierSection() {
               they mean stays behind the redaction above. */}
           <motion.div
             className={styles.plate}
-            initial={{ opacity: 0, y: 24 }}
+            initial={from({ opacity: 0, y: 24 })}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.3 }}
           >
@@ -152,7 +153,7 @@ export default function DossierSection() {
             <motion.p
               key={i}
               className={styles.para}
-              initial={{ opacity: 0, y: 24 }}
+              initial={from({ opacity: 0, y: 24 })}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.65, delay: 0.2 + i * 0.12 }}
             >
@@ -163,7 +164,7 @@ export default function DossierSection() {
           {/* Icarus quote */}
           <motion.blockquote
             className={styles.quote}
-            initial={{ opacity: 0, x: -20 }}
+            initial={from({ opacity: 0, x: -20 })}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.55 }}
           >
@@ -179,7 +180,7 @@ export default function DossierSection() {
           {/* Welcome message */}
           <motion.div
             className={styles.welcome}
-            initial={{ opacity: 0 }}
+            initial={from({ opacity: 0 })}
             animate={inView ? { opacity: 1 } : {}}
             transition={{ duration: 0.7, delay: 0.7 }}
           >

@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { featuredRelease } from '../data/siteData';
+import { useReveal } from '../hooks/useReveal';
 import { useLang } from '../hooks/useLang';
 import { usePlayer } from '../contexts/PlayerContext';
 import SectionTag from './SectionTag';
@@ -11,20 +12,24 @@ import styles from './AboutSection.module.css';
 // to live here; the stats row below carries the facts, and the dossier
 // carries the myth. Saying it three times cancelled all three out.
 const BIO = [
-  'Twenty-five years of production, an eighteen-year silence, and three years back at the desk. The music never left. It waited. What came back was liquid — hooky, restless, built for movement. The Eastern remixes started with something more personal than craft: a partner from Taiwan, travel across Asia, friendships built in Taipei. They were never a project. They were just what happened next.',
+  {
+    en: 'Twenty-five years of production, an eighteen-year silence, and three years back at the desk. The music never left. It waited. What came back was liquid — hooky, restless, built for movement. The Eastern remixes started with something more personal than craft: a partner from Taiwan, travel across Asia, friendships built in Taipei. They were never a project. They were just what happened next.',
+    // zh: draft, needs native check
+    zh: '二十五年的創作，十八年的沉默，回到工作桌前如今已三年。音樂從未離開，它只是在等待。回來的聲音是液態的：旋律抓耳、躁動不安、為律動而生。東方混音的起點，比技藝更私人：一位來自台灣的伴侶、走遍亞洲的旅程、在台北結下的友誼。它們從來不是一個計畫，只是接下來自然發生的事。',
+  },
 ];
 
 const STATS = [
-  { label: 'ORIGIN',   labelZh: '出身',  value: 'LONDON, UK'  },
-  { label: 'BASE',     labelZh: '基地',  value: 'BERLIN, DE'  },
-  { label: 'GENRE',    labelZh: '風格',  value: 'LIQUID DnB'  },
-  { label: 'RELEASES', labelZh: '作品',  value: '17 TRACKS'   },
+  { label: 'ORIGIN',   labelZh: '出身',  value: 'LONDON, UK',  valueZh: '英國倫敦' },
+  { label: 'BASE',     labelZh: '基地',  value: 'BERLIN, DE',  valueZh: '德國柏林' },
+  { label: 'GENRE',    labelZh: '風格',  value: 'LIQUID DnB',  valueZh: '液態 DnB' },
+  { label: 'RELEASES', labelZh: '作品',  value: '17 TRACKS',   valueZh: '17 首作品' },
 ];
 
 export default function AboutSection() {
   const { t } = useLang();
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const { shown: inView, from } = useReveal(ref);
 
   // The figure at the desk nods while something is actually playing —
   // the hero's half-time nod at the hero's 430ms, and a hard src swap,
@@ -72,7 +77,7 @@ export default function AboutSection() {
             is the wordmark, not type: Bebas has no lowercase. */}
         <motion.div
           className={styles.identity}
-          initial={{ opacity: 0, y: 20 }}
+          initial={from({ opacity: 0, y: 20 })}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
@@ -85,7 +90,7 @@ export default function AboutSection() {
               <img src="/wordmark-cut-bone.svg" alt="skixO" className={styles.nameImg} />
             </h3>
             <p className={styles.subtitle}>
-              {t('Liquid Drum & Bass · Glitch Architecture', '液態鼓打貝斯 · 故障建築')}
+              {t('Liquid Drum & Bass · Glitch Architecture', '液態鼓打貝斯 · Glitch Architecture')}
             </p>
           </div>
         </motion.div>
@@ -95,11 +100,11 @@ export default function AboutSection() {
             <motion.p
               key={i}
               className={styles.bio}
-              initial={{ opacity: 0, y: 20 }}
+              initial={from({ opacity: 0, y: 20 })}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.65, delay: 0.2 + i * 0.13, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
-              {para}
+              {t(para.en, para.zh)}
             </motion.p>
           ))}
         </div>
@@ -107,14 +112,14 @@ export default function AboutSection() {
         {/* Stats row */}
         <motion.div
           className={styles.stats}
-          initial={{ opacity: 0, y: 16 }}
+          initial={from({ opacity: 0, y: 16 })}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.58 }}
         >
           {STATS.map(s => (
             <div key={s.label} className={styles.stat}>
               <span className={styles.statLabel}>{t(s.label, s.labelZh)}</span>
-              <span className={styles.statValue}>{s.value}</span>
+              <span className={styles.statValue}>{t(s.value, s.valueZh)}</span>
             </div>
           ))}
         </motion.div>
@@ -123,7 +128,7 @@ export default function AboutSection() {
             reachable from TUNE IN and the release page. */}
         <motion.div
           className={styles.player}
-          initial={{ opacity: 0, y: 24 }}
+          initial={from({ opacity: 0, y: 24 })}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.72, ease: [0.25, 0.46, 0.45, 0.94] }}
         >

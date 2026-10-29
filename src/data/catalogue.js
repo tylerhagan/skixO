@@ -13,7 +13,7 @@ export const VIDEOS = [
   { id: '7lnSVhn_RyY', title: '夜曲 NOCTURNE', artist: '周杰倫 Jay Chou', type: 'eastern' },
   { id: 'RfXKNRE-59w', title: '模特 MODEL', artist: '李榮浩 Ronghao Li', type: 'eastern' },
   { id: 'kKq-jU_WJ7s', title: 'WHO 誰', artist: '廖俊澧 ft. 岑寧兒', type: 'eastern' },
-  { id: 'AU42eLgyLPY', title: '只有唔語才能解除唔語', artist: '柏林角落 Berlin the Corner', type: 'eastern' },
+  { id: 'AU42eLgyLPY', title: '只有咒語才能解除咒語', artist: '柏林角落 Berlin the Corner', type: 'eastern' },
   { id: '5zdidTaZf3M', title: '愛情你比我想的還較偉大', artist: '茄子蛋 EggPlantEgg', type: 'eastern' },
   { id: 'hei62d71fuA', title: '床 LIE', artist: '草東沒有派對 No Party for Cao Dong', type: 'eastern' },
   { id: '3bVGE5g3ibM', title: '我若是有來生我想欲變成你', artist: '茄子蛋 EggPlantEgg ft. YVV', type: 'eastern' },
