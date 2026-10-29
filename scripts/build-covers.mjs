@@ -18,6 +18,14 @@
 //    (the duotone stays the at-rest card, so the grid still reads as one).
 //    `feat` on the entry (e.g. 'Taer') adds the "ft." line.
 //
+//    treatment 'type' needs no scene at all: a typographic cover on ink
+//    with a procedural texture and the skixO glyph, carrying the title,
+//    the credit (original artist + "skixO Remix") and the catalogue
+//    number. For remixes, where the source artwork isn't ours to use:
+//      cover: { treatment: 'type' }
+//    The 640×360 card carries only the texture, glyph and SKX number; the
+//    site sets the title over every card itself.
+//
 // 2. Everything else is the video's YouTube thumbnail, baked to the same
 //    duotone. The catalogue used to hotlink these: seventeen other
 //    people's artworks in seventeen palettes, as the most colourful block
@@ -39,6 +47,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { VIDEOS } from '../src/data/catalogue.js';
+import { releases } from '../src/data/releases.js';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const OUT = path.join(ROOT, 'public/covers');
@@ -186,8 +195,68 @@ async function launchBrowser() {
   };
 }
 
+// Bone copy of the glyph for the 'type' treatment. The site's file fills
+// with currentColor, which an <img> resolves to black.
+let glyphUrl = null;
+async function boneGlyph() {
+  if (glyphUrl) return glyphUrl;
+  const svg = await readFile(path.join(ROOT, 'public/skixO-glyph.svg'), 'utf8');
+  const dir = await mkdtemp(path.join(tmpdir(), 'skixo-glyph-'));
+  const file = path.join(dir, 'glyph.svg');
+  await writeFile(file, svg.replace(/currentColor/g, '#EDE6D6'));
+  glyphUrl = pathToFileURL(file).href;
+  return glyphUrl;
+}
+
+// The credit block, two lines: "Gummy B / skixO Remix" for a remix,
+// "skixO / ft. Taer" for an original with a feature. Read from the
+// release itself (catalogue.js folds artist and feat together).
+const creditFor = r =>
+  r.type !== 'original'
+    ? [r.artist, 'skixO Remix'].filter(Boolean).join('\n')
+    : r.feat ? `skixO\nft. ${r.feat}` : 'skixO';
+
+async function typeCover(video, browser, stamps, templateHash) {
+  const { id, title, cover } = video;
+  const release = releases.find(r => r.youtubeId === id) ?? {};
+  const cat = release.catalogue ?? '';
+  const colourOut = path.join(OUT, `${id}.webp`);
+  const duoOut = path.join(OUT, `${id}-duo.webp`);
+  const masterOut = path.join(MASTERS, `${slug(video.slug || title) || id}-3000.jpg`);
+  const credit = creditFor({ type: video.type, ...release });
+
+  const hash = createHash('sha1')
+    .update(JSON.stringify({ title, credit, cat, cover, templateHash }))
+    .digest('hex').slice(0, 12);
+  if (!force && existsSync(colourOut) && existsSync(duoOut) && stamps[id] === hash) {
+    console.log(`  · ${title} — up to date, skipping`);
+    return;
+  }
+
+  const params = { treatment: 'type', title, credit, cat, glyph: await boneGlyph() };
+
+  // Store master: 1000 CSS px at 3× = 3000×3000.
+  const master = await browser.render({ ...params, aspect: 'square' }, 1000, 1000, 3);
+  await sharp(master).jpeg({ quality: 92, chromaSubsampling: '4:4:4' }).toFile(masterOut);
+
+  // Card: already two-tone, so hover and rest are the same frame; the
+  // at-rest copy still goes through duotone() so it sits on exactly the
+  // curve every other card does.
+  const wide = await sharp(await browser.render({ ...params, aspect: 'wide' }, W, H, 2))
+    .resize(W, H).removeAlpha().png().toBuffer();
+  await sharp(wide).webp({ quality: 82, effort: 6 }).toFile(colourOut);
+  await (await duotone(wide)).webp({ quality: 82, effort: 6 }).toFile(duoOut);
+  stamps[id] = hash;
+
+  const [c, d, m] = await Promise.all([stat(colourOut), stat(duoOut), stat(masterOut)]);
+  console.log(`  ✓ ${title} (type)  ${kb(c.size)} + ${kb(d.size)}, master ${path.relative(ROOT, masterOut)} ${kb(m.size)}`);
+}
+
 async function designedCover(video, browser, stamps, templateHash) {
   const { id, title, feat, cover } = video;
+  if (cover.treatment === 'type') {
+    return typeCover(video, browser, stamps, templateHash);
+  }
   const scenePath = path.join(SCENES, `${cover.scene}.png`);
   const colourOut = path.join(OUT, `${id}.webp`);
   const duoOut = path.join(OUT, `${id}-duo.webp`);
@@ -218,7 +287,7 @@ async function designedCover(video, browser, stamps, templateHash) {
   await sharp(scenePath).removeAlpha().png().toFile(colourBg);
   const colourBgForCover = cover.treatment === 'scene' ? colourBg : duoBg;
 
-  const base = { title, feat };
+  const base = { treatment: cover.treatment, title, feat };
   const asUrl = p => pathToFileURL(p).href;
 
   // Store master: 1000 CSS px at 3× = 3000×3000.
