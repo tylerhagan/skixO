@@ -20,6 +20,7 @@ export default function EntranceLoader({ onComplete }) {
     // Only show on first visit per session
     const seen = sessionStorage.getItem('skixo_loaded');
     if (seen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- one-off skip on repeat visits
       setVisible(false);
       onComplete();
       return;

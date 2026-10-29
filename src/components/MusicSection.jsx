@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useReveal } from '../hooks/useReveal';
 import { useLang } from '../hooks/useLang';
 import SectionTag from './SectionTag';
 import { releases } from '../data/releases';
@@ -37,14 +38,14 @@ function VideoCard({ release, index, featured }) {
     artist: release.artist || (release.feat ? `skixO ft. ${release.feat}` : 'skixO'),
   };
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-30px' });
+  const { shown: inView, from } = useReveal(ref, '0px 0px -5% 0px');
 
   return (
     <MotionLink
       ref={ref}
       to={`/release/${release.slug}`}
       className={`${styles.card} ${featured ? styles.featured : ''}`}
-      initial={{ opacity: 0, y: 20 }}
+      initial={from({ opacity: 0, y: 20 })}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.45, delay: (index % 4) * 0.07, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
@@ -97,7 +98,7 @@ export default function MusicSection() {
   const { t } = useLang();
   const [active, setActive] = useState('all');
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const { shown: inView, from } = useReveal(ref);
 
   const filtered = active === 'all' ? releases : releases.filter(r => r.type === active);
 
@@ -108,7 +109,7 @@ export default function MusicSection() {
       {/* Filter bar */}
       <motion.div
         className={styles.filters}
-        initial={{ opacity: 0, y: 12 }}
+        initial={from({ opacity: 0, y: 12 })}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.5, delay: 0.1 }}
       >
@@ -129,7 +130,7 @@ export default function MusicSection() {
         {active === 'eastern' && (
           <motion.div
             className={styles.playlistBar}
-            initial={{ opacity: 0, y: -6 }}
+            initial={from({ opacity: 0, y: -6 })}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.25 }}

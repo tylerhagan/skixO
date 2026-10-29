@@ -1,5 +1,5 @@
 .section {
-  padding: var(--section-py) var(--section-px);
+  padding: var(--section-py) var(--section-px) var(--section-pb);
   /* Transparent like Selected — one ground for the whole page, with the
      LiquidField behind it. --black-2 made this a lighter grey panel. */
   background: transparent;

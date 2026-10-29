@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { footerQuotes } from '../data/siteData';
@@ -110,6 +111,8 @@ export default function Footer() {
           <a href="https://open.spotify.com/artist/0bV3hLbjIx6fpRszSI0q5t" target="_blank" rel="noopener noreferrer" className={styles.link}>Spotify</a>
           <span className={styles.dot}>✦</span>
           <a href="https://www.instagram.com/skixo/" target="_blank" rel="noopener noreferrer" className={styles.link}>Instagram</a>
+          <span className={styles.dot}>✦</span>
+          <Link to="/press" className={styles.link}>{t('Press', '媒體')}</Link>
         </div>
 
         <div className={styles.bottom}>
