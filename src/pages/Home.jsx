@@ -6,6 +6,8 @@ import DossierSection from '../components/DossierSection';
 import MusicSection from '../components/MusicSection';
 import TuneInSection from '../components/TuneInSection';
 import SectionDivider from '../components/SectionDivider';
+import JsonLd from '../components/JsonLd';
+import { catalogueLd } from '../data/releases';
 
 // Three seams, not six — the ticker marks the first one, so no divider
 // sits directly beneath it. Marking every section made the structure
@@ -13,6 +15,7 @@ import SectionDivider from '../components/SectionDivider';
 export default function Home() {
   return (
     <main>
+      <JsonLd data={catalogueLd} />
       <Hero />
       <Ticker />
       <AboutSection />
