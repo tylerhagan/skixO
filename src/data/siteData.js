@@ -23,7 +23,7 @@ export const featuredRelease = {
   feat: 'Berlin the Corner',
   date: '30 MAY 2026',
   tagline: { en: 'East meets underground. A statement.', zh: '東方遇上地下。一個宣言。' },
-  artwork: '/prove-square.png',
+  artwork: '/prove-square.webp',
   youtubeId: 'q2PAD9txKlE',
   slug: 'prove',
   audioSrc: '/audio/prove-clip.mp3',
